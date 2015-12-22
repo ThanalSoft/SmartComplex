@@ -1,13 +1,12 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace ThanalSoft.SmartComplex.Website
 {
     public class FilterConfig
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public static void RegisterGlobalFilters(GlobalFilterCollection pFilters)
         {
-            filters.Add(new HandleErrorAttribute());
+            pFilters.Add(new HandleErrorAttribute());
         }
     }
 }

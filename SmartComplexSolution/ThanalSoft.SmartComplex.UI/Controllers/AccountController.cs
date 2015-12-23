@@ -20,6 +20,7 @@ namespace ThanalSoft.SmartComplex.UI.Controllers
 
         public AccountController()
         {
+            
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )

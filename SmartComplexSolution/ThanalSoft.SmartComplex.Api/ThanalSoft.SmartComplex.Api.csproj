@@ -17,7 +17,7 @@
     <AssemblyName>ThanalSoft.SmartComplex.Api</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -172,21 +172,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\BaseSecureApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Security\SecureOAuthProvider.cs" />
+    <Compile Include="Security\SecureRoleStore.cs" />
+    <Compile Include="Security\SecureSignInManager.cs" />
+    <Compile Include="Security\SecureUserManager.cs" />
+    <Compile Include="Security\SecureUserStore.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -199,11 +198,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -211,6 +205,20 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.Common\ThanalSoft.SmartComplex.Common.csproj">
+      <Project>{E3E79E5C-5E5F-4762-B579-353806555359}</Project>
+      <Name>ThanalSoft.SmartComplex.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.DataAccess\ThanalSoft.SmartComplex.DataAccess.csproj">
+      <Project>{57860420-53f1-4029-9e51-f7c2dc0262fb}</Project>
+      <Name>ThanalSoft.SmartComplex.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.DataObjects\ThanalSoft.SmartComplex.DataObjects.csproj">
+      <Project>{3a778bb9-bd3a-4b30-a120-a50f3aa2ac32}</Project>
+      <Name>ThanalSoft.SmartComplex.DataObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -230,7 +238,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63669</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:62612/</IISUrl>
+          <IISUrl>http://localhost/SmartComplexApi</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

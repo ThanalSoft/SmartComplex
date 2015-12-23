@@ -45,11 +45,11 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
 
         public virtual ICollection<AssociationMember> AssociationMembers { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User,Int64> pUserManager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User, long> pUserManager, string pAuthenticationType)
         {
             // Note the authenticationType must match the one defined in
             // CookieAuthenticationOptions.AuthenticationType 
-            var userIdentity = await pUserManager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var userIdentity = await pUserManager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ExternalBearer);
             // Add custom user claims here 
             return userIdentity;
         }

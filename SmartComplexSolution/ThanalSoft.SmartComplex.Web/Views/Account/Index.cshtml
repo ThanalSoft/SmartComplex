@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization
+@model ThanalSoft.SmartComplex.Web.Models.UserLoginModel
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/logincss")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>SmartComplex - Login</title>
+</head>
+
+<body>
+    @using (Html.BeginForm("Index", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="login-block" style="text-align: center">
+            <div class="logo">
+                <img src="~/Content/images/logo180x50.png"/>
+            </div>
+            @Html.TextBoxFor(pValue => pValue.Email, new { placeholder = Html.DisplayNameFor(pValue => pValue.Email), autocomplete = "off", @id = "username" })
+            @Html.ValidationMessageFor(m => m.Email, "")
+            @Html.PasswordFor(pValue => pValue.Password, new { placeholder = Html.DisplayNameFor(pValue => pValue.Password), autocomplete = "off", @id = "password" })
+            @Html.ValidationMessageFor(m => m.Password, "")
+            <span class="login-error">@ViewBag.ModelError</span>
+            <input type="submit" value="LOGIN" class="login-button" />
+            <div class="login-forgot">Forgot Password?</div>
+            <div class="login-power">Powered by ThanalSoft</div>
+        </div>
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+
+</body>
+</html>

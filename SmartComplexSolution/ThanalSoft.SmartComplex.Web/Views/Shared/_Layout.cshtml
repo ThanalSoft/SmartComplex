@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartComplex - ThanalSoft</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar">1</span>
+                    <span class="icon-bar">2</span>
+                    <span class="icon-bar">3</span>
+                </button>
+                <img src="~/Content/images/SmartComplex180x50.png" class="logo" alt="SmartComplex" />
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="body-content">
+            <div class="top-content">
+                <span class="user-info">Welcome, Harikrishnan. R</span>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+    <footer>
+        <p style="float: right; margin-right: 20px; margin-top: 10px; bottom: 0;">&copy; @DateTime.Now.Year - ThanalSoft</p>
+    </footer>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

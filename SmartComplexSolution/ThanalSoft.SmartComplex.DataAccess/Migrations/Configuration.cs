@@ -127,13 +127,13 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 role = new Role("Administrator");
                 roleManager.Create(role);
             }
-            var user = userManager.FindByEmail("admin@SmartComplex.com");
+            var user = userManager.FindByEmail("admin@sc.com");
             if (user == null)
             {
                 var hasher = new PasswordHasher();
                 user = new User
                 {
-                    Email = "admin@SmartComplex.com",
+                    Email = "admin@sc.com",
                     PhoneNumber = "9742170983",
                     AccessFailedCount = 0,
                     ActivatedDate = null,
@@ -146,7 +146,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
                     IsAdminUser = true,
-                    UserName = "admin@SmartComplex.com",
+                    UserName = "admin@sc.com"
                 };
 
                 userManager.Create(user);

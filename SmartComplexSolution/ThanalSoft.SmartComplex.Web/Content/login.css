@@ -1,0 +1,143 @@
+﻿body {
+    background-image: url('images/login_bg.jpg');
+    font-family: 'Segoe UI', calibri, Tahoma, Verdana, Arial, sans-serif !important;
+    background-color: #333;
+    color: #777;
+    font-size: 100%;
+}
+
+* {
+    -ms-opacity: 1;
+    opacity: 1;
+}
+
+.input-validation-error {
+    border: 1px solid red !important;
+    background-color: rgb(255, 245, 245) !important;
+}
+
+input {
+    font-size: 110%;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.logo {
+    margin: 10px auto 16px auto;
+    text-align: center;
+}
+
+.login-block {
+    width: 320px;
+    padding: 20px 20px 20px 20px;
+    background: #fff;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border-top: 5px solid #49a6fd;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+    .login-block input {
+        width: 100%;
+        height: 42px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        font-size: 14px;
+        padding: 0 20px 0 50px;
+        outline: none;
+        color: #777;
+    }
+
+        .login-block input#username {
+            background: #fff url('images/loginuserbox.png') 20px top no-repeat;
+            -ms-background-size: 16px 80px;
+            background-size: 16px 80px;
+        }
+
+            .login-block input#username:focus {
+                background: #fff url('images/loginuserbox.png') 20px bottom no-repeat;
+                -ms-background-size: 16px 80px;
+                background-size: 16px 80px;
+            }
+
+        .login-block input#password {
+            background: #fff url('images/loginpasswordbox.png') 20px top no-repeat;
+            -ms-background-size: 16px 80px;
+            background-size: 16px 80px;
+        }
+
+            .login-block input#password:focus {
+                background: #fff url('images/loginpasswordbox.png') 20px bottom no-repeat;
+                -ms-background-size: 16px 80px;
+                background-size: 16px 80px;
+            }
+
+        .login-block input:active, .login-block input:focus {
+            border: 1px solid #49a6fd;
+        }
+
+    .login-block .login-button {
+        width: 75%;
+        height: 40px;
+        background: #49a6fd;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        border: 1px solid #037def;
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+        outline: none;
+        cursor: pointer;
+        margin-top: 10px;
+        padding: 0;
+    }
+
+        .login-block .login-button:hover {
+            background: #037def;
+        }
+
+.login-forgot {
+    font-size: 150%;
+}
+
+.login-error {
+    color: #fd3100;
+    font-weight: bold;
+    clear: both;
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+
+.field-validation-error {
+    display: none;
+}
+
+.login-power {
+    font-size: 150%;
+    float: right;
+    padding-top: 25px;
+    margin-right: -20px;
+    color: #CCCCCC;
+}

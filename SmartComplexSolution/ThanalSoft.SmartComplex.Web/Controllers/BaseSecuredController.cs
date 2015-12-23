@@ -19,6 +19,13 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             if (LoggedInUser != null)
             {
                 var identity = new GenericIdentity(LoggedInUser.Email);
+                IPrincipal principal = new GenericPrincipal(identity, new[] {""});
+                Thread.CurrentPrincipal = principal;
+                pFilterContext.HttpContext.User = principal;
+            }
+            else
+            {
+                var identity = new GenericIdentity("");
                 IPrincipal principal = new GenericPrincipal(identity, new[] { "" });
                 Thread.CurrentPrincipal = principal;
                 pFilterContext.HttpContext.User = principal;

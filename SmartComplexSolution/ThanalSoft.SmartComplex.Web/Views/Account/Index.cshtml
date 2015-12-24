@@ -26,8 +26,8 @@
             @Html.PasswordFor(pValue => pValue.Password, new { placeholder = Html.DisplayNameFor(pValue => pValue.Password), autocomplete = "off", @id = "password" })
             @Html.ValidationMessageFor(m => m.Password, "")
             <span class="login-error">@ViewBag.ModelError</span>
-            <input type="submit" value="LOGIN" class="login-button" />
             <div class="login-forgot">Forgot Password?</div>
+            <input type="submit" value="LOGIN" class="login-button" />
             <div class="login-power">Powered by ThanalSoft</div>
         </div>
     }

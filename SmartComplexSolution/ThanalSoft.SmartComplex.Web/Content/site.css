@@ -46,11 +46,11 @@ body.nav-sm .nav.side-menu li a {
 }
 
 body.nav-sm .nav.side-menu li.active-sm {
-    border-right: 5px solid #1ABB9C;
+    border-right: 5px solid #039FC6;
 }
 
 body.nav-sm > .nav.side-menu > li.active-sm > a {
-    color: #1ABB9C !important;
+    color: #039FC6 !important;
 }
 
 body.nav-sm .nav.side-menu li a i.toggle-up {
@@ -214,7 +214,7 @@ body.nav-md .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #2A3F54;
+    background: #F7F7F7;
     border-radius: 0;
     height: 57px;
 }
@@ -268,7 +268,7 @@ purple,
 
 green,
 .green {
-    color: #1ABB9C;
+    color: #039FC6;
 }
 
 .aero {
@@ -294,7 +294,7 @@ dark,
 }
 
 .border-green {
-    border-color: #1ABB9C !important;
+    border-color: #039FC6 !important;
 }
 
 .border-aero {
@@ -316,8 +316,8 @@ dark,
 }
 
 .bg-green {
-    background: #1ABB9C !important;
-    border: 1px solid #1ABB9C !important;
+    background: #039FC6 !important;
+    border: 1px solid #039FC6 !important;
     color: #fff;
 }
 
@@ -732,7 +732,7 @@ body.nav-md ul.nav.child_menu li:after {
 
 .nav.side-menu> li.current-page,
 .nav.side-menu> li.active {
-    border-right: 5px solid #1ABB9C;
+    border-right: 5px solid #039FC6;
 }
 
 li.current-page {
@@ -753,7 +753,7 @@ li.current-page {
 }
 
 li.current-page a {
-    color: #1ABB9C !important
+    color: #039FC6 !important
 }
 
 .navbar-brand,
@@ -3011,7 +3011,7 @@ select.parsley-error {
 }
 
 .daterangepicker.picker_1 table.table-condensed thead tr:first-child {
-    background: #1ABB9C;
+    background: #039FC6;
 }
 
 .daterangepicker table.table-condensed thead tr:first-child th {
@@ -3060,11 +3060,11 @@ select.parsley-error {
 }
 
 .daterangepicker.picker_2 table.table-condensed thead tr {
-    color: #1ABB9C;
+    color: #039FC6;
 }
 
 .daterangepicker.picker_3 table.table-condensed thead tr:first-child {
-    background: #1ABB9C;
+    background: #039FC6;
     color: #ECF0F1;
 }
 
@@ -3404,7 +3404,7 @@ textarea:focus {
 
 .bs-glyphicons li:hover {
     color: #fff;
-    background-color: #1ABB9C
+    background-color: #039FC6
 }
 
 @media (min-width: 768px) {
@@ -3435,7 +3435,7 @@ span.tag {
     float: left;
     padding: 5px 9px;
     text-decoration: none;
-    background: #1ABB9C;
+    background: #039FC6;
     color: #F1F6F7;
     margin-right: 5px;
     font-weight: 500;
@@ -3587,7 +3587,7 @@ ul.timeline li {
 
 .tag {
     line-height: 1;
-    background: #1ABB9C;
+    background: #039FC6;
     color: #fff !important;
 }
 
@@ -3602,7 +3602,7 @@ ul.timeline li {
     pointer-events: none;
     border-top: 14px solid transparent;
     border-bottom: 14px solid transparent;
-    border-left: 11px solid #1ABB9C;
+    border-left: 11px solid #039FC6;
 }
 
 .timeline h2.title {
@@ -3713,7 +3713,7 @@ ul.social li {
 
 .wizard_horizontal ul.wizard_steps li a.done:before,
 .wizard_horizontal ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
+    background: #039FC6;
     color: #fff;
 }
 
@@ -3847,7 +3847,7 @@ ul.social li {
 
 .wizard_verticle ul.wizard_steps li a.done:before,
 .wizard_verticle ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
+    background: #039FC6;
     color: #fff;
 }
 
@@ -3989,7 +3989,7 @@ html > body > .ui-pnotify {
 }
 
 .btn-success.btn-outline {
-    color: #1ABB9C;
+    color: #039FC6;
     border-width: 2px;
 }
 
@@ -4038,8 +4038,8 @@ html > body > .ui-pnotify {
 .btn-success:active,
 .btn-success.active,
 .open .dropdown-toggle.btn-success {
-    background-color: #1ABB9C;
-    border-color: #1ABB9C;
+    background-color: #039FC6;
+    border-color: #039FC6;
     color: #FFFFFF;
 }
 
@@ -4150,7 +4150,7 @@ social-body {
 }
 
 .chat .status.online {
-    background: #1ABB9C;
+    background: #039FC6;
 }
 
 .chat .status.away {
@@ -4310,7 +4310,7 @@ ul.widget_profile_box li a {
 }
 
 ul.widget_profile_box li a:hover {
-    color: #1ABB9C !important;
+    color: #039FC6 !important;
     border: 1px solid rgba(38, 185, 154, 1);
 }
 
@@ -4545,7 +4545,7 @@ ul.project_files li a i {
 }
 
 .pricing .title {
-    background: #1ABB9C;
+    background: #039FC6;
     height: 110px;
     color: #fff;
     padding: 15px 0 0;

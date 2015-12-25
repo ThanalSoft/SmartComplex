@@ -22,7 +22,8 @@ namespace ThanalSoft.SmartComplex.Web
             pBundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/jquery.nicescroll.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/site.js"));
 
             pBundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

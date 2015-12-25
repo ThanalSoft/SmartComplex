@@ -1,8 +1,5 @@
-﻿using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Security;
 using ThanalSoft.SmartComplex.Common.Account;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models;

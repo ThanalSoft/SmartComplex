@@ -1,0 +1,40 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Complex</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-12">
+                <div class="col-middle">
+                    <div class="text-center">
+                        <h1 class="error-number">ERROR</h1>
+                        <h2>Something went horrible!!!</h2>
+                        <h1 style="color: rgb(251, 53, 53)">Error Code: @Response.StatusCode</h1>
+                        <p style="color: white; font-size: 130%">
+                            Internal Server Error. We have already tracked this error. Click <a href=@Url.Action("Index", "Home") style="text-decoration: underline;">here</a> to go back to your Dashboard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="custom_notifications" class="custom-notifications dsp_none">
+        <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+        <div class="clearfix"></div>
+        <div id="notif-group" class="tabbed_notifications"></div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

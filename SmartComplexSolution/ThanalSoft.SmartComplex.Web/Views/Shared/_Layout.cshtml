@@ -1,7 +1,5 @@
-﻿@using System.Web.Optimization
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -10,7 +8,6 @@
     <title>SmartComplex - ThanalSoft</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
-
     <script>
         NProgress.start();
     </script>
@@ -24,7 +21,6 @@
                         <img src="~/Content/images/logo180x50.png" />
                     </div>
                     <div class="clearfix"></div>
-                    <!-- menu prile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
                             <img src="~/Content/images/nulluser.png" alt="..." class="img-circle profile_img">
@@ -34,7 +30,6 @@
                             <h2>@User.Identity.Name</h2>
                         </div>
                     </div>
-                    <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
 
@@ -64,7 +59,6 @@
                     </div>
                 </div>
             </div>
-            <!-- top navigation -->
             <div class="top_nav">
                 <div class="nav_menu">
                     <nav class="" role="navigation">
@@ -81,12 +75,6 @@
                                     <li>
                                         <a href="javascript:;"><i class="fa fa-user pull-right"></i>Profile</a>
                                     </li>
-                                    @*<li>
-                                            <a href="javascript:;">
-                                                <span class="badge bg-red pull-right">50%</span>
-                                                <span>Settings</span>
-                                            </a>
-                                        </li>*@
                                     <li>
                                         <a href="javascript:;"><i class="fa fa-question-circle pull-right"></i>Help</a>
                                     </li>
@@ -95,7 +83,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                             <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
@@ -168,7 +155,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         </ul>
                     </nav>
                 </div>
@@ -185,20 +171,14 @@
                     </div>
                     <div class="clearfix"></div>
                 </footer>
-                <!-- /footer content -->
             </div>
-            <!-- /page content -->
-
         </div>
-
     </div>
-
     <div id="custom_notifications" class="custom-notifications dsp_none">
         <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
         <div class="clearfix"></div>
         <div id="notif-group" class="tabbed_notifications"></div>
     </div>
-
 </body>
 
 @Scripts.Render("~/bundles/bootstrap")

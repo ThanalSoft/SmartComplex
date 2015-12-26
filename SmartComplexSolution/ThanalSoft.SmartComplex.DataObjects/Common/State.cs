@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using ThanalSoft.SmartComplex.DataObjects.Complex;
 
 namespace ThanalSoft.SmartComplex.DataObjects.Common
 {
@@ -9,6 +11,11 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
     [Table("tblState")]
     public class State : BaseModel
     {
+        public State()
+        {
+            Apartments = new List<Apartment>();
+        }
+
         [DataMember]
         [Required]
         [StringLength(100)]
@@ -21,6 +28,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
 
+        public virtual ICollection<Apartment> Apartments { get; set; }
 
         [DataMember]
         [NotMapped]

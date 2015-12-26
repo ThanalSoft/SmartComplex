@@ -57,13 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDataAccessContext.cs" />
-    <Compile Include="Migrations\201512231152109_InitialCreate.cs" />
-    <Compile Include="Migrations\201512231152109_InitialCreate.Designer.cs">
-      <DependentUpon>201512231152109_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512251628059_UserID changes in ref tables.cs" />
-    <Compile Include="Migrations\201512251628059_UserID changes in ref tables.Designer.cs">
-      <DependentUpon>201512251628059_UserID changes in ref tables.cs</DependentUpon>
+    <Compile Include="Migrations\201512260941387_InitialCreation.cs" />
+    <Compile Include="Migrations\201512260941387_InitialCreation.Designer.cs">
+      <DependentUpon>201512260941387_InitialCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,11 +77,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512231152109_InitialCreate.resx">
-      <DependentUpon>201512231152109_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512251628059_UserID changes in ref tables.resx">
-      <DependentUpon>201512251628059_UserID changes in ref tables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512260941387_InitialCreation.resx">
+      <DependentUpon>201512260941387_InitialCreation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

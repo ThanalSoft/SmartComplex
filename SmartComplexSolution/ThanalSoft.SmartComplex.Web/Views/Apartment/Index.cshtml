@@ -1,8 +1,68 @@
-﻿
+﻿@model ThanalSoft.SmartComplex.Web.Models.ApartmentListViewModel
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
+<div class="col-md-12 col-sm-12 col-xs-12">
+    @if (Model.ActionResultStatus != null)
+    {
+        Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
+    }
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>
+                <i class="fa fa-building"></i> Apartments <small>In the system</small>
+            </h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @if (Model.Apartments != null && Model.Apartments.Length < 1)
+            {
+                Html.RenderPartial("Partials/_NoResultFound");
+            }
+            else
+            {
+                <table class="table table-striped responsive-utilities jambo_table bulk_action">
+                    <thead>
+                        <tr class="headings">
+                            <th class="column-title">Name</th>
+                            <th class="column-title">Created On</th>
+                            <th class="column-title">City</th>
+                            <th class="column-title">State</th>
+                            <th class="column-title">Phone</th>
+                            <th class="column-title">Deleted</th>
+                            <th class="column-title">Locked</th>
+                            <th class="column-title no-link last">
+                                <span class="nobr">Action</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var apartment in Model.Apartments)
+                        {
+                            <tr class="even pointer">
+                                <td>@apartment.Name</td>
+                                <td>@apartment.CreatedDate.GetDateForDisplay()</td>
+                                <td>@apartment.City</td>
+                                <td>@apartment.State</td>
+                                <td>@apartment.Phone</td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="">
+                                            <label>
+                                                <input type="checkbox" class="js-switch" disabled="" checked="checked" data-switchery="true" style="display: none;"><span class="switchery" style="border-color: rgb(38, 185, 154); box-shadow: rgb(38, 185, 154) 0px 0px 0px 16px inset; transition: border 0.4s, box-shadow 0.4s, background-color 1.2s; opacity: 0.5; background-color: rgb(38, 185, 154);"><small style="left: 12px; transition: left 0.2s;"></small></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@apartment.IsLocked</td>
+                                <td class="last">
+                                    <a class="table-icon-link" href="#"><i class="fa fa-desktop"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

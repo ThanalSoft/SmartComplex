@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class InitialCreation : DbMigration
     {
         public override void Up()
         {
@@ -18,7 +18,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         To = c.DateTime(nullable: false),
                         Reason = c.String(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblAmenityType", t => t.AminityTypeId)
@@ -45,7 +45,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         AminityTypeId = c.Int(nullable: false),
                         IsBillable = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblAmenityType", t => t.AminityTypeId)
@@ -65,18 +65,16 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         PinCode = c.Int(nullable: false),
                         Phone = c.String(),
                         IsLocked = c.Boolean(nullable: false),
+                        CreatedDate = c.DateTime(nullable: false),
                         LockedDate = c.DateTime(),
                         LockReason = c.String(),
                         IsDeleted = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
-                        Country_Id = c.Int(),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("sc.tblCountry", t => t.Country_Id)
                 .ForeignKey("sc.tblState", t => t.StateId)
-                .Index(t => t.StateId)
-                .Index(t => t.Country_Id);
+                .Index(t => t.StateId);
             
             CreateTable(
                 "sc.tblAssociation",
@@ -88,7 +86,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         Description = c.String(nullable: false, maxLength: 150),
                         CreationDate = c.Int(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblApartment", t => t.ApartmentId)
@@ -106,7 +104,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         To = c.DateTime(nullable: false),
                         IsActive = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblAssociation", t => t.AssociationId)
@@ -134,6 +132,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         IsActivated = c.Boolean(nullable: false),
                         ActivatedDate = c.DateTime(),
                         IsAdminUser = c.Boolean(nullable: false),
+                        IsDeleted = c.Boolean(nullable: false),
                         Email = c.String(nullable: false, maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -161,7 +160,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         IsAlert = c.Boolean(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("secure.tblUser", t => t.CreatorId)
@@ -176,7 +175,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         BroadcastId = c.Int(nullable: false),
                         IsRead = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblBroadcast", t => t.BroadcastId)
@@ -210,7 +209,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         CreatedTime = c.DateTime(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("secure.tblUser", t => t.CreatorId)
@@ -225,7 +224,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         EventUserId = c.Long(nullable: false),
                         IsEventAdmin = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblEvent", t => t.EventId)
@@ -247,7 +246,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         LockReason = c.String(),
                         IsDeleted = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblBloodGroup", t => t.BloodGroupId)
@@ -277,7 +276,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         ExtensionNumber = c.Int(nullable: false),
                         SquareFeet = c.Int(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblFlatBlock", t => t.FlatBlockId)
@@ -291,7 +290,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         Name = c.String(nullable: false, maxLength: 50),
                         ApartmentId = c.Int(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblApartment", t => t.ApartmentId)
@@ -323,7 +322,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         ReminderTime = c.DateTime(nullable: false),
                         IsActive = c.Boolean(nullable: false),
                         LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Int(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("secure.tblUser", t => t.CreatorId)
@@ -379,9 +378,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
         public override void Down()
         {
             DropForeignKey("secure.tblUserRole", "RoleId", "secure.tblRole");
-            DropForeignKey("sc.tblApartment", "StateId", "sc.tblState");
             DropForeignKey("sc.tblState", "CountryId", "sc.tblCountry");
-            DropForeignKey("sc.tblApartment", "Country_Id", "sc.tblCountry");
+            DropForeignKey("sc.tblApartment", "StateId", "sc.tblState");
             DropForeignKey("secure.tblUserRole", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblReminder", "CreatorId", "secure.tblUser");
             DropForeignKey("secure.tblUserLogin", "UserId", "secure.tblUser");
@@ -428,7 +426,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropIndex("sc.tblAssociationMember", new[] { "UserId" });
             DropIndex("sc.tblAssociationMember", new[] { "AssociationId" });
             DropIndex("sc.tblAssociation", new[] { "ApartmentId" });
-            DropIndex("sc.tblApartment", new[] { "Country_Id" });
             DropIndex("sc.tblApartment", new[] { "StateId" });
             DropIndex("sc.tblApartmentAmenity", new[] { "AminityTypeId" });
             DropIndex("sc.tblApartmentAmenity", new[] { "ApartmentId" });

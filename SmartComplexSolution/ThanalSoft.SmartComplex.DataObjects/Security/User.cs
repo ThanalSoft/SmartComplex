@@ -29,6 +29,10 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
         [Required]
         public bool IsAdminUser { get; set; }
 
+        [DataMember]
+        [Required]
+        public bool IsDeleted { get; set; }
+
         public virtual ICollection<FlatUser> FlatUsers { get; set; }
 
         public virtual ICollection<Broadcast> Broadcasts { get; set; }

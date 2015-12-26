@@ -188,10 +188,15 @@ body.nav-sm .menu_section {
     margin: 0;
 }
 
-    body.nav-sm span.fa,
-    body.nav-sm .menu_section h3 {
-        display: none !important;
-    }
+.input-validation-error {
+    border: 1px solid red !important;
+    background-color: rgb(255, 245, 245) !important;
+}
+
+body.nav-sm span.fa,
+body.nav-sm .menu_section h3 {
+    display: none !important;
+}
 
 .nav_menu {
     float: left;
@@ -6436,3 +6441,11 @@ ul.notifications {
     color: #EE6A6A;
     line-height: 30px;
 }
+
+.table-icon-link {
+    color: #0089FF;
+    font-size: 150%;
+}
+    .table-icon-link :hover {
+        color: #fb6868;
+    }

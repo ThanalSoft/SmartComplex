@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using ThanalSoft.SmartComplex.DataObjects.Complex;
 
 namespace ThanalSoft.SmartComplex.DataObjects.Common
 {
@@ -27,8 +26,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
         public string Name { get; set; }
 
         public virtual ICollection<State> States { get; set; }
-
-        public virtual ICollection<Apartment> Apartments { get; set; }
 
         [DataMember]
         [NotMapped]

@@ -171,7 +171,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = false,
                     IsAdminUser = true,
-                    UserName = "admin@sc.com"
+                    UserName = "admin@sc.com",
+                    IsDeleted = false
                 };
 
                 userManager.Create(user);

@@ -41,6 +41,10 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public bool IsLocked { get; set; }
 
         [DataMember]
+        [Required]
+        public DateTime CreatedDate { get; set; }
+
+        [DataMember]
         public DateTime? LockedDate { get; set; }
 
         [DataMember]

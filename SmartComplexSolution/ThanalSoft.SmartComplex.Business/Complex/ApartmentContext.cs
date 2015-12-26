@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
+using ThanalSoft.SmartComplex.DataObjects.Common;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
 
 namespace ThanalSoft.SmartComplex.Business.Complex
@@ -15,8 +16,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var data = await context.Apartments.ToArrayAsync();
-                return data.Select(MapToInfo).ToArray();
+                var data = await context.Apartments.OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
+                return data.Select(pX => MapToInfo(pX, context.States.Find(pX.StateId))).ToArray();
             }
         }
 
@@ -25,7 +26,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var data = await context.Apartments.FirstAsync(pX => pX.Id.Equals(pApartmentId));
-                return MapToInfo(data);
+                return MapToInfo(data, context.States.Find(data.StateId));
             }
         }
 
@@ -36,7 +37,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 context.Apartments.AddOrUpdate(new Apartment
                 {
                     Phone = pApartmentInfo.Phone,
-                    StateId = 1,
+                    StateId = pApartmentInfo.StateId,
                     Name = pApartmentInfo.Name,
                     Address = pApartmentInfo.Address,
                     City = pApartmentInfo.City,
@@ -44,14 +45,15 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     IsLocked = false,
                     LastUpdated = DateTime.Now,
                     LastUpdatedBy = pUserId,
-                    PinCode = pApartmentInfo.PinCode
+                    PinCode = pApartmentInfo.PinCode,
+                    CreatedDate = DateTime.Now
                 });
 
                 await context.SaveChangesAsync();
             }
         }
 
-        private static ApartmentInfo MapToInfo(Apartment pApartment)
+        private static ApartmentInfo MapToInfo(Apartment pApartment, State pState)
         {
             return new ApartmentInfo
             {
@@ -65,7 +67,9 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 LockedDate = pApartment.LockedDate,
                 Phone = pApartment.Phone,
                 PinCode = pApartment.PinCode,
-                StateId = pApartment.StateId
+                StateId = pApartment.StateId,
+                CreatedDate = pApartment.CreatedDate,
+                State = pState.Name
             };
         }
     }

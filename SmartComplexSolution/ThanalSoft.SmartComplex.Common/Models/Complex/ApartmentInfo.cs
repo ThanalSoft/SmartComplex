@@ -42,6 +42,13 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         public string Phone { get; set; }
 
         [DataMember]
+        [Display(Name = "Created On")]
+        public DateTime CreatedDate { get; set; }
+
+        [DataMember]
+        public string State { get; set; }
+
+        [DataMember]
         public bool IsLocked { get; set; }
 
         [DataMember]

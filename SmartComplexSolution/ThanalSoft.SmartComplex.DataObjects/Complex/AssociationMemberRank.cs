@@ -21,7 +21,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
 
         [DataMember]
         [NotMapped]
-        public override int LastUpdatedBy { get; set; }
+        public override Int64 LastUpdatedBy { get; set; }
 
         public virtual ICollection<AssociationMember> AssociationMembers { get; set; }
     }

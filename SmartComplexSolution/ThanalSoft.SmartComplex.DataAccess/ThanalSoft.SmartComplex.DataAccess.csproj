@@ -61,6 +61,10 @@
     <Compile Include="Migrations\201512231152109_InitialCreate.Designer.cs">
       <DependentUpon>201512231152109_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512251628059_UserID changes in ref tables.cs" />
+    <Compile Include="Migrations\201512251628059_UserID changes in ref tables.Designer.cs">
+      <DependentUpon>201512251628059_UserID changes in ref tables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartComplexDataObjectContext.cs" />
@@ -79,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512231152109_InitialCreate.resx">
       <DependentUpon>201512231152109_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512251628059_UserID changes in ref tables.resx">
+      <DependentUpon>201512251628059_UserID changes in ref tables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

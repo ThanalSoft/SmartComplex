@@ -17,6 +17,6 @@ namespace ThanalSoft.SmartComplex.DataObjects
         public virtual DateTime LastUpdated { get; set; }
 
         [DataMember]
-        public virtual int LastUpdatedBy { get; set; }
+        public virtual Int64 LastUpdatedBy { get; set; }
     }
 }

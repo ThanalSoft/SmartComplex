@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ThanalSoft.SmartComplex.DataObjects.Common;
@@ -127,6 +128,30 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 role = new Role("Administrator");
                 roleManager.Create(role);
             }
+            role = roleManager.FindByName("Owner");
+            if (role == null)
+            {
+                role = new Role("Owner");
+                roleManager.Create(role);
+            }
+            role = roleManager.FindByName("Tenant");
+            if (role == null)
+            {
+                role = new Role("Tenant");
+                roleManager.Create(role);
+            }
+            role = roleManager.FindByName("MaintenanceAdmin");
+            if (role == null)
+            {
+                role = new Role("MaintenanceManager");
+                roleManager.Create(role);
+            }
+            role = roleManager.FindByName("ApartmentAdmin");
+            if (role == null)
+            {
+                role = new Role("ApartmentAdmin");
+                roleManager.Create(role);
+            }
             var user = userManager.FindByEmail("admin@sc.com");
             if (user == null)
             {
@@ -156,6 +181,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             {
                 userManager.AddToRole(user.Id, "Administrator");
             }
+            pContext.SaveChanges();
         }
 
         private void CreateCountriesAndStates(SmartComplexDataObjectContext pContext)

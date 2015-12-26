@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using ThanalSoft.SmartComplex.Common.Account;
+using ThanalSoft.SmartComplex.Common.Models.Account;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models;
 
@@ -12,6 +12,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            LoggedInUser = null;
+
             return View();
         }
 

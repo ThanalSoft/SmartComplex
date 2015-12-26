@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ThanalSoft.SmartComplex.Common.Account
+namespace ThanalSoft.SmartComplex.Common.Models.Account
 {
     [DataContract]
     public class LoginResultInfo

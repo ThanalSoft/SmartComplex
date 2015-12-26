@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using ThanalSoft.SmartComplex.Common.Account;
+using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {

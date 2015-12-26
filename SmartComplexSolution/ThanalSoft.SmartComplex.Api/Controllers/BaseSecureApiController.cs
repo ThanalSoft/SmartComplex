@@ -1,5 +1,7 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Api.Security;
 
@@ -34,5 +36,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 _signInManager = value;
             }
         }
+
+        protected Int64 LoggedInUser => Convert.ToInt64(User.Identity.GetUserId());
     }
 }

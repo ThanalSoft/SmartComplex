@@ -175,7 +175,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseSecureApiController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +209,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.Business\ThanalSoft.SmartComplex.Business.csproj">
+      <Project>{7F6942D6-5159-48E6-ACCF-FA620E4D33AF}</Project>
+      <Name>ThanalSoft.SmartComplex.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThanalSoft.SmartComplex.Common\ThanalSoft.SmartComplex.Common.csproj">
       <Project>{E3E79E5C-5E5F-4762-B579-353806555359}</Project>
       <Name>ThanalSoft.SmartComplex.Common</Name>

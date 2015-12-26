@@ -1,7 +1,7 @@
 ﻿using System.Security.Principal;
 using System.Threading;
 using System.Web.Mvc;
-using ThanalSoft.SmartComplex.Common.Account;
+using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {

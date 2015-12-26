@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using ThanalSoft.SmartComplex.Common.Account;
+using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Web.Common
 {

@@ -2,8 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*@using (Html.BeginForm("Create", "Apartment", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
-@using (Ajax.BeginForm("Create", "Apartment", new AjaxOptions { HttpMethod = "Post" }, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Create", "Apartment", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="col-md-12 col-sm-12 col-xs-12">

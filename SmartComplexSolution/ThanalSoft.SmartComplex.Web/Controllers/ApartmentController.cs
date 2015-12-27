@@ -14,13 +14,20 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
     public class ApartmentController : BaseSecuredController
     {
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> IndexList()
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll", LoggedInUser);
-            return View(new ApartmentListViewModel
+
+            return PartialView("_IndexList", new ApartmentListViewModel
             {
                 Apartments = response.Info.ToArray(),
-                ActionResultStatus = (ActionResultStatusViewModel) TempData["Status"]
+                ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
             });
         }
         
@@ -46,7 +53,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             {
                 await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", LoggedInUser, pModel.ApartmentInfo);
 
-                TempData["Status"] = new ActionResultStatusViewModel("Apartment is created successfully!", ActionStatus.Success);
+                TempData["Status"] = new ActionResultStatusViewModel("Apartment created successfully!", ActionStatus.Success);
             }
             catch (Exception)
             {

@@ -44,6 +44,24 @@
         });
     };
 
+    function editApartment(apartmentId) {
+        $.ajax({
+            url: '@Url.Action("Update", "Apartment")',
+            type: "GET",
+            data: { pId: apartmentId },
+
+            success: function (data) {
+                $("#container").fadeOut(100, function () {
+                    $("#container").html(data);
+                    $("#container").fadeIn(100);
+                });
+            },
+            error: function () {
+                alert("An error has occured!!!");
+            }
+        });
+    };
+
     function closeApartment() {
         appartmentListView();
     };

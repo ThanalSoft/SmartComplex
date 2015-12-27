@@ -6455,3 +6455,7 @@ ul.notifications {
     .table-icon-link :hover {
         color: #fb6868;
     }
+
+.bold {
+    font-weight: bold;
+}

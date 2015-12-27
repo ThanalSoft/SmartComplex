@@ -69,9 +69,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(int pId)
+        public async Task<ActionResult> Update(ApartmentViewModel pApartmentViewModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, 1.ToString());
             return View(new ApartmentViewModel
             {
                 States = await GetStatesAsync(),
@@ -80,7 +80,17 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        public async Task<ActionResult> Update(int pId)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
+            return View(new ApartmentViewModel
+            {
+                States = await GetStatesAsync(),
+                ApartmentInfo = response.Info
+            });
+        }
+
+        [HttpGet]
         public async Task<ActionResult> View(int pId)
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());

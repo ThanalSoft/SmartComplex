@@ -3004,8 +3004,8 @@ select.parsley-error {
 
     .btn.btn-app:hover {
         background: #f4f4f4;
-        color: #019fc2;
-        border-color: #aaa;
+        color: #00a6ff;
+        border-color: #006d9f;
     }
 
     .btn.btn-app:active,

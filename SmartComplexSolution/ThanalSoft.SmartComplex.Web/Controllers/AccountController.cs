@@ -10,17 +10,17 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl)
         {
             LoggedInUser = null;
-
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Index(UserLoginModel pModel, string pReturnurl)
+        public async Task<ActionResult> Index(UserLoginModel pModel, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -35,7 +35,10 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     var token = await new ApiConnector<string>().GetApiToken(pModel.Email, pModel.Password);
                     LoggedInUser = loginResponse.LoginUserInfo;
                     LoggedInUser.UserIdentity = token;
-                    return RedirectToAction("Index", "Home");
+                    if (string.IsNullOrEmpty(returnUrl))
+                        return RedirectToAction("Index", "Home");
+
+                    return RedirectToLocal(returnUrl);
                 case LoginStatus.LockedOut:
                     break;
                 case LoginStatus.RequiresVerification:
@@ -48,6 +51,15 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     return View(pModel);
             }
             return View();
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

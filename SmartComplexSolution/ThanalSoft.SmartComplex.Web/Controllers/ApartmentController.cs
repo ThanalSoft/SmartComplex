@@ -86,7 +86,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
             return View(new ApartmentViewModel
             {
-                States = await GetStatesAsync(),
                 ApartmentInfo = response.Info
             });
         }

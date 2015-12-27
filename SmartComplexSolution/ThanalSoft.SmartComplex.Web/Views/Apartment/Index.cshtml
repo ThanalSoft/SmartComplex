@@ -10,54 +10,78 @@
     $(document).ready(appartmentListView);
 
     function appartmentListView() {
+        $("#divLoading").show(10);
             $.ajax({
                 url: '@Url.Action("IndexList", "Apartment")',
                 type: "GET",
-
                 success: function (data) {
                     $("#container").fadeOut(100, function () {
                         $("#container").html(data);
                         $("#container").fadeIn(100);
+                        $("#divLoading").hide();
                     });
                 },
                 error: function () {
                     alert("An error has occured!!!");
+                    $("#divLoading").hide();
                 }
             });
     };
+    function addNew() {
+        $("#divLoading").show(10);
+        $.ajax({
+            url: '@Url.Action("Create", "Apartment")',
+            type: "GET",
+            success: function (data) {
+                $("#container").fadeOut(100, function () {
+                    $("#container").html(data);
+                    $("#container").fadeIn(100);
+                    $("#divLoading").hide();
+                });
+            },
+            error: function () {
+                alert("An error has occured!!!");
+                $("#divLoading").hide();
+            }
+        });
+    };
 
     function viewApartment(apartmentId) {
+        $("#divLoading").show(10);
         $.ajax({
             url: '@Url.Action("View", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
-
             success: function(data) {
                 $("#container").fadeOut(100, function() {
                     $("#container").html(data);
                     $("#container").fadeIn(100);
+                    $("#divLoading").hide();
                 });
             },
             error: function() {
                 alert("An error has occured!!!");
+                $("#divLoading").hide();
             }
         });
     };
 
     function editApartment(apartmentId) {
+        $("#divLoading").show(10);
         $.ajax({
             url: '@Url.Action("Update", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
-
             success: function (data) {
                 $("#container").fadeOut(100, function () {
                     $("#container").html(data);
                     $("#container").fadeIn(100);
+                    $("#divLoading").hide();
                 });
             },
             error: function () {
                 alert("An error has occured!!!");
+                $("#divLoading").hide();
             }
         });
     };

@@ -2,9 +2,8 @@
 
 namespace ThanalSoft.SmartComplex.Web.Models
 {
-    public class ApartmentListViewModel
+    public class ApartmentListViewModel : BaseViewModel
     {
         public ApartmentInfo[] Apartments { get; set; }
-        public ActionResultStatusViewModel ActionResultStatus { get; set; }
     }
 }

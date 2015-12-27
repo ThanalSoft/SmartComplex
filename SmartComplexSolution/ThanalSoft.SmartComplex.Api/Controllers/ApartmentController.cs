@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
+using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -20,7 +21,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             catch (Exception ex)
             {
-                result.Result = "Error";
+                result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
             }
             return result;
@@ -36,7 +37,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             catch (Exception ex)
             {
-                result.Result = "Error";
+                result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
             }
             return result;
@@ -50,9 +51,14 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             {
                 await ApartmentContext.Instance.CreateAsync(pApartmentInfo, LoggedInUser);
             }
+            catch (ItemAlreadyExistsException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
             catch (Exception ex)
             {
-                result.Result = "Error";
+                result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
             }
             return result;

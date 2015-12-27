@@ -28,8 +28,6 @@
                         <th class="column-title">City</th>
                         <th class="column-title">State</th>
                         <th class="column-title">Phone</th>
-                        <th class="column-title">Deleted</th>
-                        <th class="column-title">Locked</th>
                         <th class="column-title no-link last">
                             <span class="nobr">Action</span>
                         </th>
@@ -44,16 +42,6 @@
                             <td>@apartment.City</td>
                             <td>@apartment.State</td>
                             <td>@apartment.Phone</td>
-                            <td>
-                                <div class="form-group">
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch" disabled="" checked="checked" data-switchery="true" style="display: none;"><span class="switchery" style="border-color: rgb(38, 185, 154); box-shadow: rgb(38, 185, 154) 0px 0px 0px 16px inset; transition: border 0.4s, box-shadow 0.4s, background-color 1.2s; opacity: 0.5; background-color: rgb(38, 185, 154);"><small style="left: 12px; transition: left 0.2s;"></small></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>@apartment.IsLocked</td>
                             <td class="last">
                                 <a onclick="viewApartment(@apartment.Id)" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
                             </td>

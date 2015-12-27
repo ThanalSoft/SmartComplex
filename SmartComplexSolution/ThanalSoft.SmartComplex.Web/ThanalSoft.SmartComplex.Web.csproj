@@ -184,6 +184,7 @@
     <Compile Include="Models\ActionResultStatusViewModel.cs" />
     <Compile Include="Models\ApartmentListViewModel.cs" />
     <Compile Include="Models\ApartmentViewModel.cs" />
+    <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

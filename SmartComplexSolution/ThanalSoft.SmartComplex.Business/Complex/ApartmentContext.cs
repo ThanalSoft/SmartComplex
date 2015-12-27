@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
+using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.DataObjects.Common;
@@ -34,7 +35,10 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                context.Apartments.AddOrUpdate(new Apartment
+                if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase)))
+                    throw new ItemAlreadyExistsException();
+
+                context.Apartments.Add(new Apartment
                 {
                     Phone = pApartmentInfo.Phone,
                     StateId = pApartmentInfo.StateId,

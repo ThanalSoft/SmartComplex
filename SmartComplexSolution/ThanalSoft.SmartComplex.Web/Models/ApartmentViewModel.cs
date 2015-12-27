@@ -4,7 +4,7 @@ using ThanalSoft.SmartComplex.Common.Models.Complex;
 
 namespace ThanalSoft.SmartComplex.Web.Models
 {
-    public class ApartmentViewModel
+    public class ApartmentViewModel : BaseViewModel
     {
         public ApartmentInfo ApartmentInfo { get; set; }
 

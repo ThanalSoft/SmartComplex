@@ -8,14 +8,14 @@ namespace ThanalSoft.SmartComplex.Common
     {
         public GeneralReturnInfo()
         {
-            Result = "Sucess";
+            Result = ApiResponseResult.Success;
         }
 
         [DataMember]
         public TInfo Info { get; set; }
 
         [DataMember]
-        public string Result { get; set; }
+        public ApiResponseResult Result { get; set; }
 
         [DataMember]
         public string Reason { get; set; }
@@ -33,5 +33,11 @@ namespace ThanalSoft.SmartComplex.Common
     public class NullInfo
     {
 
+    }
+
+    public enum ApiResponseResult
+    {
+        Success,
+        Error
     }
 }

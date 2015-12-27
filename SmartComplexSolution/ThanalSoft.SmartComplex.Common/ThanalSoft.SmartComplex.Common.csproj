@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ItemAlreadyExistsException.cs" />
     <Compile Include="GeneralReturnInfo.cs" />
     <Compile Include="Models\Account\LoginRequestInfo.cs" />
     <Compile Include="Models\Account\LoginResultInfo.cs" />

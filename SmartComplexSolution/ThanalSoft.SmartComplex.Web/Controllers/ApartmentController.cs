@@ -36,7 +36,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             return View(new ApartmentViewModel
             {
-                States = await GetStatesAsync()
+                States = await GetStatesAsync(),
             });
         }
 
@@ -51,23 +51,27 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             try
             {
-                await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", LoggedInUser, pModel.ApartmentInfo);
-
-                TempData["Status"] = new ActionResultStatusViewModel("Apartment created successfully!", ActionStatus.Success);
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", LoggedInUser, pModel.ApartmentInfo);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    TempData["Status"] = new ActionResultStatusViewModel("Apartment created successfully!", ActionStatus.Success);
+                    return RedirectToAction("Index");
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Apartment"), ActionStatus.Error);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Status"] = new ActionResultStatusViewModel("Error occured while creating Apartment.", ActionStatus.Error);
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Apartment. Exception: " + ex.Message, ActionStatus.Error);
             }
-            
-            return RedirectToAction("Index");
+            pModel.States = await GetStatesAsync();
+            return View(pModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(int id)
+        public async Task<ActionResult> Update(int pId)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, id.ToString());
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
             return View(new ApartmentViewModel
             {
                 States = await GetStatesAsync(),
@@ -77,9 +81,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> View(int id)
+        public async Task<ActionResult> View(int pId)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, id.ToString());
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
             return View(new ApartmentViewModel
             {
                 States = await GetStatesAsync(),

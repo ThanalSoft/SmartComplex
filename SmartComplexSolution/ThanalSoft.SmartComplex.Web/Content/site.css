@@ -29,6 +29,11 @@ body.nav-sm .navbar.nav_title {
         margin: 13px 0 0 3px;
     }
 
+.display-label {
+    padding-top: 8px;
+    color: #111111;
+}
+
 .site_title i {
     border: 1px solid #EAEAEA;
     padding: 5px 6px;
@@ -6446,6 +6451,7 @@ ul.notifications {
     color: #0089FF;
     font-size: 150%;
 }
+
     .table-icon-link :hover {
         color: #fb6868;
     }

@@ -20,7 +20,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             catch (Exception ex)
             {
-                result.Result = "Error";
+                result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
             }
             return result;

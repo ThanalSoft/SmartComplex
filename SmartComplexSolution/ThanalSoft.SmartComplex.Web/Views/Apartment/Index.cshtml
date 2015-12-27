@@ -30,7 +30,7 @@
         $.ajax({
             url: '@Url.Action("View", "Apartment")',
             type: "GET",
-            data: { id: apartmentId },
+            data: { pId: apartmentId },
 
             success: function(data) {
                 $("#container").fadeOut(100, function() {

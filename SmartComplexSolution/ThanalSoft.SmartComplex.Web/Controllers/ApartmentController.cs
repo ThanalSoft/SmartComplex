@@ -56,6 +56,30 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(int id)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, id.ToString());
+            return View(new ApartmentViewModel
+            {
+                States = await GetStatesAsync(),
+                 ApartmentInfo = response.Info
+            });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> View(int id)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, id.ToString());
+            return View(new ApartmentViewModel
+            {
+                States = await GetStatesAsync(),
+                ApartmentInfo = response.Info
+            });
+        }
+
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
             var response = await new ApiConnector<GeneralReturnInfo<StateInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);

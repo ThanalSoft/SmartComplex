@@ -14,20 +14,28 @@ namespace ThanalSoft.SmartComplex.Web.Common
     {
         private string ApiBaseURL => ConfigurationManager.AppSettings["API_URL"];
 
-        public async Task<TResponse> GetAsync(string pController, params string[] pParameters)
+        public async Task<TResponse> GetAsync(string pController, string pAction, params string[] pParameters)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["API_URL"]);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var formattedParams = pParameters.Select(pX => pX + "/").ToString();
-                var response = await client.GetAsync($"api/{pController}/{formattedParams}");
+                HttpResponseMessage response;
+                if (pParameters != null && pParameters.Any())
+                {
+                    var formattedParams = string.Join("/", pParameters);
+                    response = await client.GetAsync($"api/{pController}/{pAction}/{formattedParams}");
+                }
+                else
+                    response = await client.GetAsync($"api/{pController}/{pAction}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<TResponse>();
                     return result;
                 }
+
 
                 throw new Exception();
             }
@@ -65,7 +73,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
                 HttpResponseMessage response;
                 if (pParameters != null && pParameters.Any())
                 {
-                    var formattedParams = pParameters.Select(pX => pX + "/").ToString();
+                    var formattedParams = string.Join("/", pParameters);
                     response = await client.GetAsync($"api/{pController}/{pAction}/{formattedParams}");
                 }
                 else

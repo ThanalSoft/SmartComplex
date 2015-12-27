@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12" id="apartmentData">
     @if (Model.ActionResultStatus != null)
     {
         Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
@@ -10,7 +10,7 @@
     <div class="x_panel">
         <div class="x_title">
             <h2>
-                <i class="fa fa-building"></i> Apartments <small>In the system</small>
+                <i class="fa fa-building"></i> Apartments <small>in the system</small>
             </h2>
             <div class="clearfix"></div>
         </div>
@@ -56,7 +56,7 @@
                                 </td>
                                 <td>@apartment.IsLocked</td>
                                 <td class="last">
-                                    <a class="table-icon-link" href="#"><i class="fa fa-desktop"></i></a>
+                                    <a onclick="viewApartment(@apartment.Id)" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
                                 </td>
                             </tr>
                         }
@@ -66,3 +66,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function viewApartment(apartmentId) {
+        $.ajax({
+            url: '@Url.Action("View", "Apartment")',
+            type: "GET",
+            data:{ id: apartmentId },
+
+            success: function (data) {
+                $("#apartmentData").html(data);
+            },
+            error: function () {
+                alert("An error has occured!!!");
+            }
+        });
+    };
+</script>

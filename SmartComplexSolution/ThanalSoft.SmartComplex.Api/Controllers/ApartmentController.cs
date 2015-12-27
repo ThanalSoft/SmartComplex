@@ -27,12 +27,12 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentInfo>> Get(int pApartmentId)
+        public async Task<GeneralReturnInfo<ApartmentInfo>> Get(string id)
         {
             var result = new GeneralReturnInfo<ApartmentInfo>();
             try
             {
-                result.Info = await ApartmentContext.Instance.GetAsync(pApartmentId);
+                result.Info = await ApartmentContext.Instance.GetAsync(Convert.ToInt32(id));
             }
             catch (Exception ex)
             {

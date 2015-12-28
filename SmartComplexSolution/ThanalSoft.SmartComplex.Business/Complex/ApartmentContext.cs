@@ -96,5 +96,34 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 State = pState.Name
             };
         }
+
+        public async Task DeleteUndeleteAsync(int pId, Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var original = await context.Apartments.FindAsync(pId);
+
+                original.IsDeleted = !original.IsDeleted;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = pUserId;
+               
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task LockUnlockAsync(ApartmentInfo pApartmentInfo, long pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
+
+                original.IsLocked = !original.IsLocked;
+                original.LockedDate = DateTime.Now;
+                original.LockReason = pApartmentInfo.LockReason;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = pUserId;
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

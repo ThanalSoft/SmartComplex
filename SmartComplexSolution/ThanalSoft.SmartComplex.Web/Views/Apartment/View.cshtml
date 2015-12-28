@@ -3,6 +3,13 @@
 @{
     Layout = "";
 }
+<div class="alert alert-success alert-dismissible fade in" style="display: none" role="alert" id="successNotify">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <span id="successNotifyText"></span>
+</div>
+
 <div class="x_panel">
     <div class="x_title">
         <h2>
@@ -10,62 +17,90 @@
         </h2>
         <div class="clearfix"></div>
     </div>
-    <div class="x_content">
-        <br>
-        <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.Name)
-                </div>
+    <div class="x_content form-horizontal form-label-left">
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.Name)
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.Address, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.Address)
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.Address, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.Address)
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.City, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.City)
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.City, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.City)
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.StateId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.State)
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.StateId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.State)
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.PinCode, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.PinCode.ToString())
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.PinCode, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.PinCode.ToString())
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ApartmentInfo.Phone, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12 display-label">
-                    @Html.Label(Model.ApartmentInfo.Phone.IsNullOrWhiteSpace() ? "" : Model.ApartmentInfo.Phone)
-                </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApartmentInfo.Phone, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.Label(Model.ApartmentInfo.Phone.IsNullOrWhiteSpace() ? "" : Model.ApartmentInfo.Phone)
             </div>
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <a class="btn btn-app" onclick='closeApartment()'>
-                        <i class="fa fa-close"></i> Cancel
-                    </a>
-                    <a class="btn btn-app" onclick='editApartment(@Model.ApartmentInfo.Id)'>
-                        <i class="fa fa-edit"></i> Edit
-                    </a>
-                    <a class="btn btn-app">
-                        <i class="fa fa-remove"></i> Delete
-                    </a>
-                    <a class="btn btn-app">
-                        <i class="fa fa-lock"></i> Lock
-                    </a>
-                </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <a class="btn btn-app pull-left" onclick='closeApartment()'>
+                    <i class="fa fa-close"></i> Cancel
+                </a>
+                <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
+                    <i class="fa fa-edit"></i> Edit
+                </a>
+                @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "SuccessDelete", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button id="deletebtn" type="submit" class="@(Model.ApartmentInfo.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
+                }
+                @using (Ajax.BeginForm("LockUnlock", "Apartment", new { pId = @Model.ApartmentInfo.Id, pReason = @Model.ApartmentInfo.LockReason }, new AjaxOptions { OnSuccess = "SuccessLock", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button id="lockbtn" type="submit" class="@(Model.ApartmentInfo.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")">><i class="fa fa-lock"></i> Lock</button>
+                }
             </div>
-        </form>
+        </div>
     </div>
 </div>
+<script>
+    function SuccessDelete(data) {
+        if (data == 'Success') {
+            if ($('#deletebtn').hasClass('activebuttonRed')) {
+                $('#deletebtn').removeClass('activebuttonRed');
+                $('#successNotifyText').text("Appartment undeleted successfully.");
+            } else {
+                $('#deletebtn').addClass('activebuttonRed');
+                $('#successNotifyText').text("Appartment deleted successfully.");
+            }
+            $('#successNotify').show();
+        }
+    }
+
+    function SuccessLock(data) {
+        if (data == 'Success') {
+            if ($('#lockbtn').hasClass('activebuttonRed')) {
+                $('#lockbtn').removeClass('activebuttonRed');
+                $('#successNotifyText').text("Appartment unlocked successfully.");
+            } else {
+                $('#lockbtn').addClass('activebuttonRed');
+                $('#successNotifyText').text("Appartment locked successfully.");
+            }
+            $('#successNotify').show();
+        }
+    }
+</script>

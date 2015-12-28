@@ -3003,9 +3003,21 @@ select.parsley-error {
     }
 
     .btn.btn-app:hover {
-        background: #f4f4f4;
+        background: #f9f9f9;
         color: #00a6ff;
         border-color: #006d9f;
+    }
+
+    .activebuttonRed {
+        background: #fe8686 !important;
+        color: #ffffff !important;
+        border-color: #c20505 !important;
+    }
+
+    .activebuttonRed:hover {
+        background: #fa6666 !important;
+        color: #ffffff !important;
+        border-color: #830505 !important;
     }
 
     .btn.btn-app:active,

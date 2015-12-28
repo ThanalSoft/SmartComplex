@@ -119,6 +119,28 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> DeleteUndelete(int pId)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete", LoggedInUser, pId);
+            if (response.Result == ApiResponseResult.Success)
+                return ApiResponseResult.Success.ToString();
+
+            return ApiResponseResult.Error.ToString();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> LockUnlock(int pId, string pReason)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo {Id = pId, LockReason = pReason});
+            if (response.Result == ApiResponseResult.Success)
+                return ApiResponseResult.Success.ToString();
+
+            return ApiResponseResult.Error.ToString();
+        }
+
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
             var response = await new ApiConnector<GeneralReturnInfo<StateInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);

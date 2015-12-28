@@ -314,3 +314,12 @@ $(document).ready(function () {
 
 });
 /** ******  /scrollview  *********************** **/
+
+
+function loadAnimator() {
+    $("#divLoading").show(10);
+}
+
+function hideAnimator() {
+    $("#divLoading").hide();
+}

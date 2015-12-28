@@ -8,79 +8,64 @@
 </div>
 
 <script type="text/javascript">
+
+    function fillContainerData(data) {
+        $("#container").fadeOut(100, function () {
+            $("#container").html(data);
+            $("#container").fadeIn(100);
+            hideAnimator();
+        });
+    }
+
     function appartmentListView() {
-        $("#divLoading").show(10);
-            $.ajax({
-                url: '@Url.Action("IndexList", "Apartment")',
-                type: "GET",
-                success: function (data) {
-                    $("#container").fadeOut(100, function () {
-                        $("#container").html(data);
-                        $("#container").fadeIn(100);
-                        $("#divLoading").hide();
-                    });
-                },
-                error: function () {
-                    alert("An error has occured!!!");
-                    $("#divLoading").hide();
-                }
-            });
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("IndexList", "Apartment")',
+            type: "GET",
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
     };
     function addNew() {
-        $("#divLoading").show(10);
+        loadAnimator();
         $.ajax({
             url: '@Url.Action("Create", "Apartment")',
             type: "GET",
-            success: function (data) {
-                $("#container").fadeOut(100, function () {
-                    $("#container").html(data);
-                    $("#container").fadeIn(100);
-                    $("#divLoading").hide();
-                });
-            },
+            success: fillContainerData,
             error: function () {
                 alert("An error has occured!!!");
-                $("#divLoading").hide();
+                hideAnimator();
             }
         });
     };
 
     function viewApartment(apartmentId) {
-        $("#divLoading").show(10);
+        loadAnimator();
         $.ajax({
             url: '@Url.Action("View", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
-            success: function(data) {
-                $("#container").fadeOut(100, function() {
-                    $("#container").html(data);
-                    $("#container").fadeIn(100);
-                    $("#divLoading").hide();
-                });
-            },
-            error: function() {
+            success: fillContainerData,
+            error: function () {
                 alert("An error has occured!!!");
-                $("#divLoading").hide();
+                hideAnimator();
             }
         });
     };
 
     function editApartment(apartmentId) {
-        $("#divLoading").show(10);
+        loadAnimator();
         $.ajax({
             url: '@Url.Action("Update", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
-            success: function (data) {
-                $("#container").fadeOut(100, function () {
-                    $("#container").html(data);
-                    $("#container").fadeIn(100);
-                    $("#divLoading").hide();
-                });
-            },
+            success: fillContainerData,
             error: function () {
                 alert("An error has occured!!!");
-                $("#divLoading").hide();
+                hideAnimator();
             }
         });
     };
@@ -88,5 +73,6 @@
     function closeApartment() {
         appartmentListView();
     };
+
 
 </script>

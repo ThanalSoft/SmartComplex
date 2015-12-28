@@ -73,14 +73,29 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(ApartmentViewModel pApartmentViewModel)
+        public async Task<ActionResult> Update(ApartmentViewModel pModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, 1.ToString());
-            return View(new ApartmentViewModel
+            if (!ModelState.IsValid)
             {
-                States = await GetStatesAsync(),
-                 ApartmentInfo = response.Info
-            });
+                pModel.States = await GetStatesAsync();
+                return View(pModel);
+            }
+            try
+            {
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", LoggedInUser, pModel.ApartmentInfo);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    TempData["Status"] = new ActionResultStatusViewModel("Apartment updated successfully!", ActionStatus.Success);
+                    return RedirectToAction("IndexList");
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Apartment"), ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while updating Apartment. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.States = await GetStatesAsync();
+            return View(pModel);
         }
 
         [HttpGet]

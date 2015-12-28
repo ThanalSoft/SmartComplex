@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Common.Exceptions;
@@ -53,6 +52,27 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     CreatedDate = DateTime.Now
                 });
 
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateAsync(ApartmentInfo pApartmentInfo, Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
+
+                if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.Id != original.Id))
+                    throw new ItemAlreadyExistsException();
+
+                original.Phone = pApartmentInfo.Phone;
+                original.StateId = pApartmentInfo.StateId;
+                original.Name = pApartmentInfo.Name;
+                original.Address = pApartmentInfo.Address;
+                original.City = pApartmentInfo.City;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = pUserId;
+                original.PinCode = pApartmentInfo.PinCode;
                 await context.SaveChangesAsync();
             }
         }

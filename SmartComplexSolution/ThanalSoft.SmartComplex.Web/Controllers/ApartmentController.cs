@@ -40,7 +40,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             return View(new ApartmentViewModel
             {
-                States = await GetStatesAsync(),
+                States = await GetStatesAsync()
             });
         }
 
@@ -59,7 +59,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Apartment created successfully!", ActionStatus.Success);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("IndexList");
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Apartment"), ActionStatus.Error);
             }

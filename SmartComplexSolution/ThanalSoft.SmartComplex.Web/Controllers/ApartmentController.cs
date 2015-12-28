@@ -14,16 +14,20 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
     public class ApartmentController : BaseSecuredController
     {
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var response = await GetApartmentInfoList();
+            return View(new ApartmentListViewModel
+            {
+                Apartments = response.Info.ToArray(),
+                ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
+            });
         }
 
         [HttpGet]
         public async Task<PartialViewResult> IndexList()
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll", LoggedInUser);
-
+            var response = await GetApartmentInfoList();
             return PartialView("_IndexList", new ApartmentListViewModel
             {
                 Apartments = response.Info.ToArray(),
@@ -118,6 +122,12 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             })));
 
             return stateDdl;
+        }
+
+        private async Task<GeneralReturnInfo<ApartmentInfo[]>> GetApartmentInfoList()
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll", LoggedInUser);
+            return response;
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿@{
+﻿@model ThanalSoft.SmartComplex.Web.Models.ApartmentListViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-md-12 col-sm-12 col-xs-12" id="container">
-    
+    @Html.Partial("_IndexList", Model)
 </div>
 
 <script type="text/javascript">
-    $(document).ready(appartmentListView);
-
     function appartmentListView() {
         $("#divLoading").show(10);
             $.ajax({

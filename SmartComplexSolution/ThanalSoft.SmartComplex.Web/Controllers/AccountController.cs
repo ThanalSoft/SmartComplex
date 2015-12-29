@@ -14,7 +14,11 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             LoggedInUser = null;
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new UserLoginModel
+            {
+                Email = "admin@sc.com",
+                Password = "admin"
+            });
         }
 
         [ValidateAntiForgeryToken]

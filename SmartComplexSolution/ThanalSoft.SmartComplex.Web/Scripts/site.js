@@ -315,11 +315,19 @@ $(document).ready(function () {
 });
 /** ******  /scrollview  *********************** **/
 
-
 function loadAnimator() {
     $("#divLoading").show(10);
 }
 
 function hideAnimator() {
     $("#divLoading").hide();
+}
+
+function getResultStatusHtml(type, text) {
+    var html = "<div class=\"alert alert-" + type + " alert-dismissible fade in\" role=\"alert\">" +
+        "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">" +
+        "<span aria-hidden=\"true\">×</span>" +
+        "</button>" + text + "</div>";
+
+    return html;
 }

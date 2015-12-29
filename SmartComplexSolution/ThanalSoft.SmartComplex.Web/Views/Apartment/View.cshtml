@@ -3,13 +3,10 @@
 @{
     Layout = "";
 }
-<div class="alert alert-success alert-dismissible fade in" style="display: none" role="alert" id="successNotify">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-    <span id="successNotifyText"></span>
-</div>
 
+<div id="successNotify">
+
+</div>
 <div class="x_panel">
     <div class="x_title">
         <h2>
@@ -63,44 +60,72 @@
                 <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
                     <i class="fa fa-edit"></i> Edit
                 </a>
-                @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "SuccessDelete", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
                     <button id="deletebtn" type="submit" class="@(Model.ApartmentInfo.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
                 }
-                @using (Ajax.BeginForm("LockUnlock", "Apartment", new { pId = @Model.ApartmentInfo.Id, pReason = @Model.ApartmentInfo.LockReason }, new AjaxOptions { OnSuccess = "SuccessLock", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button id="lockbtn" type="submit" class="@(Model.ApartmentInfo.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")">><i class="fa fa-lock"></i> Lock</button>
-                }
+                <button id="lockbtn" type="submit" data-toggle="modal" data-target=".lockModel" class="@(Model.ApartmentInfo.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-lock"></i> Lock</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade lockModel" id="lockModel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Reason for locking this Appartment?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="x_content form-horizontal form-label-left" style="float: none">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ApartmentInfo.LockReason, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                            @Html.TextBoxFor(m => m.ApartmentInfo.LockReason, new { @class = "form-control col-md-7 col-xs-12" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @using (Ajax.BeginForm("LockUnlock", "Apartment", new { pId = @Model.ApartmentInfo.Id, pReason = @Model.ApartmentInfo.LockReason }, new AjaxOptions { OnSuccess = "onLockApartment", HttpMethod = "POST" }, new { @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="btn btn-dark cancel" style="margin-bottom: 0px" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Save</button>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
 <script>
-    function SuccessDelete(data) {
+    function onDeleteApartment(data) {
         if (data == 'Success') {
             if ($('#deletebtn').hasClass('activebuttonRed')) {
                 $('#deletebtn').removeClass('activebuttonRed');
-                $('#successNotifyText').text("Appartment undeleted successfully.");
+                $('#successNotify').html(getResultStatusHtml("success", "Appartment undeleted successfully."));
             } else {
                 $('#deletebtn').addClass('activebuttonRed');
-                $('#successNotifyText').text("Appartment deleted successfully.");
+                $('#successNotify').html(getResultStatusHtml("success", "Appartment deleted successfully."));
             }
-            $('#successNotify').show();
         }
     }
 
-    function SuccessLock(data) {
+    function onLockApartment(data) {
         if (data == 'Success') {
             if ($('#lockbtn').hasClass('activebuttonRed')) {
                 $('#lockbtn').removeClass('activebuttonRed');
-                $('#successNotifyText').text("Appartment unlocked successfully.");
+                $('#successNotify').html(getResultStatusHtml("success", "Appartment unlocked successfully."));
             } else {
                 $('#lockbtn').addClass('activebuttonRed');
-                $('#successNotifyText').text("Appartment locked successfully.");
+                $('#successNotify').html(getResultStatusHtml("success", "Appartment locked successfully."));
             }
-            $('#successNotify').show();
         }
+
+        $('#lockModel').modal('hide');
     }
 </script>

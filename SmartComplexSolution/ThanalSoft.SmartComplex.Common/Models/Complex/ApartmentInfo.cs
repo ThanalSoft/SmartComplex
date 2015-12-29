@@ -55,6 +55,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         public DateTime? LockedDate { get; set; }
 
         [DataMember]
+        [Display(Name = "Reason")]
         public string LockReason { get; set; }
 
         [DataMember]

@@ -37,7 +37,7 @@
                 <tbody>
                     @foreach (var apartment in Model.Apartments)
                     {
-                        <tr class="even pointer">
+                        <tr class="even pointer" style=@(apartment.IsDeleted || apartment.IsLocked ? "color:#fb6868" : "")>
                             <td>@apartment.Name</td>
                             <td>@apartment.CreatedDate.ToString("dd-MMM-yy")</td>
                             <td>@apartment.City</td>

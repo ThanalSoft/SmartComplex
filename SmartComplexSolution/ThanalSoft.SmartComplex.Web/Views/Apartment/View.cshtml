@@ -78,7 +78,7 @@
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title">Reason for locking this Appartment?</h4>
+                <h4 class="modal-title">Reason for locking this Apartment?</h4>
             </div>
             <div class="modal-body">
                 <div class="x_content form-horizontal form-label-left" style="float: none">
@@ -107,10 +107,10 @@
         if (data == 'Success') {
             if ($('#deletebtn').hasClass('activebuttonRed')) {
                 $('#deletebtn').removeClass('activebuttonRed');
-                $('#successNotify').html(getResultStatusHtml("success", "Appartment undeleted successfully."));
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment undeleted successfully."));
             } else {
                 $('#deletebtn').addClass('activebuttonRed');
-                $('#successNotify').html(getResultStatusHtml("success", "Appartment deleted successfully."));
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment deleted successfully."));
             }
         }
     }
@@ -119,10 +119,10 @@
         if (data == 'Success') {
             if ($('#lockbtn').hasClass('activebuttonRed')) {
                 $('#lockbtn').removeClass('activebuttonRed');
-                $('#successNotify').html(getResultStatusHtml("success", "Appartment unlocked successfully."));
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment unlocked successfully."));
             } else {
                 $('#lockbtn').addClass('activebuttonRed');
-                $('#successNotify').html(getResultStatusHtml("success", "Appartment locked successfully."));
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment locked successfully."));
             }
         }
 

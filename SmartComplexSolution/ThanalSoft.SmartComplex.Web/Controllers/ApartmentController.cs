@@ -132,9 +132,20 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<string> LockUnlock(int pId, string pReason)
+        public async Task<string> Lock(ApartmentViewModel pModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo {Id = pId, LockReason = pReason});
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo {Id = pModel.ApartmentInfo.Id, LockReason = pModel.ApartmentInfo.LockReason });
+            if (response.Result == ApiResponseResult.Success)
+                return ApiResponseResult.Success.ToString();
+
+            return ApiResponseResult.Error.ToString();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> Unlock(int pId)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo { Id = pId });
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 

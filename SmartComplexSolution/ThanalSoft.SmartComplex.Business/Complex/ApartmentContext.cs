@@ -118,8 +118,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
 
                 original.IsLocked = !original.IsLocked;
-                original.LockedDate = DateTime.Now;
-                original.LockReason = pApartmentInfo.LockReason;
+                original.LockedDate = !original.IsLocked ? (DateTime?) null : DateTime.Now;
+                original.LockReason = !original.IsLocked ? null : pApartmentInfo.LockReason;
                 original.LastUpdated = DateTime.Now;
                 original.LastUpdatedBy = pUserId;
                 await context.SaveChangesAsync();

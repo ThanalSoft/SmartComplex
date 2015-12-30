@@ -152,6 +152,11 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             return ApiResponseResult.Error.ToString();
         }
 
+        public ActionResult Flats(int pId)
+        {
+            return View();
+        }
+
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
             var response = await new ApiConnector<GeneralReturnInfo<StateInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);

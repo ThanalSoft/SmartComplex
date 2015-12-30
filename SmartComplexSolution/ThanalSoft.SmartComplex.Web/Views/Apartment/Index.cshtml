@@ -70,6 +70,20 @@
         });
     };
 
+    function loadFlat(apartmentId) {
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("Flats", "Apartment")',
+            type: "GET",
+            data: { pId: apartmentId },
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
+    };
+
     function closeApartment() {
         apartmentListView();
     };

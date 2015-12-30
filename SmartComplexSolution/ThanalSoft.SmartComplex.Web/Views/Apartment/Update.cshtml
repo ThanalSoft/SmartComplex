@@ -3,7 +3,7 @@
     Layout = "";
 }
 
-@using (Ajax.BeginForm("Update", "Apartment", FormMethod.Post, new AjaxOptions { UpdateTargetId = "container" }, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Update", "Apartment", FormMethod.Post, new AjaxOptions { UpdateTargetId = "container", OnBegin = "loadAnimator", OnComplete = "hideAnimator" }, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     if (Model.ActionResultStatus != null)

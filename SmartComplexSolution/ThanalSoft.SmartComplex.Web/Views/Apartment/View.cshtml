@@ -63,7 +63,7 @@
                 <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
                     <i class="fa fa-edit"></i> Edit
                 </a>
-                @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
                     <button id="deletebtn" type="submit" class="@(Model.ApartmentInfo.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
@@ -74,7 +74,7 @@
                 }
                 @if (Model.ApartmentInfo.IsLocked)
                 {
-                    using (Ajax.BeginForm("Unlock", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onLockApartment", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                    using (Ajax.BeginForm("Unlock", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onLockApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <button id="lockbtn" type="submit" class="@(Model.ApartmentInfo.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-lock"></i> Lock</button>
@@ -88,7 +88,7 @@
 <div class="modal fade lockModel" id="lockModel" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            @using (Ajax.BeginForm("Lock", "Apartment", new AjaxOptions { OnSuccess = "onLockApartment", HttpMethod = "POST" }, new { @role = "form" }))
+            @using (Ajax.BeginForm("Lock", "Apartment", new AjaxOptions { OnSuccess = "onLockApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(m => m.ApartmentInfo.Id)

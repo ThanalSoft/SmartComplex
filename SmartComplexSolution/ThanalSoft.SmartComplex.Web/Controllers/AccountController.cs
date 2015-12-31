@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models;
+using ThanalSoft.SmartComplex.Web.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {

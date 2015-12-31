@@ -176,6 +176,7 @@
     <Compile Include="Attributes\WebAuthorizeAttribute.cs" />
     <Compile Include="Common\ApiConnector.cs" />
     <Compile Include="Common\Extensions\DateExt.cs" />
+    <Compile Include="Common\File\ExcelParsing.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseSecuredController.cs" />
@@ -184,11 +185,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ActionResultStatusViewModel.cs" />
-    <Compile Include="Models\ApartmentListViewModel.cs" />
-    <Compile Include="Models\ApartmentViewModel.cs" />
+    <Compile Include="Models\Common\ActionResultStatusViewModel.cs" />
+    <Compile Include="Models\Apartment\ApartmentListViewModel.cs" />
+    <Compile Include="Models\Apartment\ApartmentViewModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
-    <Compile Include="Models\UserLoginModel.cs" />
+    <Compile Include="Models\Account\UserLoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

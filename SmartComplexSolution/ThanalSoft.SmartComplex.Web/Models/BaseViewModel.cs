@@ -1,4 +1,6 @@
-﻿namespace ThanalSoft.SmartComplex.Web.Models
+﻿using ThanalSoft.SmartComplex.Web.Models.Common;
+
+namespace ThanalSoft.SmartComplex.Web.Models
 {
     public class BaseViewModel
     {

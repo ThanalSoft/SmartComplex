@@ -8,6 +8,8 @@ using ThanalSoft.SmartComplex.Common.Models.Common;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models;
+using ThanalSoft.SmartComplex.Web.Models.Apartment;
+using ThanalSoft.SmartComplex.Web.Models.Common;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {

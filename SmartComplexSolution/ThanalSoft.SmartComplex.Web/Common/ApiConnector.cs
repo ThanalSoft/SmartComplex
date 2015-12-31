@@ -18,7 +18,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["API_URL"]);
+                client.BaseAddress = new Uri(ApiBaseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response;
@@ -66,7 +66,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pLoggedInUser.UserIdentity);
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["API_URL"]);
+                client.BaseAddress = new Uri(ApiBaseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

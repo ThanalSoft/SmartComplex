@@ -21,10 +21,24 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
 
         [DataMember]
         [Required]
+        [StringLength(250)]
+        public string FirstName { get; set; }
+
+        [DataMember]
+        [StringLength(250)]
+        public string LastName { get; set; }
+
+        [DataMember]
+        [StringLength(250)]
+        [Required]
+        public string Mobile { get; set; }
+
+        [DataMember]
+        [Required]
         public bool IsOwner { get; set; }
 
         [DataMember]
-        public int BloodGroupId { get; set; }
+        public int? BloodGroupId { get; set; }
 
         [DataMember]
         [Required]

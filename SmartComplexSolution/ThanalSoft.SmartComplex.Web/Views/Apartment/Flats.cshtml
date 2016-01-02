@@ -1,30 +1,16 @@
-﻿@{
+﻿@model ThanalSoft.SmartComplex.Web.Models.Apartment.FlatManagementViewModel
+@{
     Layout = "";
 }
-<div class="x_panel">
-    <div class="x_title">
-        <h2>
-            <i class="fa fa-home"></i> Flat Management
-        </h2>
-        <div class="clearfix"></div>
-    </div>
-    <div class="x_content form-horizontal form-label-left">
-        <div class="form-group">
-            <label class="col-sm-3 control-label">Select Excel File</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <input type="file" style="margin-top: 5px;">
-                </div>
-            </div>
-        </div>
-        <div class="divider-dashed"></div>
-        <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                <button type="button" class="btn btn-dark cancel" onclick="viewApartment()">Cancel</button>
-                <button type="submit" class="btn btn-success">Upload</button>
-            </div>
-        </div>
-        <div class="form-group">
-        </div>
-    </div>
+
+<div class="col-md-12 col-sm-12 col-xs-12" id="container">
+
+    @if (Model.ActionResultStatus != null)
+    {
+        Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
+    }
+
+    @Html.HiddenFor(m => m.ApartmentId)
+
+    @Html.Partial("_FlatList", Model)
 </div>

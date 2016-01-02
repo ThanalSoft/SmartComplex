@@ -7,13 +7,13 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialCreation : IMigrationMetadata
+    public sealed partial class Creation : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Creation));
         
         string IMigrationMetadata.Id
         {
-            get { return "201512260941387_InitialCreation"; }
+            get { return "201601020929005_Creation"; }
         }
         
         string IMigrationMetadata.Source

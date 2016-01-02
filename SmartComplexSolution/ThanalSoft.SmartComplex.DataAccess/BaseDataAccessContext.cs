@@ -31,8 +31,6 @@ namespace ThanalSoft.SmartComplex.DataAccess
 
         public virtual DbSet<ApartmentAmenity> ApartmentAmenities { get; set; }
         
-        public virtual DbSet<FlatBlock> FlatBlocks { get; set; }
-
         public virtual DbSet<Flat> Flats { get; set; }
 
         public virtual DbSet<FlatUser> FlatUsers { get; set; }

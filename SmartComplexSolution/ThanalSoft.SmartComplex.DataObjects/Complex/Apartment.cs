@@ -59,7 +59,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         
         public virtual ICollection<ApartmentAmenity> ApartmentAmenities { get; set; }
 
-        public virtual ICollection<FlatBlock> FlatBlocks { get; set; }
+        public virtual ICollection<Flat> Flats { get; set; }
 
         public virtual ICollection<Association> Associations { get; set; }
 

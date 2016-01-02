@@ -9,26 +9,35 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
     [Table("tblFlat")]
     public class Flat : BaseModel
     {
+        [Required]
+        [DataMember]
+        public int ApartmentId { get; set; }
+
         [DataMember]
         [Required]
-        [StringLength(100)]
+        [StringLength(50)]
         public string Name { get; set; }
 
         [DataMember]
         [Required]
         public int Floor { get; set; }
 
+        [Required]
+        [StringLength(10)]
+        public string Block { get; set; }
+
         [DataMember]
-        public int FlatBlockId { get; set; }
-        
+        [StringLength(10)]
+        public string Phase { get; set; }
+
         [DataMember]
         public int ExtensionNumber { get; set; }
 
         [DataMember]
         public int SquareFeet { get; set; }
 
-        [ForeignKey("FlatBlockId")]
-        public virtual FlatBlock FlatBlock { get; set; }
+        [ForeignKey("ApartmentId")]
+        public Apartment Apartment { get; set; }
 
         public virtual ICollection<FlatUser> FlatUsers { get; set; }
 

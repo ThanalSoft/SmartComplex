@@ -16,11 +16,11 @@
     </div>
     <div class="x_content">
         @if (Model.Apartments != null && Model.Apartments.Length < 1)
-            {
-                Html.RenderPartial("Partials/_NoResultFound");
-            }
-            else
-            {
+        {
+            Html.RenderPartial("Partials/_NoResultFound");
+        }
+        else
+        {
             <table class="table table-striped responsive-utilities jambo_table bulk_action">
                 <thead>
                     <tr class="headings">

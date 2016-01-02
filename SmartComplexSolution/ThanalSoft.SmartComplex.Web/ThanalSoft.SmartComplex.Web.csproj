@@ -185,6 +185,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Apartment\FlatManagementViewModel.cs" />
     <Compile Include="Models\Common\ActionResultStatusViewModel.cs" />
     <Compile Include="Models\Apartment\ApartmentListViewModel.cs" />
     <Compile Include="Models\Apartment\ApartmentViewModel.cs" />
@@ -209,6 +210,8 @@
     <Content Include="Views\Apartment\View.cshtml" />
     <Content Include="Views\Apartment\_IndexList.cshtml" />
     <Content Include="Views\Apartment\Flats.cshtml" />
+    <Content Include="Views\Apartment\_UploadFlats.cshtml" />
+    <Content Include="Views\Apartment\_FlatList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

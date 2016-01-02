@@ -68,7 +68,6 @@
     <Compile Include="Complex\AssociationMember.cs" />
     <Compile Include="Complex\AssociationMemberRank.cs" />
     <Compile Include="Complex\Flat.cs" />
-    <Compile Include="Complex\FlatBlock.cs" />
     <Compile Include="Complex\FlatUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Role.cs" />

@@ -60,6 +60,8 @@
     <Compile Include="Models\Account\LoginResultInfo.cs" />
     <Compile Include="Models\Account\LoginUserInfo.cs" />
     <Compile Include="Models\Common\StateInfo.cs" />
+    <Compile Include="Models\Complex\ApartmentFlatInfo.cs" />
+    <Compile Include="Models\Complex\ApartmentFlatUserInfo.cs" />
     <Compile Include="Models\Complex\ApartmentInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

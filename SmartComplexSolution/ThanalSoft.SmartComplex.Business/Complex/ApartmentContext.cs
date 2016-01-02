@@ -20,7 +20,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var data = await context.Apartments.OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
-                return data.Select(pX => MapToApartmentInfo(pX, context.States.Find(pX.StateId))).ToArray();
+                return data.Select(pX => MapToApartmentInfo(pX, context.States.Find(pX.StateId), false)).ToArray();
             }
         }
 
@@ -29,7 +29,10 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var data = await context.Apartments.FirstAsync(pX => pX.Id.Equals(pApartmentId));
-                return MapToApartmentInfo(data, context.States.Find(data.StateId));
+                var hasFlatsLoaded = await context.Flats.AnyAsync(pX => pX.ApartmentId.Equals(pApartmentId));
+                var state = data.State;
+
+                return MapToApartmentInfo(data, state, hasFlatsLoaded);
             }
         }
 
@@ -146,8 +149,10 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var flats = pApartmentFlatInfo.Select(pX => AddFlat(pX, pUserId)).ToArray();
+                context.Configuration.AutoDetectChangesEnabled = false;
+                context.Configuration.ValidateOnSaveEnabled = false;
                 context.Flats.AddRange(flats);
-
+               
                 await context.SaveChangesAsync();
             }
         }
@@ -182,7 +187,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return info;
         }
 
-        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment, State pState)
+        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment, State pState, bool pHasFlatsLoaded)
         {
             return new ApartmentInfo
             {
@@ -198,7 +203,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PinCode = pApartment.PinCode,
                 StateId = pApartment.StateId,
                 CreatedDate = pApartment.CreatedDate,
-                State = pState.Name
+                State = pState.Name,
+                HasFlats = pHasFlatsLoaded
             };
         }
 

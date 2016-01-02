@@ -57,9 +57,17 @@
                 <a class="btn btn-app pull-left" onclick='closeApartment()'>
                     <i class="fa fa-close"></i> Cancel
                 </a>
-                <a class="btn btn-app pull-left" onclick='loadFlat(@Model.ApartmentInfo.Id)'>
-                    <i class="fa fa-home"></i>Flats
-                </a>
+                @if (Model.ApartmentInfo.HasFlats)
+                {
+                    <a class="btn btn-app pull-left" onclick='loadFlat(@Model.ApartmentInfo.Id)'>
+                        <i class="fa fa-home"></i>Flats
+                    </a>
+                }
+                else {
+                    <a class="btn btn-app pull-left" onclick='uploadFlats(@Model.ApartmentInfo.Id)'>
+                        <i class="fa fa-home"></i>Upload Flats
+                    </a>
+                }
                 <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
                     <i class="fa fa-edit"></i> Edit
                 </a>

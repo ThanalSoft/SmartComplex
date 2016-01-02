@@ -68,15 +68,16 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Flats(int pId)
+        public PartialViewResult UploadFlats(int pId)
+        {
+            return PartialView("_UploadFlats", new FlatManagementViewModel { ApartmentId = pId });
+        }
+
+        [HttpGet]
+        public async Task<PartialViewResult> ApartmentFlats(int pId)
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecureGetAsync("Apartment", "GetApartmentFlats", LoggedInUser, pId.ToString());
-            if (response.Info == null || !response.Info.Any())
-            {
-                return PartialView("_UploadFlats", new FlatManagementViewModel { ApartmentId = pId });
-            }
-
-            return View(new FlatManagementViewModel { ApartmentId = pId, ApartmentFlatInfoList = response.Info });
+            return PartialView("_FlatList", new FlatManagementViewModel { ApartmentId = pId, ApartmentFlatInfoList = response.Info });
         }
 
         [HttpPost]
@@ -226,7 +227,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
                         var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
                         pModel.ActionResultStatus = response.Result == ApiResponseResult.Success
-                            ? new ActionResultStatusViewModel("File uploaded successfully. Flats are added to the Apartment.", ActionStatus.Success)
+                            ? await GetSuccessModel(pModel)
                             : new ActionResultStatusViewModel("File upload error! Reason: " + response.Reason, ActionStatus.Success);
                     }
                     else
@@ -237,6 +238,13 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 }
             }
             return View("Flats", pModel);
+        }
+
+        private async Task<ActionResultStatusViewModel> GetSuccessModel(FlatManagementViewModel pModel)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecureGetAsync("Apartment", "GetApartmentFlats", LoggedInUser, pModel.ApartmentId.ToString());
+            pModel.ApartmentFlatInfoList = response.Info;
+            return new ActionResultStatusViewModel("File uploaded successfully. Flats are added to the Apartment.", ActionStatus.Success);
         }
 
         private async Task<List<SelectListItem>> GetStatesAsync()

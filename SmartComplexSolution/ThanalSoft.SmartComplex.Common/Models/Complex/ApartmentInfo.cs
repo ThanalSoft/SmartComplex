@@ -60,5 +60,8 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 
         [DataMember]
         public bool IsDeleted { get; set; }
+
+        [DataMember]
+        public bool HasFlats { get; set; }
     }
 }

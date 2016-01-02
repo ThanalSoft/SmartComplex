@@ -73,7 +73,21 @@
     function loadFlat(apartmentId) {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("Flats", "Apartment")',
+            url: '@Url.Action("ApartmentFlats", "Apartment")',
+            type: "GET",
+            data: { pId: apartmentId },
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
+    };
+
+    function uploadFlats(apartmentId) {
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("UploadFlats", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
             success: fillContainerData,

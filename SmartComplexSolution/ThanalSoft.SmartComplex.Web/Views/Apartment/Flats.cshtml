@@ -1,10 +1,9 @@
 ﻿@model ThanalSoft.SmartComplex.Web.Models.Apartment.FlatManagementViewModel
 @{
-    Layout = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-md-12 col-sm-12 col-xs-12" id="container">
-
     @if (Model.ActionResultStatus != null)
     {
         Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
@@ -13,4 +12,5 @@
     @Html.HiddenFor(m => m.ApartmentId)
 
     @Html.Partial("_FlatList", Model)
+
 </div>

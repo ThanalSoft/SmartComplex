@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using ThanalSoft.SmartComplex.Api.Services;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.DataObjects.Security;
 
@@ -12,8 +13,8 @@ namespace ThanalSoft.SmartComplex.Api.Security
     {
         public Task SendAsync(IdentityMessage pMessage)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            return new SentEmailUtil().SendEmailAsync(pMessage.Destination, pMessage.Subject, pMessage.Body);
+            //return Task.FromResult(0);
         }
     }
 

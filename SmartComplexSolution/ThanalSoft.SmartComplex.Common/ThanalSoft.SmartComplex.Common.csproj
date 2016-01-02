@@ -64,6 +64,7 @@
     <Compile Include="Models\Complex\ApartmentFlatUserInfo.cs" />
     <Compile Include="Models\Complex\ApartmentInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="String\KeyGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -173,10 +173,8 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Attributes\WebAuthorizeAttribute.cs" />
     <Compile Include="Common\ApiConnector.cs" />
     <Compile Include="Common\Extensions\DateExt.cs" />
-    <Compile Include="Common\File\ExcelParsing.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\BaseSecuredController.cs" />
@@ -221,7 +219,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Common\UI\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThanalSoft.SmartComplex.Common\ThanalSoft.SmartComplex.Common.csproj">

@@ -61,6 +61,10 @@
     <Compile Include="Migrations\201601020929005_Creation.Designer.cs">
       <DependentUpon>201601020929005_Creation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601021749536_ActivationCodeLength.cs" />
+    <Compile Include="Migrations\201601021749536_ActivationCodeLength.Designer.cs">
+      <DependentUpon>201601021749536_ActivationCodeLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartComplexDataObjectContext.cs" />
@@ -79,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601020929005_Creation.resx">
       <DependentUpon>201601020929005_Creation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601021749536_ActivationCodeLength.resx">
+      <DependentUpon>201601021749536_ActivationCodeLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

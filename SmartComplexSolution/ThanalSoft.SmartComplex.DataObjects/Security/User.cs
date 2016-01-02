@@ -15,7 +15,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
     public class User : IdentityUser<Int64, UserLogin, UserRole, UserClaim>
     {
         [DataMember]
-        [StringLength(10)]
+        [StringLength(100)]
         public string ActivationCode { get; set; }
 
         [Required]

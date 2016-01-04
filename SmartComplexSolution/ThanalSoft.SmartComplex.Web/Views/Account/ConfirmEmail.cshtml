@@ -1,0 +1,50 @@
+﻿@model ThanalSoft.SmartComplex.Web.Models.Account.ErrorConfirmModel
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Smart Complex</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-12">
+                <div class="col-middle">
+                    <div class="text-center">
+                        @if (!string.IsNullOrEmpty(Model?.Error))
+                        {
+                            <h1 class="error-number">Error!</h1>
+                            <p style="color: white; font-size: 130%">
+                                There is an error while validating your email.
+                            </p>
+                            <p style="color: white; font-size: 120%">Details : @Model.Error</p>
+                        }
+                        else
+                        {
+                            <h1 class="error-number">Success!</h1>
+                            <h2>Your Email is successfully validated.</h2>
+                            <p style="color: white; font-size: 130%">
+                                Click <a href=@Url.Action("Index", "Account") style="text-decoration: underline;">here</a> to go login to your account using the credentials which is sent to you already.
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="custom_notifications" class="custom-notifications dsp_none">
+        <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+        <div class="clearfix"></div>
+        <div id="notif-group" class="tabbed_notifications"></div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

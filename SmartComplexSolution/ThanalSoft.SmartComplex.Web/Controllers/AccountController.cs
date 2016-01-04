@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models;
@@ -31,7 +32,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             {
                 return View(pModel);
             }
-            var loginResponse = await new ApiConnector<LoginResultInfo>().PostAsync("Account", "SecureLogin", 
+            var loginResponse = await new ApiConnector<LoginResultInfo>().PostAsync("Account", "SecureLogin",
                                     new LoginRequestInfo(pModel.Email, pModel.Password));
 
             switch (loginResponse.LoginStatus)
@@ -67,6 +68,15 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> ConfirmEmail(string id, string token)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo>().PostAsync("Account", "ConfirmUser", new ConfirmEmailAccount { Id = id, Token = token });
+            if(response.Result == ApiResponseResult.Success)
+                return View();
+
+            return View(new ErrorConfirmModel(response.Reason));
         }
     }
 }

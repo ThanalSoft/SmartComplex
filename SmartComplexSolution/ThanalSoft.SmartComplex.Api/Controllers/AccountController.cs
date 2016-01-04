@@ -77,10 +77,17 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     return result;
                 }
                 
-                if (!user.ActivationCode.Equals(pConfirmEmailAccount.Token))
+                if (!string.IsNullOrEmpty(user.ActivationCode) && !user.ActivationCode.Equals(pConfirmEmailAccount.Token))
                 {
                     result.Result = ApiResponseResult.Error;
                     result.Reason = "Invalid token provided!";
+                    return result;
+                }
+
+                if (user.EmailConfirmed)
+                {
+                    result.Result = ApiResponseResult.Error;
+                    result.Reason = "Your email is already validated successfully. Try to login with the credentials provided or contact Administrator.";
                     return result;
                 }
 

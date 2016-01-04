@@ -196,13 +196,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         private void SendEmail(string pEmail, string pPassword, string pActivationCode)
         {
             var user = UserManager.FindByEmail(pEmail);
-            var url = $"{ConfigurationManager.AppSettings["WEB_URL"]}/{"Account"}/{"Confirm"}/{user.Id}/?token={pActivationCode}";
+            var url = $"{ConfigurationManager.AppSettings["WEB_URL"]}/{"Account"}/{"ConfirmEmail"}/{user.Id}/?token={pActivationCode}";
             UserManager.SendEmail(user.Id, "Welcome to Smart Complex!", GetBody(url, pEmail, pPassword));
         }
         
         private string GetBody(string pUrl, string pEmail, string pPassword)
         {
-            string content = $"Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <a href='{pUrl}'>here</a> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div>";
+            string content = $"Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <b><a href='{pUrl}'>here</a></b> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div>";
             return content;
         }
     }

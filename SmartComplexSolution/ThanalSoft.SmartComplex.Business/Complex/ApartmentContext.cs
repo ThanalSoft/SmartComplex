@@ -190,7 +190,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     }
                     context.Flats.Add(flat);
                     await context.SaveChangesAsync();
-
+                    
                     pSendEmail(apartmentFlatInfo.ApartmentFlatUsers.First().Email, password, activationCode);
                 }
             }

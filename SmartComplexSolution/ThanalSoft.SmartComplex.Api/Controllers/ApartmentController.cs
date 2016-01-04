@@ -202,7 +202,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         
         private string GetBody(string pUrl, string pEmail, string pPassword)
         {
-            string content = $"Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <b><a href='{pUrl}'>here</a></b> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div>";
+            string content = $"<div style='color:#666 !important;'>Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <strong style='font-size:125%;color:#49A6FD !important;'><a href='{ pUrl}'>here</a></strong> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div style='color:#000 !important;'><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div></div>";
             return content;
         }
     }

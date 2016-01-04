@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
@@ -90,12 +91,14 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     result.Reason = "Your email is already validated successfully. Try to login with the credentials provided or contact Administrator.";
                     return result;
                 }
-
+                
                 user.ActivationCode = null;
                 user.ActivatedDate = DateTime.Now;
                 user.IsActivated = true;
                 user.EmailConfirmed = true;
+
                 await UserManager.UpdateAsync(user);
+                await UserManager.UpdateSecurityStampAsync(user.Id);
             }
             catch (Exception ex)
             {

@@ -70,6 +70,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string id, string token)
         {
             var response = await new ApiConnector<GeneralReturnInfo>().PostAsync("Account", "ConfirmUser", new ConfirmEmailAccount { Id = id, Token = token });

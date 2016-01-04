@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\ItemAlreadyExistsException.cs" />
     <Compile Include="GeneralReturnInfo.cs" />
+    <Compile Include="Models\Account\ConfirmEmailAccount.cs" />
     <Compile Include="Models\Account\LoginRequestInfo.cs" />
     <Compile Include="Models\Account\LoginResultInfo.cs" />
     <Compile Include="Models\Account\LoginUserInfo.cs" />

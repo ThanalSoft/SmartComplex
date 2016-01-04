@@ -53,7 +53,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
         {
             // Note the authenticationType must match the one defined in
             // CookieAuthenticationOptions.AuthenticationType 
-            var userIdentity = await pUserManager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ExternalBearer);
+            var userIdentity = await pUserManager.CreateIdentityAsync(this, pAuthenticationType);
             // Add custom user claims here 
             return userIdentity;
         }

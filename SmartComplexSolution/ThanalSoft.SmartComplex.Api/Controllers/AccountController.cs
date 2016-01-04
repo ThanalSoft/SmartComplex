@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity.Owin;
+using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -14,40 +14,88 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         [ValidateAntiForgeryToken]
         public async Task<LoginResultInfo> SecureLogin(LoginRequestInfo pLogin)
         {
-            var result = await SignInManager.PasswordSignInAsync(pLogin.Email, pLogin.Password, true, true);
-            switch (result)
+            var user = await UserManager.FindByEmailAsync(pLogin.Email);
+            if(user == null)
+                return new LoginResultInfo
+                {
+                    LoginStatus = LoginStatus.Failure
+                };
+            if (!(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                return new LoginResultInfo
+                {
+                    LoginStatus = LoginStatus.RequiresVerification
+                };
+            if (await UserManager.IsLockedOutAsync(user.Id))
             {
-                case SignInStatus.Success:
-                    var user = await UserManager.FindByEmailAsync(pLogin.Email);
-                    var userInfo = new LoginUserInfo
-                    {
-                        Email = pLogin.Email,
-                        UserName = user.UserName,
-                        UserId = user.Id
-                    };
-                    return new LoginResultInfo
-                    {
-                        LoginStatus = LoginStatus.Success,
-                        LoginUserInfo = userInfo
-                    };
-                case SignInStatus.LockedOut:
-                    return new LoginResultInfo
-                    {
-                        LoginStatus = LoginStatus.LockedOut
-                    };
-                case SignInStatus.RequiresVerification:
-                    return new LoginResultInfo
-                    {
-                        LoginStatus = LoginStatus.RequiresVerification
-                    };
-                case SignInStatus.Failure:
-                    return new LoginResultInfo
-                    {
-                        LoginStatus = LoginStatus.Failure
-                    };
-                default:
-                    throw new ArgumentOutOfRangeException();
+                return new LoginResultInfo
+                {
+                    LoginStatus = LoginStatus.LockedOut
+                };
             }
+            await SignInManager.PasswordSignInAsync(pLogin.Email, pLogin.Password, true, true);
+
+            var userInfo = new LoginUserInfo
+            {
+                Email = pLogin.Email,
+                UserName = user.UserName,
+                UserId = user.Id
+            };
+            return new LoginResultInfo
+            {
+                LoginStatus = LoginStatus.Success,
+                LoginUserInfo = userInfo
+            };
+        }
+
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.AllowAnonymous]
+        public async Task<GeneralReturnInfo> ConfirmUser(ConfirmEmailAccount pConfirmEmailAccount)
+        {
+            var result = new GeneralReturnInfo();
+
+            if (string.IsNullOrEmpty(pConfirmEmailAccount.Id))
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = "User Empty!";
+
+                return result;
+            }
+            if (string.IsNullOrEmpty(pConfirmEmailAccount.Token))
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = "Token Empty!";
+                return result;
+            }
+
+            try
+            {
+                var user = await UserManager.FindByIdAsync(Convert.ToInt64(pConfirmEmailAccount.Id));
+                if (user == null)
+                {
+                    result.Result = ApiResponseResult.Error;
+                    result.Reason = "User not found!";
+                    return result;
+                }
+                
+                if (!user.ActivationCode.Equals(pConfirmEmailAccount.Token))
+                {
+                    result.Result = ApiResponseResult.Error;
+                    result.Reason = "Invalid token provided!";
+                    return result;
+                }
+
+                user.ActivationCode = null;
+                user.ActivatedDate = DateTime.Now;
+                user.IsActivated = true;
+                user.EmailConfirmed = true;
+                await UserManager.UpdateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
         }
 
         [System.Web.Http.HttpGet]

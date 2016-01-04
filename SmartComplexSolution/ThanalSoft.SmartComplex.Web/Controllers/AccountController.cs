@@ -40,14 +40,17 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     var token = await new ApiConnector<string>().GetApiToken(pModel.Email, pModel.Password);
                     LoggedInUser = loginResponse.LoginUserInfo;
                     LoggedInUser.UserIdentity = token;
+
                     if (string.IsNullOrEmpty(returnUrl))
                         return RedirectToAction("Index", "Home");
 
                     return RedirectToLocal(returnUrl);
                 case LoginStatus.LockedOut:
-                    break;
+                    ViewBag.ModelError = "Your account is locked. Try after sometime.";
+                    return View(pModel);
                 case LoginStatus.RequiresVerification:
-                    break;
+                    ViewBag.ModelError = "Your email is not yet confirmed, login to your email and check the Welcome mail.";
+                    return View(pModel);
                 case LoginStatus.Failure:
                     ViewBag.ModelError = "Invalid credentials. Try again.";
                     return View(pModel);
@@ -55,7 +58,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     ViewBag.ModelError = "Invalid credentials. Try again.";
                     return View(pModel);
             }
-            return View();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ThanalSoft.SmartComplex.Api.Services
 {
-    public class SentEmailUtil
+    public class SentEmailAdminService
     {
         public async Task SendEmailAsync(string pToEmail, string pSubject, string pBody, bool pIsHtmlBody = true)
         {
@@ -15,10 +15,10 @@ namespace ThanalSoft.SmartComplex.Api.Services
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("harisuru@gmail.com", "H@r1@remu")
+                Credentials = new NetworkCredential("noreplysmartcomplex@gmail.com", "smartcomplex123")
             };
 
-            using (var message = new MailMessage("noreply@sc.com", pToEmail))
+            using (var message = new MailMessage("noreplysmartcomplex@gmail.com", pToEmail))
             {
                 message.Subject = pSubject;
                 message.Body = pBody;

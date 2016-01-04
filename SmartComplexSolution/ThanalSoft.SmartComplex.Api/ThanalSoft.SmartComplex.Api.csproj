@@ -188,7 +188,6 @@
     <Compile Include="Security\SecureSignInManager.cs" />
     <Compile Include="Security\SecureUserManager.cs" />
     <Compile Include="Security\SecureUserStore.cs" />
-    <Compile Include="Services\SentEmailAdminService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -13,8 +13,7 @@ namespace ThanalSoft.SmartComplex.Api.Security
     {
         public Task SendAsync(IdentityMessage pMessage)
         {
-            return new SentEmailAdminService().SendEmailAsync(pMessage.Destination, pMessage.Subject, pMessage.Body);
-            //return Task.FromResult(0);
+            return new SentMailService().SendEmailAsync(pMessage.Destination, pMessage.Subject, pMessage.Body);
         }
     }
 

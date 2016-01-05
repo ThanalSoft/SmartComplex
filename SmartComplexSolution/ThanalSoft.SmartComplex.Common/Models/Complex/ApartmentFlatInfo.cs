@@ -6,7 +6,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
     [DataContract]
     public class ApartmentFlatInfo
     {
-        [TableColumn("Id", true, true)]
+        [TableColumn("Id", IDColumn = true, HiddenColumn = true)]
         [DataMember]
         public int Id { get; set; }
 

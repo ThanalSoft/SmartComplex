@@ -8,22 +8,17 @@ namespace ThanalSoft.SmartComplex.Common.Attributes
         public TableColumnAttribute(string pColumnHeader)
         {
             ColumnHeader = pColumnHeader;
-            IdColumn = false;
+            IDColumn = false;
             HiddenColumn = false;
-        }
-
-        public TableColumnAttribute(string pColumnHeader, bool pIdColumn, bool pHiddenColumn)
-        {
-            ColumnHeader = pColumnHeader;
-            IdColumn = pIdColumn;
-            HiddenColumn = pHiddenColumn;
         }
 
         public string ColumnHeader { get; set; }
 
-        public bool IdColumn { get; set; }
+        public bool IDColumn { get; set; }
 
         public bool HiddenColumn { get; set; }
+
+        public string EmptyValue { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
     public class ApartmentInfo
     {
         [DataMember]
-        [TableColumn("Id", true, true)]
+        [TableColumn("Id", HiddenColumn = true, IDColumn = true)]
         public int Id { get; set; }
 
         [DataMember]
@@ -50,7 +50,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 
         [DataMember]
         [Display(Name = "Phone")]
-        [TableColumn("Phone")]
+        [TableColumn("Phone", EmptyValue = "Not Provided")]
         public string Phone { get; set; }
 
         [DataMember]

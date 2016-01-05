@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -38,16 +37,19 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
 
             Type modelType = pTableValues.First().GetType();
             var modelProperties = modelType.GetProperties();
-            var tableModel = modelType.CustomAttributes.Where(i => i.AttributeType == typeof(TableAttribute)).ToList();
+            var tableModel = modelType.CustomAttributes.Where(pI => pI.AttributeType == typeof(TableAttribute)).ToList();
             var table = tableModel[0];
 
             foreach (var modelProperty in modelProperties)
             {
-                var attrHeader = modelProperty.CustomAttributes.Where(i => i.AttributeType == typeof(TableColumnAttribute)).ToList();
-                if (attrHeader.Count > 0)
+                var attrHeader = modelProperty.CustomAttributes.Where(pI => pI.AttributeType == typeof(TableColumnAttribute)).ToList();
+                if (attrHeader.Any())
                 {
-                    var column = attrHeader[0];
-                    if (column.ConstructorArguments.Count == 1 || Convert.ToBoolean(column.ConstructorArguments[2].Value) == false)
+                    var column = attrHeader.First();
+                    var isHidden = column.NamedArguments != null 
+                                            && (column.NamedArguments.Any(pX => pX.MemberName.Equals("HiddenColumn")) 
+                                            && Convert.ToBoolean(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("HiddenColumn")).TypedValue.Value));
+                    if (!isHidden)
                     {
                         var headerThTag = new TagBuilder("th");
                         headerThTag.AddCssClass("column-title");
@@ -68,30 +70,42 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
 
                 foreach (var modelProperty in modelProperties)
                 {
-                    var attrHeader = modelProperty.CustomAttributes.Where(i => i.AttributeType == typeof(TableColumnAttribute)).ToList();
-                    if (attrHeader.Count > 0)
+                    var attrHeader = modelProperty.CustomAttributes.Where(pI => pI.AttributeType == typeof(TableColumnAttribute)).ToList();
+                    if (attrHeader.Any())
                     {
-                        var column = attrHeader[0];
-                        if (column.ConstructorArguments.Count >= 1 || Convert.ToBoolean(column.ConstructorArguments[2].Value) == false)
+                        var column = attrHeader.First();
+                        var isHidden = column.NamedArguments != null
+                                            && (column.NamedArguments.Any(pX => pX.MemberName.Equals("HiddenColumn"))
+                                            && Convert.ToBoolean(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("HiddenColumn")).TypedValue.Value));
+
+                        var isIdCol = column.NamedArguments != null
+                                            && (column.NamedArguments.Any(pX => pX.MemberName.Equals("IDColumn"))
+                                            && Convert.ToBoolean(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("IDColumn")).TypedValue.Value));
+
+                        if (isHidden)
+                        {
+                            if(isIdCol)
+                                bodyTrTag.MergeAttribute("id", Convert.ToString(modelProperty.GetValue(tableValue)));
+                        }
+
+                        if (!isHidden)
                         {
                             var bodyTdTag = new TagBuilder("td");
-                            if (column.ConstructorArguments.Count > 1)
+                            var value = Convert.ToString(modelProperty.GetValue(tableValue));
+                            if (string.IsNullOrEmpty(value))
                             {
-                                if (column.ConstructorArguments.Count > 1)
-                                {
-                                    if (Convert.ToBoolean(column.ConstructorArguments[1].Value))
-                                        bodyTrTag.MergeAttribute("id", Convert.ToString(modelProperty.GetValue(tableValue)));
-                                }
+                                var emptyValue = column.NamedArguments != null && column.NamedArguments.Any(pX => pX.MemberName.Equals("EmptyValue"))
+                                            ? Convert.ToString(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("EmptyValue")).TypedValue.Value)
+                                            : String.Empty;
+
+                                if (!string.IsNullOrEmpty(emptyValue))
+                                    value = emptyValue;
                             }
-                            else
-                            {
-                                bodyTdTag.SetInnerText(Convert.ToString(modelProperty.GetValue(tableValue)));
-                                if (Convert.ToBoolean(table.ConstructorArguments[0].Value))
-                                {
-                                    bodyTdTag.AddCssClass("clickable");
-                                }
-                                bodyTrTag.InnerHtml += bodyTdTag.ToString();
-                            }
+
+                            bodyTdTag.SetInnerText(value);
+                            if (Convert.ToBoolean(table.ConstructorArguments[0].Value))
+                                bodyTdTag.AddCssClass("clickable");
+                            bodyTrTag.InnerHtml += bodyTdTag.ToString();
                         }
                     }
                 }

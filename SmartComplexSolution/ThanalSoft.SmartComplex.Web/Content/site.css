@@ -1096,7 +1096,7 @@ h2 {
 }
 
 .x_title {
-    border-bottom: 2px solid #E6E9ED;
+    border-bottom: 2px solid #F7F7F7;
     padding: 1px 5px 6px;
     margin-bottom: 10px;
 }
@@ -1405,6 +1405,7 @@ table.jambo_table {
         background: rgba(38, 185, 154, 0.07);
         border-top: 1px solid rgba(38, 185, 154, 0.11);
         border-bottom: 1px solid rgba(38, 185, 154, 0.11);
+        color: #000;
     }
 
     table.jambo_table tbody tr.selected {
@@ -3008,11 +3009,11 @@ select.parsley-error {
         border-color: #006d9f;
     }
 
-    .activebuttonRed {
-        background: #fe8686 !important;
-        color: #ffffff !important;
-        border-color: #c20505 !important;
-    }
+.activebuttonRed {
+    background: #fe8686 !important;
+    color: #ffffff !important;
+    border-color: #c20505 !important;
+}
 
     .activebuttonRed:hover {
         background: #fa6666 !important;
@@ -3020,20 +3021,20 @@ select.parsley-error {
         border-color: #830505 !important;
     }
 
-    .btn.btn-app:active,
-    .btn.btn-app:focus {
-        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-        -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    }
+.btn.btn-app:active,
+.btn.btn-app:focus {
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
 
-    .btn.btn-app > .badge {
-        position: absolute;
-        top: -3px;
-        right: -10px;
-        font-size: 10px;
-        font-weight: 400;
-    }
+.btn.btn-app > .badge {
+    position: absolute;
+    top: -3px;
+    right: -10px;
+    font-size: 10px;
+    font-weight: 400;
+}
 /* ***** /buttons *******/
 /* *********  /form design  **************************** */
 /* *********  calender dropdown  **************************** */
@@ -4441,10 +4442,10 @@ ul.count2 {
 }
 
 .divider-dashed {
-    border-top: 1px dashed #e7eaec;
+    border-top: 1px dashed #D4D7DB;
     background-color: #ffffff;
     height: 1px;
-    margin: 10px 0;
+    margin: 25px 0;
 }
 
 ul.messages {
@@ -6470,4 +6471,8 @@ ul.notifications {
 
 .bold {
     font-weight: bold;
+}
+
+.clickable {
+    cursor: pointer;
 }

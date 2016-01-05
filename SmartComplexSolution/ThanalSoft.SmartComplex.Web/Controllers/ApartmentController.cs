@@ -36,7 +36,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
             });
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> Create()
         {
@@ -149,7 +149,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<string> Lock(ApartmentViewModel pModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo {Id = pModel.ApartmentInfo.Id, LockReason = pModel.ApartmentInfo.LockReason });
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo { Id = pModel.ApartmentInfo.Id, LockReason = pModel.ApartmentInfo.LockReason });
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 
@@ -201,7 +201,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     {
                         while (dReader.Read())
                         {
-                            if(string.IsNullOrEmpty(dReader["FlatName"]?.ToString())) break;
+                            if (string.IsNullOrEmpty(dReader["FlatName"]?.ToString())) break;
 
                             flatUploadDataInfoList.Add(new ApartmentFlatInfo
                             {
@@ -239,6 +239,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             return View("Flats", pModel);
         }
+
 
         private async Task<ActionResultStatusViewModel> GetSuccessModel(FlatManagementViewModel pModel)
         {

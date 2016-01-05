@@ -127,6 +127,7 @@
     <Content Include="Content\nprogress.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\themes\base\images\calendar.gif" />
+    <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -183,6 +184,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HTMLHelpers\TableHelper.cs" />
+    <Compile Include="HTMLHelpers\test.cs" />
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />
     <Compile Include="Models\Apartment\FlatManagementViewModel.cs" />
     <Compile Include="Models\Common\ActionResultStatusViewModel.cs" />

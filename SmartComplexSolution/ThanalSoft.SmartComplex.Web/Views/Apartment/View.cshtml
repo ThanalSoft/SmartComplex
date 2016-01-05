@@ -69,6 +69,9 @@
                     </a>
                 }
                 <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
+                    <i class="fa fa-user-plus"></i> Administrator
+                </a>
+                <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
                     <i class="fa fa-edit"></i> Edit
                 </a>
                 @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))

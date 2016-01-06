@@ -14,7 +14,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public ActionResult Index(string returnUrl)
         {
-            LoggedInUser = null;
+            if (LoggedInUser != null)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.ReturnUrl = returnUrl;
             return View(new UserLoginModel
             {
@@ -83,6 +85,14 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 return View();
 
             return View(new ErrorConfirmModel(response.Reason));
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            LoggedInUser = null;
+            return RedirectToAction("Index");
         }
     }
 }

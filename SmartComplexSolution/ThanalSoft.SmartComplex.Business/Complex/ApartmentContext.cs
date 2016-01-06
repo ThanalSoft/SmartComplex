@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,7 +94,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 original.IsDeleted = !original.IsDeleted;
                 original.LastUpdated = DateTime.Now;
                 original.LastUpdatedBy = pUserId;
-               
+
                 await context.SaveChangesAsync();
             }
         }
@@ -105,7 +106,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
 
                 original.IsLocked = !original.IsLocked;
-                original.LockedDate = !original.IsLocked ? (DateTime?) null : DateTime.Now;
+                original.LockedDate = !original.IsLocked ? (DateTime?)null : DateTime.Now;
                 original.LockReason = !original.IsLocked ? null : pApartmentInfo.LockReason;
                 original.LastUpdated = DateTime.Now;
                 original.LastUpdatedBy = pUserId;
@@ -140,7 +141,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             {
                 var flat = AddFlat(pApartmentFlatInfo, pUserId);
                 context.Flats.Add(flat);
-                
+
                 await context.SaveChangesAsync();
             }
         }
@@ -156,42 +157,69 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     var password = KeyGenerator.GetUniqueKey(8);
                     if (apartmentFlatInfo.ApartmentFlatUsers != null && apartmentFlatInfo.ApartmentFlatUsers.Any())
                     {
-                        var flatUsers = apartmentFlatInfo.ApartmentFlatUsers.Select(pX => new FlatUser
+                        foreach (var apartmentFlatUserInfo in apartmentFlatInfo.ApartmentFlatUsers)
                         {
-                            FirstName = pX.Name,
-                            BloodGroupId = pX.BloodGroupId,
-                            IsDeleted = pX.IsDeleted,
-                            IsLocked = pX.IsLocked,
-                            IsOwner = pX.IsOwner,
-                            LockReason = pX.LockReason,
-                            Mobile = pX.Mobile,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = pUserId,
-                            User = new User
+                            var flatUser = new FlatUser
                             {
-                                Email = pX.Email,
-                                PhoneNumber = pX.Mobile,
-                                AccessFailedCount = 0,
-                                ActivatedDate = null,
-                                ActivationCode = activationCode,
-                                EmailConfirmed = false,
-                                PasswordHash = _hasher.HashPassword(password),
-                                IsActivated = false,
-                                LockoutEnabled = true,
-                                LockoutEndDateUtc = null,
-                                PhoneNumberConfirmed = true,
-                                TwoFactorEnabled = false,
-                                IsAdminUser = false,
-                                UserName = pX.Email,
-                                IsDeleted = false
+                                FirstName = apartmentFlatUserInfo.Name,
+                                BloodGroupId = apartmentFlatUserInfo.BloodGroupId,
+                                IsDeleted = apartmentFlatUserInfo.IsDeleted,
+                                IsLocked = apartmentFlatUserInfo.IsLocked,
+                                IsOwner = apartmentFlatUserInfo.IsOwner,
+                                LockReason = apartmentFlatUserInfo.LockReason,
+                                Mobile = apartmentFlatUserInfo.Mobile,
+                                LastUpdated = DateTime.Now,
+                                LastUpdatedBy = pUserId
+                            };
+
+                            var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.Equals(apartmentFlatUserInfo.Email));
+                            if (existingUser != null)
+                            {
+                                flatUser.User = existingUser;
+                                if (flat.FlatUsers == null)
+                                {
+                                    flat.FlatUsers = new List<FlatUser>
+                                    {
+                                        flatUser
+                                    };
+                                }
                             }
-                        });
-                        flat.FlatUsers = flatUsers.ToArray();
+                            else
+                            {
+                                flatUser.User = new User
+                                {
+                                    Email = apartmentFlatUserInfo.Email,
+                                    PhoneNumber = apartmentFlatUserInfo.Mobile,
+                                    AccessFailedCount = 0,
+                                    ActivatedDate = null,
+                                    ActivationCode = activationCode,
+                                    EmailConfirmed = false,
+                                    PasswordHash = _hasher.HashPassword(password),
+                                    IsActivated = false,
+                                    LockoutEnabled = true,
+                                    LockoutEndDateUtc = null,
+                                    PhoneNumberConfirmed = true,
+                                    TwoFactorEnabled = false,
+                                    IsAdminUser = false,
+                                    UserName = apartmentFlatUserInfo.Email,
+                                    IsDeleted = false
+                                };
+
+                                if (flat.FlatUsers == null)
+                                {
+                                    flat.FlatUsers = new List<FlatUser>
+                                    {
+                                        flatUser
+                                    };
+                                }
+                            }
+                        }
                     }
                     context.Flats.Add(flat);
                     await context.SaveChangesAsync();
-                    
-                    pSendEmail(apartmentFlatInfo.ApartmentFlatUsers.First().Email, password, activationCode);
+
+                    if (apartmentFlatInfo.ApartmentFlatUsers != null)
+                        pSendEmail(apartmentFlatInfo.ApartmentFlatUsers[0].Email, password, activationCode);
                 }
             }
         }
@@ -215,7 +243,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     IsLocked = pX.IsLocked,
                     LockReason = pX.LockReason,
                     IsDeleted = pX.IsDeleted,
-                    Name = pX.FirstName + (string.IsNullOrEmpty(pX.LastName) ?  " " + pX.LastName : ""),
+                    Name = pX.FirstName + (string.IsNullOrEmpty(pX.LastName) ? " " + pX.LastName : ""),
                     LockedDate = pX.LockedDate,
                     FlatId = pX.FlatId,
                     IsOwner = pX.IsOwner,
@@ -261,7 +289,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 LastUpdated = DateTime.Now,
                 LastUpdatedBy = pUserId
             };
-            
+
             return flat;
         }
     }

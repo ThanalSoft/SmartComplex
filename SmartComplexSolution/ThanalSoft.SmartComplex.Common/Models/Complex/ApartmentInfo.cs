@@ -30,7 +30,6 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [Required]
         [StringLength(150)]
         [Display(Name = "City")]
-        [TableColumn("City")]
         public string City { get; set; }
 
         [DataMember]
@@ -39,8 +38,10 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         public int StateId { get; set; }
 
         [DataMember]
-        [TableColumn("State")]
         public string State { get; set; }
+
+        [TableColumn("Place")]
+        public string Place => $"{City} ({State})";
 
         [DataMember]
         [Required]

@@ -7,6 +7,7 @@ using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
+using ThanalSoft.SmartComplex.DataObjects.Security;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
@@ -183,7 +184,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, SendEmail);
+                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, AddUser);
             }
             catch (Exception ex)
             {
@@ -193,13 +194,29 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        private void SendEmail(string pEmail, string pPassword, string pActivationCode)
+        private void AddUser(string pEmail, string pPassword, string pActivationCode)
         {
+            if (string.IsNullOrEmpty(pEmail))
+                return;
+
             var user = UserManager.FindByEmail(pEmail);
-            var url = $"{ConfigurationManager.AppSettings["WEB_URL"]}/{"Account"}/{"ConfirmEmail"}/{user.Id}/?token={pActivationCode}";
-            UserManager.SendEmail(user.Id, "Welcome to Smart Complex!", GetBody(url, pEmail, pPassword));
+            AddOwnerRole(user);
+
+            if(!string.IsNullOrEmpty(user.ActivationCode) && !user.IsActivated)
+                SendUserEmail(pEmail, pPassword, pActivationCode, user);
         }
-        
+
+        private void AddOwnerRole(User pUser)
+        {
+            UserManager.AddToRole(pUser.Id, "Owner");
+        }
+
+        private void SendUserEmail(string pEmail, string pPassword, string pActivationCode, User pUser)
+        {
+            var url = $"{ConfigurationManager.AppSettings["WEB_URL"]}/{"Account"}/{"ConfirmEmail"}/{pUser.Id}/?token={pActivationCode}";
+            UserManager.SendEmail(pUser.Id, "Welcome to Smart Complex!", GetBody(url, pEmail, pPassword));
+        }
+
         private string GetBody(string pUrl, string pEmail, string pPassword)
         {
             string content = $"<div style='color:#666 !important;'>Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <strong style='font-size:125%;color:#49A6FD !important;'><a href='{ pUrl}'>here</a></strong> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div style='color:#000 !important;'><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div></div>";

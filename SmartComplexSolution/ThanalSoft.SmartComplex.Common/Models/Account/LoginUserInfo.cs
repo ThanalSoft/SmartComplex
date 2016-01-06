@@ -14,5 +14,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Account
         public string Email { get; set; }
         [DataMember]
         public string UserIdentity { get; set; }
+        [DataMember]
+        public string[] Roles { get; set; }
     }
 }

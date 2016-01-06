@@ -32,13 +32,17 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             {
                 return View(pModel);
             }
-            var loginResponse = await new ApiConnector<LoginResultInfo>().PostAsync("Account", "SecureLogin",
-                                    new LoginRequestInfo(pModel.Email, pModel.Password));
+            var loginResponse = await new ApiConnector<LoginResultInfo>().PostAsync("Account", "SecureLogin", new LoginRequestInfo(pModel.Email, pModel.Password));
 
             switch (loginResponse.LoginStatus)
             {
                 case LoginStatus.Success:
                     var token = await new ApiConnector<string>().GetApiToken(pModel.Email, pModel.Password);
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        ViewBag.ModelError = "Invalid credentials. Try again.";
+                        return View(pModel);
+                    }
                     LoggedInUser = loginResponse.LoginUserInfo;
                     LoggedInUser.UserIdentity = token;
 

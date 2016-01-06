@@ -131,7 +131,10 @@ namespace ThanalSoft.SmartComplex.Web.Common
                 //get access token from response body
                 var responseJson = await responseMessage.Content.ReadAsStringAsync();
                 var jObject = JObject.Parse(responseJson);
-                return jObject.GetValue("access_token").ToString();
+                if(jObject.GetValue("access_token") != null)
+                    return jObject.GetValue("access_token").ToString();
+
+                return string.Empty;
             }
         }
     }

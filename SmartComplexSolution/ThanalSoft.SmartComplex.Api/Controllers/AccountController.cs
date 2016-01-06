@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
@@ -21,31 +23,44 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 {
                     LoginStatus = LoginStatus.Failure
                 };
-            if (!(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                return new LoginResultInfo
-                {
-                    LoginStatus = LoginStatus.RequiresVerification
-                };
-            if (await UserManager.IsLockedOutAsync(user.Id))
+            
+            var status = await SignInManager.PasswordSignInAsync(pLogin.Email, pLogin.Password, true, true);
+            switch (status)
             {
-                return new LoginResultInfo
-                {
-                    LoginStatus = LoginStatus.LockedOut
-                };
+                case SignInStatus.Success:
+                    var userInfo = new LoginUserInfo
+                    {
+                        Email = pLogin.Email,
+                        UserName = user.UserName,
+                        UserId = user.Id,
+                        Roles = (await UserManager.GetRolesAsync(user.Id)).ToArray()
+                    };
+                    return new LoginResultInfo
+                    {
+                        LoginStatus = LoginStatus.Success,
+                        LoginUserInfo = userInfo
+                    };
+                case SignInStatus.LockedOut:
+                    return new LoginResultInfo
+                    {
+                        LoginStatus = LoginStatus.LockedOut
+                    };
+                case SignInStatus.RequiresVerification:
+                    return new LoginResultInfo
+                    {
+                        LoginStatus = LoginStatus.RequiresVerification
+                    };
+                case SignInStatus.Failure:
+                    return new LoginResultInfo
+                    {
+                        LoginStatus = LoginStatus.Failure
+                    };
+                default:
+                    return new LoginResultInfo
+                    {
+                        LoginStatus = LoginStatus.Failure
+                    };
             }
-            await SignInManager.PasswordSignInAsync(pLogin.Email, pLogin.Password, true, true);
-
-            var userInfo = new LoginUserInfo
-            {
-                Email = pLogin.Email,
-                UserName = user.UserName,
-                UserId = user.Id
-            };
-            return new LoginResultInfo
-            {
-                LoginStatus = LoginStatus.Success,
-                LoginUserInfo = userInfo
-            };
         }
 
         [System.Web.Http.HttpPost]
@@ -77,7 +92,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     result.Reason = "User not found!";
                     return result;
                 }
-                
+
                 if (!string.IsNullOrEmpty(user.ActivationCode) && !user.ActivationCode.Equals(pConfirmEmailAccount.Token))
                 {
                     result.Result = ApiResponseResult.Error;
@@ -91,7 +106,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     result.Reason = "Your email is already validated successfully. Try to login with the credentials provided or contact Administrator.";
                     return result;
                 }
-                
+
                 user.ActivationCode = null;
                 user.ActivatedDate = DateTime.Now;
                 user.IsActivated = true;

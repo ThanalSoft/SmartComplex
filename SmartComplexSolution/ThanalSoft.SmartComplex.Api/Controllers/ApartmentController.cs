@@ -146,22 +146,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentFlatInfo[]>> GetApartmentFlats(int id)
-        {
-            var result = new GeneralReturnInfo<ApartmentFlatInfo[]>();
-            try
-            {
-                result.Info = await ApartmentContext.Instance.GetFlatsAsync(id);
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
-
         [HttpPost]
         public async Task<GeneralReturnInfo> CreateFlat(ApartmentFlatInfo pApartmentFlatInfo)
         {

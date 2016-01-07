@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
 using ThanalSoft.SmartComplex.Common.Attributes;
 
@@ -72,6 +73,9 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         public bool IsDeleted { get; set; }
 
         [DataMember]
-        public bool HasFlats { get; set; }
+        public bool HasFlats => Flats != null && Flats.Any();
+
+        [DataMember]
+        public ApartmentFlatInfo[] Flats { get; set; }
     }
 }

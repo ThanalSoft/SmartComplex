@@ -211,7 +211,7 @@
     <Content Include="Views\Shared\Partials\_NoResultFound.cshtml" />
     <Content Include="Views\Apartment\Update.cshtml" />
     <Content Include="Views\Apartment\View.cshtml" />
-    <Content Include="Views\Apartment\_IndexList.cshtml" />
+    <Content Include="Views\Apartment\_ApartmentList.cshtml" />
     <Content Include="Views\Apartment\Flats.cshtml" />
     <Content Include="Views\Apartment\_UploadFlats.cshtml" />
     <Content Include="Views\Apartment\_FlatList.cshtml" />

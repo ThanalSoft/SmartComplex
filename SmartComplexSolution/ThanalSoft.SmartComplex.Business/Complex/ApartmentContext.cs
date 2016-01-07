@@ -22,7 +22,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var data = await context.Apartments.OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
-                return data.Select(pX => MapToApartmentInfo(pX, context.States.Find(pX.StateId), false)).ToArray();
+                return data.Select(pX => MapToApartmentInfo(pX, context.States.Find(pX.StateId))).ToArray();
             }
         }
 
@@ -30,11 +30,15 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var data = await context.Apartments.FirstAsync(pX => pX.Id.Equals(pApartmentId));
-                var hasFlatsLoaded = await context.Flats.AnyAsync(pX => pX.ApartmentId.Equals(pApartmentId));
-                var state = data.State;
+                var apartment = await context.Apartments
+                    .Include(pX => pX.Flats)
+                    .Include(pX => pX.State)
+                    .Where(pX => pX.Id.Equals(pApartmentId)).FirstAsync();
 
-                return MapToApartmentInfo(data, state, hasFlatsLoaded);
+                var apartmentInfo = MapToApartmentInfo(apartment, apartment.State);
+                apartmentInfo.Flats = apartment.Flats.Select(pX => MapToFlatInfo(pX, null)).ToArray();
+
+                return apartmentInfo;
             }
         }
 
@@ -113,16 +117,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 await context.SaveChangesAsync();
             }
         }
-
-        public async Task<ApartmentFlatInfo[]> GetFlatsAsync(int pApartmentId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var data = await context.Flats.Where(pX => pX.ApartmentId.Equals(pApartmentId)).OrderBy(pX => pX.Name).ToArrayAsync();
-                return data.Select(pFlat => MapToFlatInfo(pFlat, null)).ToArray();
-            }
-        }
-
+        
         public async Task<ApartmentFlatInfo> GetFlatAsync(int pFlatId)
         {
             using (var context = new SmartComplexDataObjectContext())
@@ -234,7 +229,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 Floor = pFlat.Floor,
                 Block = pFlat.Block,
                 ExtensionNumber = pFlat.ExtensionNumber,
-                SquareFeet = pFlat.SquareFeet
+                SquareFeet = pFlat.SquareFeet,
+                ApartmentName = pFlat.Apartment.Name
             };
             if (pFlatUsers != null && pFlatUsers.Any())
             {
@@ -254,7 +250,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return info;
         }
 
-        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment, State pState, bool pHasFlatsLoaded)
+        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment, State pState)
         {
             return new ApartmentInfo
             {
@@ -270,8 +266,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PinCode = pApartment.PinCode,
                 StateId = pApartment.StateId,
                 CreatedDate = pApartment.CreatedDate,
-                State = pState.Name,
-                HasFlats = pHasFlatsLoaded
+                State = pState?.Name,
             };
         }
 

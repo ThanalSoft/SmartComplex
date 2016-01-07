@@ -27,10 +27,10 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialViewResult> IndexList()
+        public async Task<PartialViewResult> ApartmentList()
         {
             var response = await GetApartmentInfoList();
-            return PartialView("_IndexList", new ApartmentListViewModel
+            return PartialView("_ApartmentList", new ApartmentListViewModel
             {
                 Apartments = response.Info.ToArray(),
                 ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
@@ -74,11 +74,13 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialViewResult> ApartmentFlats(int pId)
+        public async Task<PartialViewResult> ApartmentFlatList(int pId)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecureGetAsync("Apartment", "GetApartmentFlats", LoggedInUser, pId.ToString());
-            return PartialView("_FlatList", new FlatManagementViewModel { ApartmentId = pId, ApartmentFlatInfoList = response.Info });
+            var response = await GetApartment(pId);
+            return PartialView("_FlatList", new FlatManagementViewModel { Apartment =  response.Info });
         }
+
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -212,17 +214,16 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                                 ApartmentId = pModel.ApartmentId,
                                 ApartmentFlatUsers = new[]
                                 {
-                                new ApartmentFlatUserInfo
-                                {
-                                    Name = dReader["OwnerName"]?.ToString(),
-                                    IsOwner = true,
-                                    IsLocked = false,
-                                    Mobile = dReader["OwnerMobile"]?.ToString(),
-                                    Email = dReader["OwnerEmail"]?.ToString(),
-                                    BloodGroupId = null
-                                }
-                            }
-                            });
+                                    new ApartmentFlatUserInfo
+                                    {
+                                        Name = dReader["OwnerName"]?.ToString(),
+                                        IsOwner = true,
+                                        IsLocked = false,
+                                        Mobile = dReader["OwnerMobile"]?.ToString(),
+                                        Email = dReader["OwnerEmail"]?.ToString(),
+                                        BloodGroupId = null
+                                    }
+                            }});
                         }
 
                         var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
@@ -243,8 +244,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         private async Task<ActionResultStatusViewModel> GetSuccessModel(FlatManagementViewModel pModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentFlatInfo[]>>().SecureGetAsync("Apartment", "GetApartmentFlats", LoggedInUser, pModel.ApartmentId.ToString());
-            pModel.ApartmentFlatInfoList = response.Info;
+            pModel.Apartment = (await GetApartment(pModel.ApartmentId)).Info;
             return new ActionResultStatusViewModel("File uploaded successfully. Flats are added to the Apartment.", ActionStatus.Success);
         }
 
@@ -272,6 +272,11 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll", LoggedInUser);
             return response;
+        }
+
+        private async Task<GeneralReturnInfo<ApartmentInfo>> GetApartment(int pId)
+        {
+            return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
         }
     }
 }

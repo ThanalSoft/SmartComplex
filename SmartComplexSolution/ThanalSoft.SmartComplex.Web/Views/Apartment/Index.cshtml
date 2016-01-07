@@ -4,7 +4,7 @@
 }
 
 <div class="col-md-12 col-sm-12 col-xs-12" id="container">
-    @Html.Partial("_IndexList", Model)
+    @Html.Partial("_ApartmentList", Model)
 </div>
 
 <script type="text/javascript">
@@ -20,7 +20,7 @@
     function apartmentListView() {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("IndexList", "Apartment")',
+            url: '@Url.Action("ApartmentList", "Apartment")',
             type: "GET",
             success: fillContainerData,
             error: function () {
@@ -73,7 +73,7 @@
     function loadFlat(apartmentId) {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("ApartmentFlats", "Apartment")',
+            url: '@Url.Action("ApartmentFlatList", "Apartment")',
             type: "GET",
             data: { pId: apartmentId },
             success: fillContainerData,

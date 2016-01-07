@@ -4,6 +4,7 @@ using ThanalSoft.SmartComplex.Common.Attributes;
 namespace ThanalSoft.SmartComplex.Common.Models.Complex
 {
     [DataContract]
+    [Table(true)]
     public class ApartmentFlatInfo
     {
         [TableColumn("Id", IDColumn = true, HiddenColumn = true)]
@@ -12,6 +13,9 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 
         [DataMember]
         public int ApartmentId { get; set; }
+
+        [DataMember]
+        public string ApartmentName { get; set; }
 
         [TableColumn("Name")]
         [DataMember]

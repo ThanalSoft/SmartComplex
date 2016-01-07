@@ -60,6 +60,7 @@
                 @if (Model.ApartmentInfo.HasFlats)
                 {
                     <a class="btn btn-app pull-left" onclick='loadFlat(@Model.ApartmentInfo.Id)'>
+                        <span class="badge bg-green">@Model.ApartmentInfo.Flats.Length</span>
                         <i class="fa fa-home"></i>Flats
                     </a>
                 }

@@ -5,43 +5,13 @@
 <div class="x_panel">
     <div class="x_title">
         <h2>
-            <i class="fa fa-home"></i> Apartment Flats
+            <i class="fa fa-home"></i> Flats of '@Model.Apartment.Name'
         </h2>
+        <button type="button" onclick="addNew()" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New</button>
+        <button type="button" onclick="viewApartment(@Model.Apartment.Id)" class="btn btn-dark pull-right"><i class="fa fa-backward"></i> Back</button>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        @Html.HiddenFor(m => m.ApartmentId)
-        <table class="table table-striped responsive-utilities jambo_table bulk_action">
-            <thead>
-                <tr class="headings">
-                    <th class="column-title">Name</th>
-                    <th class="column-title">Floor</th>
-                    <th class="column-title">Block</th>
-                    <th class="column-title">Phase</th>
-                    <th class="column-title">SquareFeet</th>
-                    <th class="column-title">Extension</th>
-                    <th class="column-title no-link last">
-                        <span class="nobr">Action</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var flat in Model.ApartmentFlatInfoList)
-                {
-                    <tr class="even pointer">
-                        <td>@flat.Name</td>
-                        <td>@flat.Floor</td>
-                        <td>@flat.Block</td>
-                        <td>@flat.Phase</td>
-                        <td>@flat.SquareFeet</td>
-                        <td>@flat.ExtensionNumber</td>
-                        <td class="last">
-                            <a onclick="viewApartment(@flat.Id)" class="btn btn-primary btn-xs bold"><i class="fa fa-folder-open-o"></i> View</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
+        @Html.DisplayTableFor(Model.Apartment.Flats, new { onclick = "viewFlat(this.id)" })
     </div>
 </div>

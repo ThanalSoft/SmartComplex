@@ -31,10 +31,10 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public string Phase { get; set; }
 
         [DataMember]
-        public int ExtensionNumber { get; set; }
+        public int? ExtensionNumber { get; set; }
 
         [DataMember]
-        public int SquareFeet { get; set; }
+        public int? SquareFeet { get; set; }
 
         [ForeignKey("ApartmentId")]
         public Apartment Apartment { get; set; }

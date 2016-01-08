@@ -59,6 +59,7 @@
     <Compile Include="BaseBusiness.cs" />
     <Compile Include="Common\StateContext.cs" />
     <Compile Include="Complex\ApartmentContext.cs" />
+    <Compile Include="Complex\FlatContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

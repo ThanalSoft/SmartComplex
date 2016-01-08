@@ -55,12 +55,12 @@
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                 <a class="btn btn-app pull-left" onclick='closeApartment()'>
-                    <i class="fa fa-close"></i> Cancel
+                    <i class="fa fa-backward"></i>Back
                 </a>
                 @if (Model.ApartmentInfo.HasFlats)
                 {
-                    <a class="btn btn-app pull-left" onclick='loadFlat(@Model.ApartmentInfo.Id)'>
-                        <span class="badge bg-green">@Model.ApartmentInfo.Flats.Length</span>
+                    <a class="btn btn-app pull-left" onclick='loadFlats(@Model.ApartmentInfo.Id)'>
+                        <span class="badge bg-purple">@Model.ApartmentInfo.FlatCount</span>
                         <i class="fa fa-home"></i>Flats
                     </a>
                 }
@@ -69,11 +69,15 @@
                         <i class="fa fa-home"></i>Upload Flats
                     </a>
                 }
+                @if (@Model.ApartmentInfo.UserCount > 0)
+                {
+                    <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
+                        <span class="badge bg-orange">@Model.ApartmentInfo.UserCount</span>
+                        <i class="fa fa-users"></i>Users
+                    </a>
+                }
                 <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
-                    <i class="fa fa-user-plus"></i> Administrator
-                </a>
-                <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
-                    <i class="fa fa-edit"></i> Edit
+                    <i class="fa fa-edit"></i>Edit
                 </a>
                 @using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.ApartmentInfo.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
                 {

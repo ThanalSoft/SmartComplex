@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Common.String;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.Common;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
 using ThanalSoft.SmartComplex.DataObjects.Security;
 
@@ -16,13 +14,12 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 {
     public class ApartmentContext : BaseBusiness<ApartmentContext>
     {
-        static readonly PasswordHasher _hasher = new PasswordHasher();
         public async Task<ApartmentInfo[]> GetAllAsync()
         {
             using (var context = new SmartComplexDataObjectContext())
             {
                 var data = await context.Apartments.OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
-                return data.Select(pX => MapToApartmentInfo(pX, context.States.Find(pX.StateId))).ToArray();
+                return data.Select(MapToApartmentInfo).ToArray();
             }
         }
 
@@ -31,12 +28,16 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var apartment = await context.Apartments
-                    .Include(pX => pX.Flats)
                     .Include(pX => pX.State)
                     .Where(pX => pX.Id.Equals(pApartmentId)).FirstAsync();
 
-                var apartmentInfo = MapToApartmentInfo(apartment, apartment.State);
-                apartmentInfo.Flats = apartment.Flats.Select(pX => MapToFlatInfo(pX, null)).ToArray();
+                var flats = await context.Flats.Where(pX => pX.ApartmentId.Equals(pApartmentId)).ToListAsync();
+                
+                var flatIds = flats.Select(pX => pX.Id);
+                var flatUsers = await context.FlatUsers.Where(pX => flatIds.Contains(pX.Id)).ToArrayAsync();
+                var apartmentInfo = MapToApartmentInfo(apartment);
+                apartmentInfo.FlatCount = flats.Count;
+                apartmentInfo.UserCount = flatUsers.Length;
 
                 return apartmentInfo;
             }
@@ -47,7 +48,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase)))
-                    throw new ItemAlreadyExistsException();
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name);
 
                 context.Apartments.Add(new Apartment
                 {
@@ -75,7 +76,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
 
                 if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.Id != original.Id))
-                    throw new ItemAlreadyExistsException();
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name);
 
                 original.Phone = pApartmentInfo.Phone;
                 original.StateId = pApartmentInfo.StateId;
@@ -117,140 +118,95 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 await context.SaveChangesAsync();
             }
         }
-        
-        public async Task<ApartmentFlatInfo> GetFlatAsync(int pFlatId)
+
+        public async Task UploadFlatsAsync(FlatUploadInfo[] pFlatUploadInfoList, Int64 pUserId, Action<FlatUploadInfo, string, string> pConfigure)
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var flatInfoTask = context.Flats.Where(pX => pX.Id.Equals(pFlatId)).FirstAsync();
-                var flatUsersTask = context.FlatUsers.Where(pX => pX.Id.Equals(pFlatId)).OrderBy(pX => pX.IsDeleted).ThenBy(pX => pX.FirstName).ToArrayAsync();
-                await Task.WhenAll(flatInfoTask, flatUsersTask);
-
-                return MapToFlatInfo(flatInfoTask.Result, flatUsersTask.Result);
-            }
-        }
-
-        public async Task CreateFlatAsync(ApartmentFlatInfo pApartmentFlatInfo, Int64 pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var flat = AddFlat(pApartmentFlatInfo, pUserId);
-                context.Flats.Add(flat);
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task UploadFlatsAsync(ApartmentFlatInfo[] pApartmentFlatInfoList, Int64 pUserId, Action<string, string, string> pSendEmail)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                foreach (var apartmentFlatInfo in pApartmentFlatInfoList)
+                foreach (var apartmentFlatInfo in pFlatUploadInfoList)
                 {
-                    var flat = AddFlat(apartmentFlatInfo, pUserId);
                     var activationCode = Guid.NewGuid().ToString();
                     var password = KeyGenerator.GetUniqueKey(8);
-                    if (apartmentFlatInfo.ApartmentFlatUsers != null && apartmentFlatInfo.ApartmentFlatUsers.Any())
+
+                    var flat = AddFlat(apartmentFlatInfo, pUserId);
+                    flat.FlatUsers = new List<FlatUser>();
+                    var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
+                    var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.ToLower().Equals(apartmentFlatInfo.OwnerEmail.ToLower()));
+                    if (existingUser != null)
+                        flatUser.User = existingUser;
+                    else
                     {
-                        foreach (var apartmentFlatUserInfo in apartmentFlatInfo.ApartmentFlatUsers)
-                        {
-                            var flatUser = new FlatUser
-                            {
-                                FirstName = apartmentFlatUserInfo.Name,
-                                BloodGroupId = apartmentFlatUserInfo.BloodGroupId,
-                                IsDeleted = apartmentFlatUserInfo.IsDeleted,
-                                IsLocked = apartmentFlatUserInfo.IsLocked,
-                                IsOwner = apartmentFlatUserInfo.IsOwner,
-                                LockReason = apartmentFlatUserInfo.LockReason,
-                                Mobile = apartmentFlatUserInfo.Mobile,
-                                LastUpdated = DateTime.Now,
-                                LastUpdatedBy = pUserId
-                            };
-
-                            var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.Equals(apartmentFlatUserInfo.Email));
-                            if (existingUser != null)
-                            {
-                                flatUser.User = existingUser;
-                                if (flat.FlatUsers == null)
-                                {
-                                    flat.FlatUsers = new List<FlatUser>
-                                    {
-                                        flatUser
-                                    };
-                                }
-                            }
-                            else
-                            {
-                                flatUser.User = new User
-                                {
-                                    Email = apartmentFlatUserInfo.Email,
-                                    PhoneNumber = apartmentFlatUserInfo.Mobile,
-                                    AccessFailedCount = 0,
-                                    ActivatedDate = null,
-                                    ActivationCode = activationCode,
-                                    EmailConfirmed = false,
-                                    PasswordHash = _hasher.HashPassword(password),
-                                    IsActivated = false,
-                                    LockoutEnabled = true,
-                                    LockoutEndDateUtc = null,
-                                    PhoneNumberConfirmed = true,
-                                    TwoFactorEnabled = false,
-                                    IsAdminUser = false,
-                                    UserName = apartmentFlatUserInfo.Email,
-                                    IsDeleted = false
-                                };
-
-                                if (flat.FlatUsers == null)
-                                {
-                                    flat.FlatUsers = new List<FlatUser>
-                                    {
-                                        flatUser
-                                    };
-                                }
-                            }
-                        }
+                        var user = CreateUserLoginForOwner(apartmentFlatInfo);
+                        user.PasswordHash = password;
+                        user.ActivationCode = activationCode;
+                        flatUser.User = user;
                     }
+                    flat.FlatUsers.Add(flatUser);
                     context.Flats.Add(flat);
-                    await context.SaveChangesAsync();
 
-                    if (apartmentFlatInfo.ApartmentFlatUsers != null)
-                        pSendEmail(apartmentFlatInfo.ApartmentFlatUsers[0].Email, password, activationCode);
+                    await context.SaveChangesAsync();
+                    pConfigure(apartmentFlatInfo, password, activationCode);
                 }
             }
         }
 
-        private ApartmentFlatInfo MapToFlatInfo(Flat pFlat, FlatUser[] pFlatUsers)
+        private User CreateUserLoginForOwner(FlatUploadInfo pApartmentFlatInfo)
         {
-            var info = new ApartmentFlatInfo
+            return new User
             {
-                Name = pFlat.Name,
-                ApartmentId = pFlat.ApartmentId,
-                Phase = pFlat.Phase,
-                Floor = pFlat.Floor,
-                Block = pFlat.Block,
-                ExtensionNumber = pFlat.ExtensionNumber,
-                SquareFeet = pFlat.SquareFeet,
-                ApartmentName = pFlat.Apartment.Name
+                AccessFailedCount = 0,
+                ActivationCode = "",
+                Email = pApartmentFlatInfo.OwnerEmail,
+                EmailConfirmed = false,
+                IsActivated = false,
+                IsAdminUser = true,
+                IsDeleted = false,
+                LockoutEnabled = true,
+                PasswordHash = "",
+                PhoneNumber = pApartmentFlatInfo.OwnerMobile,
+                PhoneNumberConfirmed = false,
+                SecurityStamp = "",
+                TwoFactorEnabled = false,
+                UserName = pApartmentFlatInfo.OwnerEmail
             };
-            if (pFlatUsers != null && pFlatUsers.Any())
-            {
-                info.ApartmentFlatUsers = pFlatUsers.Select(pX => new ApartmentFlatUserInfo
-                {
-                    IsLocked = pX.IsLocked,
-                    LockReason = pX.LockReason,
-                    IsDeleted = pX.IsDeleted,
-                    Name = pX.FirstName + (string.IsNullOrEmpty(pX.LastName) ? " " + pX.LastName : ""),
-                    LockedDate = pX.LockedDate,
-                    FlatId = pX.FlatId,
-                    IsOwner = pX.IsOwner,
-                    Mobile = pX.Mobile,
-                    BloodGroupId = pX.BloodGroupId
-                }).ToArray();
-            }
-            return info;
         }
 
-        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment, State pState)
+        private FlatUser AddFlatOwner(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
+        {
+            return new FlatUser
+            {
+                FirstName = pApartmentFlatInfo.OwnerName,
+                BloodGroupId = null,
+                IsDeleted = false,
+                IsLocked = false,
+                IsOwner = true,
+                LockReason = null,
+                Mobile = pApartmentFlatInfo.OwnerMobile,
+                LastUpdated = DateTime.Now,
+                LastUpdatedBy = pUserId,
+                LastName = "",
+                LockedDate = null,
+                Email = pApartmentFlatInfo.OwnerEmail
+            };
+        }
+
+        private Flat AddFlat(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
+        {
+            return new Flat
+            {
+                ApartmentId = pApartmentFlatInfo.ApartmentId,
+                Block = pApartmentFlatInfo.Block,
+                ExtensionNumber = null,
+                Floor = pApartmentFlatInfo.Floor,
+                Name = pApartmentFlatInfo.Name,
+                Phase = pApartmentFlatInfo.Phase,
+                SquareFeet = null,
+                LastUpdated = DateTime.Now,
+                LastUpdatedBy = pUserId,
+            };
+        }
+
+        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment)
         {
             return new ApartmentInfo
             {
@@ -266,26 +222,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PinCode = pApartment.PinCode,
                 StateId = pApartment.StateId,
                 CreatedDate = pApartment.CreatedDate,
-                State = pState?.Name,
+                State = pApartment.State?.Name,
             };
-        }
-
-        private static Flat AddFlat(ApartmentFlatInfo pApartmentFlatInfo, Int64 pUserId)
-        {
-            var flat = new Flat
-            {
-                ApartmentId = pApartmentFlatInfo.ApartmentId,
-                Block = pApartmentFlatInfo.Block,
-                ExtensionNumber = pApartmentFlatInfo.ExtensionNumber,
-                Floor = pApartmentFlatInfo.Floor,
-                Name = pApartmentFlatInfo.Name,
-                Phase = pApartmentFlatInfo.Phase,
-                SquareFeet = pApartmentFlatInfo.SquareFeet,
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = pUserId
-            };
-
-            return flat;
         }
     }
 }

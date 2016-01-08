@@ -5,7 +5,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 {
     [DataContract]
     [Table(true)]
-    public class ApartmentFlatInfo
+    public class FlatInfo
     {
         [TableColumn("Id", IDColumn = true, HiddenColumn = true)]
         [DataMember]
@@ -13,9 +13,6 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 
         [DataMember]
         public int ApartmentId { get; set; }
-
-        [DataMember]
-        public string ApartmentName { get; set; }
 
         [TableColumn("Name")]
         [DataMember]
@@ -35,13 +32,13 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
 
         [TableColumn("Ext. No")]
         [DataMember]
-        public int ExtensionNumber { get; set; }
+        public int? ExtensionNumber { get; set; }
 
         [TableColumn("Sqft")]
         [DataMember]
-        public int SquareFeet { get; set; }
+        public int? SquareFeet { get; set; }
 
         [DataMember]
-        public ApartmentFlatUserInfo[] ApartmentFlatUsers { get; set; }
+        public FlatUserInfo[] ApartmentFlatUsers { get; set; }
     }
 }

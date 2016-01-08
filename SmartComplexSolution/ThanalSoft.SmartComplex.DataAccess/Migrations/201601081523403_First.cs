@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Creation : DbMigration
+    public partial class First : DbMigration
     {
         public override void Up()
         {
@@ -128,7 +128,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 c => new
                     {
                         Id = c.Long(nullable: false, identity: true),
-                        ActivationCode = c.String(maxLength: 10),
+                        ActivationCode = c.String(maxLength: 100),
                         IsActivated = c.Boolean(nullable: false),
                         ActivatedDate = c.DateTime(),
                         IsAdminUser = c.Boolean(nullable: false),
@@ -241,7 +241,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         FlatId = c.Int(nullable: false),
                         FirstName = c.String(nullable: false, maxLength: 250),
                         LastName = c.String(maxLength: 250),
-                        Mobile = c.String(nullable: false, maxLength: 250),
+                        Mobile = c.String(nullable: false, maxLength: 25),
+                        Email = c.String(maxLength: 256),
                         IsOwner = c.Boolean(nullable: false),
                         BloodGroupId = c.Int(),
                         IsLocked = c.Boolean(nullable: false),
@@ -278,8 +279,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         Floor = c.Int(nullable: false),
                         Block = c.String(nullable: false, maxLength: 10),
                         Phase = c.String(maxLength: 10),
-                        ExtensionNumber = c.Int(nullable: false),
-                        SquareFeet = c.Int(nullable: false),
+                        ExtensionNumber = c.Int(),
+                        SquareFeet = c.Int(),
                         LastUpdated = c.DateTime(nullable: false),
                         LastUpdatedBy = c.Long(nullable: false),
                     })

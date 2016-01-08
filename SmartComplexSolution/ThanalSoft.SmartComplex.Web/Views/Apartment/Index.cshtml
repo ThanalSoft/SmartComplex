@@ -70,12 +70,12 @@
         });
     };
 
-    function loadFlat(apartmentId) {
+    function loadFlats(apartmentId) {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("ApartmentFlatList", "Apartment")',
+            url: '@Url.Action("GetAll", "Flat")',
             type: "GET",
-            data: { pId: apartmentId },
+            data: { pApartmentId: apartmentId },
             success: fillContainerData,
             error: function () {
                 alert("An error has occured!!!");

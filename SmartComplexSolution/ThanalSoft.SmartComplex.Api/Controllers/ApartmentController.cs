@@ -14,6 +14,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureApiController
     {
+        private readonly PasswordHasher _passwordHasher = new PasswordHasher();
+
         [HttpGet]
         public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAll()
         {
@@ -130,29 +132,14 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentFlatInfo>> GetFlat(int id)
-        {
-            var result = new GeneralReturnInfo<ApartmentFlatInfo>();
-            try
-            {
-                result.Info = await ApartmentContext.Instance.GetFlatAsync(id);
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
-
         [HttpPost]
-        public async Task<GeneralReturnInfo> CreateFlat(ApartmentFlatInfo pApartmentFlatInfo)
+        public async Task<GeneralReturnInfo> UploadFlats(FlatUploadInfo[] pApartmentFlatInfoList)
         {
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.CreateFlatAsync(pApartmentFlatInfo, LoggedInUser);
+                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, ConfigureUser);
+                
             }
             catch (Exception ex)
             {
@@ -162,34 +149,19 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<GeneralReturnInfo> UploadFlats(ApartmentFlatInfo[] pApartmentFlatInfoList)
+        private void ConfigureUser(FlatUploadInfo pUser, string pPassword, string pActivationCode)
         {
-            var result = new GeneralReturnInfo();
-            try
-            {
-                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, AddUser);
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
-
-        private void AddUser(string pEmail, string pPassword, string pActivationCode)
-        {
-            if (string.IsNullOrEmpty(pEmail))
+            if (string.IsNullOrEmpty(pUser.OwnerEmail))
                 return;
 
-            var user = UserManager.FindByEmail(pEmail);
+            var user = UserManager.FindByEmail(pUser.OwnerEmail);
             AddOwnerRole(user);
-
-            if(!string.IsNullOrEmpty(user.ActivationCode) && !user.IsActivated)
-                SendUserEmail(pEmail, pPassword, pActivationCode, user);
+            
+            pPassword = _passwordHasher.HashPassword(pPassword);
+            if (!string.IsNullOrEmpty(user.ActivationCode) && !user.IsActivated)
+                SendUserEmail(pUser.OwnerEmail, pPassword, pActivationCode, user);
         }
-
+        
         private void AddOwnerRole(User pUser)
         {
             UserManager.AddToRole(pUser.Id, "Owner");

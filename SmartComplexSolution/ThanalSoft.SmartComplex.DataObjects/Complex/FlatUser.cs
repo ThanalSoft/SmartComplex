@@ -29,9 +29,13 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public string LastName { get; set; }
 
         [DataMember]
-        [StringLength(250)]
+        [StringLength(25)]
         [Required]
         public string Mobile { get; set; }
+
+        [DataMember]
+        [StringLength(256)]
+        public string Email { get; set; }
 
         [DataMember]
         [Required]
@@ -62,6 +66,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
 
         [ForeignKey("BloodGroupId")]
         public virtual BloodGroup BloodGroup { get; set; }
-        
+
     }
 }

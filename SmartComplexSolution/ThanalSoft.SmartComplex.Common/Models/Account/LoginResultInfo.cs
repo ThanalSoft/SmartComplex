@@ -22,5 +22,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Account
         RequiresVerification,
         [EnumMember]
         Failure,
+        [EnumMember]
+        Deleted
     }
 }

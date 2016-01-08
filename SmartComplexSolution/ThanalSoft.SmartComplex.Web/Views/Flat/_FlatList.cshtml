@@ -1,0 +1,17 @@
+﻿@model ThanalSoft.SmartComplex.Web.Models.Apartment.FlatListViewModel
+@{
+    Layout = null;
+}
+<div class="x_panel">
+    <div class="x_title">
+        <h2>
+            <i class="fa fa-home"></i> Flats
+        </h2>
+        <button type="button" onclick="addNew()" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New</button>
+        <button type="button" onclick="viewApartment(@Model.Flats[0].ApartmentId)" class="btn btn-dark pull-right"><i class="fa fa-backward"></i> Back</button>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        @Html.DisplayTableFor(Model.Flats, new { onclick = "viewFlat(this.id)" })
+    </div>
+</div>

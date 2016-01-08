@@ -226,7 +226,7 @@
     <Content Include="Views\Apartment\Update.cshtml" />
     <Content Include="Views\Apartment\View.cshtml" />
     <Content Include="Views\Apartment\_ApartmentList.cshtml" />
-    <Content Include="Views\Apartment\Flats.cshtml" />
+    <Content Include="Views\Flat\Index.cshtml" />
     <Content Include="Views\Apartment\_UploadFlats.cshtml" />
     <Content Include="Views\Flat\_FlatList.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />

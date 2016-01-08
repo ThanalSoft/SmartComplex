@@ -1,6 +1,6 @@
 ﻿namespace ThanalSoft.SmartComplex.Web.Models.Common
 {
-    public class ActionResultStatusViewModel : BaseViewModel
+    public class ActionResultStatusViewModel
     {
         public ActionResultStatusViewModel(string pData, ActionStatus pActionStatus)
         {

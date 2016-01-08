@@ -20,7 +20,7 @@
     function apartmentListView() {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("ApartmentList", "Apartment")',
+            url: '@Url.Action("GetAllList", "Apartment")',
             type: "GET",
             success: fillContainerData,
             error: function () {
@@ -73,7 +73,7 @@
     function loadFlats(apartmentId) {
         loadAnimator();
         $.ajax({
-            url: '@Url.Action("GetAll", "Flat")',
+            url: '@Url.Action("GetAllList", "Flat")',
             type: "GET",
             data: { pApartmentId: apartmentId },
             success: fillContainerData,

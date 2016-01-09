@@ -36,7 +36,7 @@ namespace ThanalSoft.SmartComplex.Business.Common
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var notifications = await context.Notifications.Where(pX => !pX.HasUserRead).ToListAsync();
+                var notifications = await context.Notifications.Where(pX => !pX.HasUserRead && pX.TargetUserId == pUserId).ToListAsync();
                 foreach (var notification in notifications)
                 {
                     notification.HasUserRead = true;

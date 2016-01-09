@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class First_Set : DbMigration
+    public partial class FirstCreation : DbMigration
     {
         public override void Up()
         {
@@ -238,7 +238,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         UserId = c.Long(nullable: false),
-                        FlatId = c.Int(nullable: false),
                         FirstName = c.String(nullable: false, maxLength: 250),
                         LastName = c.String(maxLength: 250),
                         Mobile = c.String(nullable: false, maxLength: 25),
@@ -254,10 +253,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("sc.tblBloodGroup", t => t.BloodGroupId)
-                .ForeignKey("sc.tblFlat", t => t.FlatId)
                 .ForeignKey("secure.tblUser", t => t.UserId)
-                .Index(t => t.UserId)
-                .Index(t => t.FlatId)
+                .Index(t => t.UserId, unique: true)
                 .Index(t => t.BloodGroupId);
             
             CreateTable(
@@ -268,6 +265,22 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         Group = c.String(nullable: false, maxLength: 5),
                     })
                 .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "sc.tblMemberFlat",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        FlatId = c.Int(nullable: false),
+                        FlatUserId = c.Int(nullable: false),
+                        LastUpdated = c.DateTime(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("sc.tblFlat", t => t.FlatId)
+                .ForeignKey("sc.tblFlatUser", t => t.FlatUserId)
+                .Index(t => t.FlatId)
+                .Index(t => t.FlatUserId);
             
             CreateTable(
                 "sc.tblFlat",
@@ -309,7 +322,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                         CreatedDate = c.DateTime(nullable: false),
                         TargetUserId = c.Long(nullable: false),
                         HasUserRead = c.Boolean(nullable: false),
-                        UserReadDate = c.DateTime(nullable: false),
+                        UserReadDate = c.DateTime(),
                         LastUpdated = c.DateTime(nullable: false),
                         LastUpdatedBy = c.Long(nullable: false),
                     })
@@ -394,7 +407,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropForeignKey("sc.tblNotification", "TargetUserId", "secure.tblUser");
             DropForeignKey("secure.tblUserLogin", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblFlatUser", "UserId", "secure.tblUser");
-            DropForeignKey("sc.tblFlatUser", "FlatId", "sc.tblFlat");
+            DropForeignKey("sc.tblMemberFlat", "FlatUserId", "sc.tblFlatUser");
+            DropForeignKey("sc.tblMemberFlat", "FlatId", "sc.tblFlat");
             DropForeignKey("sc.tblFlat", "ApartmentId", "sc.tblApartment");
             DropForeignKey("sc.tblFlatUser", "BloodGroupId", "sc.tblBloodGroup");
             DropForeignKey("sc.tblEventUser", "EventUserId", "secure.tblUser");
@@ -420,8 +434,9 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropIndex("sc.tblNotification", new[] { "TargetUserId" });
             DropIndex("secure.tblUserLogin", new[] { "UserId" });
             DropIndex("sc.tblFlat", new[] { "ApartmentId" });
+            DropIndex("sc.tblMemberFlat", new[] { "FlatUserId" });
+            DropIndex("sc.tblMemberFlat", new[] { "FlatId" });
             DropIndex("sc.tblFlatUser", new[] { "BloodGroupId" });
-            DropIndex("sc.tblFlatUser", new[] { "FlatId" });
             DropIndex("sc.tblFlatUser", new[] { "UserId" });
             DropIndex("sc.tblEventUser", new[] { "EventUserId" });
             DropIndex("sc.tblEventUser", new[] { "EventId" });
@@ -448,6 +463,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropTable("sc.tblNotification");
             DropTable("secure.tblUserLogin");
             DropTable("sc.tblFlat");
+            DropTable("sc.tblMemberFlat");
             DropTable("sc.tblBloodGroup");
             DropTable("sc.tblFlatUser");
             DropTable("sc.tblEventUser");

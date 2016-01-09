@@ -153,14 +153,24 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     var password = KeyGenerator.GetUniqueKey(8);
 
                     var flat = AddFlat(apartmentFlatInfo, pUserId);
-                    flat.FlatUsers = new List<FlatUser>();
-                    var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
+                    
+                    if (flat.MemberFlats == null)
+                        flat.MemberFlats = new List<MemberFlat>();
 
                     var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.ToLower().Equals(apartmentFlatInfo.OwnerEmail.ToLower()));
                     if (existingUser != null)
-                        flatUser.User = existingUser;
+                    {
+                        var flatUser = await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(existingUser.Id));
+                        flat.MemberFlats.Add(new MemberFlat
+                        {
+                            FlatUser = flatUser,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = pUserId
+                        });
+                    }
                     else
                     {
+                        var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
                         var user = CreateUserLoginForOwner(apartmentFlatInfo);
                         user.PasswordHash = _passwordHasher.HashPassword(password);
                         user.ActivationCode = activationCode;
@@ -175,9 +185,15 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                             Message = "Welcome to Smart Complex.",
                             TargetUserId = user.Id
                         });
+
+                        flat.MemberFlats.Add(new MemberFlat
+                        {
+                            FlatUser = flatUser,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = pUserId
+                        });
                     }
 
-                    flat.FlatUsers.Add(flatUser);
                     context.Flats.Add(flat);
 
                     await context.SaveChangesAsync();

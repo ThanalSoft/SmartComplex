@@ -57,13 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDataAccessContext.cs" />
-    <Compile Include="Migrations\201601091059359_First_Set.cs" />
-    <Compile Include="Migrations\201601091059359_First_Set.Designer.cs">
-      <DependentUpon>201601091059359_First_Set.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601091119271_ColumnUpdationNotification.cs" />
-    <Compile Include="Migrations\201601091119271_ColumnUpdationNotification.Designer.cs">
-      <DependentUpon>201601091119271_ColumnUpdationNotification.cs</DependentUpon>
+    <Compile Include="Migrations\201601091727241_FirstCreation.cs" />
+    <Compile Include="Migrations\201601091727241_FirstCreation.Designer.cs">
+      <DependentUpon>201601091727241_FirstCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,11 +77,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601091059359_First_Set.resx">
-      <DependentUpon>201601091059359_First_Set.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601091119271_ColumnUpdationNotification.resx">
-      <DependentUpon>201601091119271_ColumnUpdationNotification.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601091727241_FirstCreation.resx">
+      <DependentUpon>201601091727241_FirstCreation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

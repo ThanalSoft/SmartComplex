@@ -7,13 +7,13 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class First : IMigrationMetadata
+    public sealed partial class First_Set : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(First));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(First_Set));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601081523403_First"; }
+            get { return "201601091059359_First_Set"; }
         }
         
         string IMigrationMetadata.Source

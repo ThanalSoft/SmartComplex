@@ -80,6 +80,7 @@
     <Compile Include="UserUtilities\BroadcastUser.cs" />
     <Compile Include="UserUtilities\Event.cs" />
     <Compile Include="UserUtilities\EventUser.cs" />
+    <Compile Include="UserUtilities\Notification.cs" />
     <Compile Include="UserUtilities\Reminder.cs" />
   </ItemGroup>
   <ItemGroup>

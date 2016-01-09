@@ -7,8 +7,8 @@ using ThanalSoft.SmartComplex.DataObjects.Security;
 namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
 {
     [DataContract]
-    [Table("tblReminder")]
-    public class Reminder : BaseModel
+    [Table("tblNotification")]
+    public class Notification : BaseModel
     {
         [DataMember]
         [Required]
@@ -16,34 +16,21 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public string Message { get; set; }
 
         [DataMember]
-        [StringLength(300)]
-        public string Description { get; set; }
+        [Required]
+        public DateTime CreatedDate { get; set; }
 
         [DataMember]
         [Required]
-        public Int64 CreatorId { get; set; }
+        public Int64 TargetUserId { get; set; }
 
         [DataMember]
         [Required]
-        public DateTime CreatedTime { get; set; }
+        public bool HasUserRead { get; set; }
 
         [DataMember]
-        [Required]
-        public DateTime ExpiryTime { get; set; }
-
-        [DataMember]
-        [Required]
-        public Int16 ReminderCount { get; set; }
-
-        [DataMember]
-        [Required]
-        public DateTime ReminderTime { get; set; }
-
-        [DataMember]
-        [Required]
-        public bool IsActive { get; set; }
-
-        [ForeignKey("CreatorId")]
+        public DateTime? UserReadDate { get; set; }
+        
+        [ForeignKey("TargetUserId")]
         public virtual User User { get; set; }
     }
 }

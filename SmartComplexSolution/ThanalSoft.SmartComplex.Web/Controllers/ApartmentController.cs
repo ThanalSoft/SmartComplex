@@ -213,7 +213,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                             var response = await new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
                             pModel.ActionResultStatus = response.Result == ApiResponseResult.Success
                                 ? await GetSuccessModel(pModel)
-                                : new ActionResultStatusViewModel("File upload error! Reason: " + response.Reason, ActionStatus.Success);
+                                : new ActionResultStatusViewModel("File upload error! Reason: " + response.Reason, ActionStatus.Error);
                         }
                         else
                             pModel.ActionResultStatus = new ActionResultStatusViewModel("File not formed correctly. Contact Administrator!", ActionStatus.Error);

@@ -49,6 +49,8 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
 
         public virtual ICollection<AssociationMember> AssociationMembers { get; set; }
 
+        public virtual ICollection<Notification> Notifications { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User, long> pUserManager, string pAuthenticationType)
         {
             // Note the authenticationType must match the one defined in

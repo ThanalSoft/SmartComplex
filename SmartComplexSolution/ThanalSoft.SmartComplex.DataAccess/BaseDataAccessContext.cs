@@ -55,6 +55,8 @@ namespace ThanalSoft.SmartComplex.DataAccess
 
         public virtual DbSet<EventUser> EventUsers { get; set; }
 
+        public virtual DbSet<Notification> Notifications { get; set; }
+
         #endregion
 
     }

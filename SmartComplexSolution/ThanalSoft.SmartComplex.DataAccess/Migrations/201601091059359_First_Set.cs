@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class First : DbMigration
+    public partial class First_Set : DbMigration
     {
         public override void Up()
         {
@@ -301,12 +301,29 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "sc.tblNotification",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Message = c.String(nullable: false, maxLength: 200),
+                        CreatedDate = c.DateTime(nullable: false),
+                        TargetUserId = c.Long(nullable: false),
+                        HasUserRead = c.Boolean(nullable: false),
+                        UserReadDate = c.DateTime(nullable: false),
+                        LastUpdated = c.DateTime(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("secure.tblUser", t => t.TargetUserId)
+                .Index(t => t.TargetUserId);
+            
+            CreateTable(
                 "sc.tblReminder",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Message = c.String(nullable: false, maxLength: 100),
-                        Description = c.String(),
+                        Message = c.String(nullable: false, maxLength: 200),
+                        Description = c.String(maxLength: 300),
                         CreatorId = c.Long(nullable: false),
                         CreatedTime = c.DateTime(nullable: false),
                         ExpiryTime = c.DateTime(nullable: false),
@@ -374,6 +391,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropForeignKey("sc.tblApartment", "StateId", "sc.tblState");
             DropForeignKey("secure.tblUserRole", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblReminder", "CreatorId", "secure.tblUser");
+            DropForeignKey("sc.tblNotification", "TargetUserId", "secure.tblUser");
             DropForeignKey("secure.tblUserLogin", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblFlatUser", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblFlatUser", "FlatId", "sc.tblFlat");
@@ -399,6 +417,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropIndex("secure.tblUserRole", new[] { "RoleId" });
             DropIndex("secure.tblUserRole", new[] { "UserId" });
             DropIndex("sc.tblReminder", new[] { "CreatorId" });
+            DropIndex("sc.tblNotification", new[] { "TargetUserId" });
             DropIndex("secure.tblUserLogin", new[] { "UserId" });
             DropIndex("sc.tblFlat", new[] { "ApartmentId" });
             DropIndex("sc.tblFlatUser", new[] { "BloodGroupId" });
@@ -426,6 +445,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropTable("sc.tblState");
             DropTable("secure.tblUserRole");
             DropTable("sc.tblReminder");
+            DropTable("sc.tblNotification");
             DropTable("secure.tblUserLogin");
             DropTable("sc.tblFlat");
             DropTable("sc.tblBloodGroup");

@@ -139,7 +139,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, ConfigureUser);
-                
             }
             catch (Exception ex)
             {

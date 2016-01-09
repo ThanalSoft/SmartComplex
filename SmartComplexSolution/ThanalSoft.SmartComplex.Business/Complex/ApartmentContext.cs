@@ -9,6 +9,7 @@ using ThanalSoft.SmartComplex.Common.String;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
 using ThanalSoft.SmartComplex.DataObjects.Security;
+using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Business.Complex
 {
@@ -121,16 +122,37 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 
         public async Task UploadFlatsAsync(FlatUploadInfo[] pFlatUploadInfoList, Int64 pUserId, Action<FlatUploadInfo, string, string> pConfigure)
         {
+            if (pFlatUploadInfoList == null || !pFlatUploadInfoList.Any())
+                return;
+
             using (var context = new SmartComplexDataObjectContext())
             {
+                var apartment = await context.Apartments.FindAsync(pFlatUploadInfoList[0].ApartmentId);
+                if (apartment == null)
+                    throw new Exception("Apartment id doesnt exists!");
+
+                context.Notifications.Add(new Notification
+                {
+                    CreatedDate = DateTime.Now,
+                    HasUserRead = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = pUserId,
+                    Message = $"Request for uploading & configuring '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
+                    TargetUserId = pUserId,
+                    UserReadDate = null
+                });
+                await context.SaveChangesAsync();
+
                 foreach (var apartmentFlatInfo in pFlatUploadInfoList)
                 {
+                    bool userAlreadyConfigured = true;
                     var activationCode = Guid.NewGuid().ToString();
                     var password = KeyGenerator.GetUniqueKey(8);
 
                     var flat = AddFlat(apartmentFlatInfo, pUserId);
                     flat.FlatUsers = new List<FlatUser>();
                     var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
+
                     var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.ToLower().Equals(apartmentFlatInfo.OwnerEmail.ToLower()));
                     if (existingUser != null)
                         flatUser.User = existingUser;
@@ -140,13 +162,27 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                         user.PasswordHash = password;
                         user.ActivationCode = activationCode;
                         flatUser.User = user;
+                        userAlreadyConfigured = false;
                     }
+
                     flat.FlatUsers.Add(flatUser);
                     context.Flats.Add(flat);
 
                     await context.SaveChangesAsync();
-                    pConfigure(apartmentFlatInfo, password, activationCode);
+                    if(!userAlreadyConfigured)
+                        pConfigure(apartmentFlatInfo, password, activationCode);
                 }
+
+                context.Notifications.Add(new Notification
+                {
+                    CreatedDate = DateTime.Now,
+                    HasUserRead = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = pUserId,
+                    Message = $"All the '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
+                    TargetUserId = pUserId
+                });
+                await context.SaveChangesAsync();
             }
         }
 

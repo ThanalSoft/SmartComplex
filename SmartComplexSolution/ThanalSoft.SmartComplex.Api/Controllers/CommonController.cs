@@ -25,5 +25,37 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetNotifications(int id)
+        {
+            var result = new GeneralReturnInfo<NotificationInfo[]>();
+            try
+            {
+                result.Info = await NotificationContext.Instance.GetAll(id);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadNotifications(int id)
+        {
+            var result = new GeneralReturnInfo<NotificationInfo[]>();
+            try
+            {
+                result.Info = await NotificationContext.Instance.Read(id);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
     }
 }

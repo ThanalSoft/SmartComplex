@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Common.String;
@@ -15,6 +16,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 {
     public class ApartmentContext : BaseBusiness<ApartmentContext>
     {
+        private readonly PasswordHasher _passwordHasher = new PasswordHasher();
+
         public async Task<ApartmentInfo[]> GetAllAsync()
         {
             using (var context = new SmartComplexDataObjectContext())
@@ -145,7 +148,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 
                 foreach (var apartmentFlatInfo in pFlatUploadInfoList)
                 {
-                    bool userAlreadyConfigured = true;
+                    var userAlreadyConfigured = true;
                     var activationCode = Guid.NewGuid().ToString();
                     var password = KeyGenerator.GetUniqueKey(8);
 
@@ -159,10 +162,19 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     else
                     {
                         var user = CreateUserLoginForOwner(apartmentFlatInfo);
-                        user.PasswordHash = password;
+                        user.PasswordHash = _passwordHasher.HashPassword(password);
                         user.ActivationCode = activationCode;
                         flatUser.User = user;
                         userAlreadyConfigured = false;
+                        context.Notifications.Add(new Notification
+                        {
+                            CreatedDate = DateTime.Now,
+                            HasUserRead = false,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = pUserId,
+                            Message = "Welcome to Smart Complex.",
+                            TargetUserId = user.Id
+                        });
                     }
 
                     flat.FlatUsers.Add(flatUser);

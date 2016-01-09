@@ -14,7 +14,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureApiController
     {
-        private readonly PasswordHasher _passwordHasher = new PasswordHasher();
+       
 
         [HttpGet]
         public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAll()
@@ -156,7 +156,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var user = UserManager.FindByEmail(pUser.OwnerEmail);
             AddOwnerRole(user);
             
-            pPassword = _passwordHasher.HashPassword(pPassword);
             if (!string.IsNullOrEmpty(user.ActivationCode) && !user.IsActivated)
                 SendUserEmail(pUser.OwnerEmail, pPassword, pActivationCode, user);
         }

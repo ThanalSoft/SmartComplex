@@ -210,10 +210,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                                 });
                             }
 
-                            var response = await new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
-                            pModel.ActionResultStatus = response.Result == ApiResponseResult.Success
-                                ? await GetSuccessModel(pModel)
-                                : new ActionResultStatusViewModel("File upload error! Reason: " + response.Reason, ActionStatus.Error);
+                            var response = new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
                         }
                         else
                             pModel.ActionResultStatus = new ActionResultStatusViewModel("File not formed correctly. Contact Administrator!", ActionStatus.Error);
@@ -228,16 +225,10 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     return RedirectToAction("Index", "Apartment", new { pApartmentId = pModel.ApartmentId });
                 }
             }
-            TempData["Status"] = pModel.ActionResultStatus;
+            TempData["Status"] = new ActionResultStatusViewModel("File is under processing. Once the file is processed completly you will be notified.", ActionStatus.Success);
             return RedirectToAction("Index", "Apartment", new { pApartmentId = pModel.ApartmentId });
         }
-
-        private async Task<ActionResultStatusViewModel> GetSuccessModel(FlatManagementViewModel pModel)
-        {
-            pModel.Apartment = (await GetApartment(pModel.ApartmentId)).Info;
-            return new ActionResultStatusViewModel("File uploaded successfully. Flats are added to the Apartment.", ActionStatus.Success);
-        }
-
+        
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
             var response = await new ApiConnector<GeneralReturnInfo<StateInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);
@@ -268,7 +259,5 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
         }
-
-
     }
 }

@@ -230,6 +230,7 @@
     <Content Include="Views\Apartment\_UploadFlats.cshtml" />
     <Content Include="Views\Flat\_FlatList.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Shared\Partials\_Notification.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -39,6 +39,8 @@ namespace ThanalSoft.SmartComplex.DataAccess
 
         public virtual DbSet<AssociationMember> AssociationMembers { get; set; }
 
+        public virtual DbSet<MemberFlat> MemberFlats { get; set; }
+
         #endregion
 
         #region User Utilities

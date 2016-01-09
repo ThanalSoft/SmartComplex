@@ -214,6 +214,14 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
+        public async Task<FlatUser> GetMember(Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                return await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(pUserId));
+            }
+        }
+
         private User CreateUserLoginForOwner(FlatUploadInfo pApartmentFlatInfo)
         {
             return new User

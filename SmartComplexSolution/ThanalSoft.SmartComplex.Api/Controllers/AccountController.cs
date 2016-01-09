@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
+using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
@@ -34,12 +35,18 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             switch (status)
             {
                 case SignInStatus.Success:
+                    var flatUser = await ApartmentContext.Instance.GetMember(user.Id);
                     var userInfo = new LoginUserInfo
                     {
                         Email = pLogin.Email,
                         UserName = user.UserName,
                         UserId = user.Id,
-                        Roles = (await UserManager.GetRolesAsync(user.Id)).ToArray()
+                        Roles = (await UserManager.GetRolesAsync(user.Id)).ToArray(),
+                        Name = flatUser == null 
+                                    ? pLogin.Email 
+                                    : flatUser.FirstName + (string.IsNullOrEmpty(flatUser.LastName) 
+                                                ? "" 
+                                                : " " + flatUser.LastName),
                     };
                     return new LoginResultInfo
                     {

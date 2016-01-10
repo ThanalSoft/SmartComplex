@@ -14,16 +14,16 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetNotifications()
+        public async Task<int> GetUserNotificationCount()
         {
-            var notifications = await new ApiConnector<GeneralReturnInfo<NotificationInfo[]>>().SecureGetAsync("Common", "GetNotifications", LoggedInUser, LoggedInUser.UserId.ToString());
-            return PartialView("Partials/_Notification", notifications.Info);
+            var notifications = await new ApiConnector<GeneralReturnInfo<int>>().SecureGetAsync("Common", "GetUserNotificationCount", LoggedInUser, LoggedInUser.UserId.ToString());
+            return notifications.Info;
         }
 
         [HttpGet]
         public async Task<ActionResult> ReadNotifications()
         {
-            var notifications = await new ApiConnector<GeneralReturnInfo<NotificationInfo[]>>().SecureGetAsync("Common", "ReadNotifications", LoggedInUser, LoggedInUser.UserId.ToString());
+            var notifications = await new ApiConnector<GeneralReturnInfo<NotificationInfo[]>>().SecureGetAsync("Common", "ReadUserNotifications", LoggedInUser, LoggedInUser.UserId.ToString());
             return PartialView("Partials/_Notification", notifications.Info);
         }
     }

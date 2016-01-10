@@ -1,52 +1,29 @@
 ﻿@using ThanalSoft.SmartComplex.Common.Extensions
 @model ThanalSoft.SmartComplex.Common.Models.Common.NotificationInfo[]
-
-<a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-    <i class="fa fa-bell"></i>
-    @if (Model != null && Model.Any())
-    {
-        var count = Model.Count(pX => !pX.HasUserRead);
-        if (count > 0)
+@if (Model != null && Model.Any())
+{
+    <ul id="notifications" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
+        @foreach (var notification in Model)
         {
-            <span class="badge bg-blue">@count</span>
-        }
-        else
-        {
-            <span class="badge bg-grey">@count</span>
-        }
-    }
-    @if (Model != null && Model.Any())
-    {
-        <ul id="notifications" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
-            @foreach (var notification in Model)
-            {
-                <li>
-                    <a>
-                        @if (notification.HasUserRead)
-                        {
-                            <i class="fa fa-flag-o"></i>
-                        }
-                        else
-                        {
-                            <i class="fa fa-flag"></i>
-                        }
-                        <span>
-                            <span class="time">@notification.CreatedDate.ConvertWhen()</span>
-                        </span>
-                        <span class="message">
-                            @notification.Message
-                        </span>
-                    </a>
-                </li>
-            }
             <li>
-                <div class="text-center">
-                    <a>
-                        <strong>View All</strong>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </div>
+                <a>
+                    <i class="fa fa-info-circle"></i>
+                    <span>
+                        <span class="time">@notification.CreatedDate.ConvertWhen()</span>
+                    </span>
+                    <span class="message">
+                        @notification.Message
+                    </span>
+                </a>
             </li>
-        </ul>
-    }
-</a>
+        }
+        <li>
+            <div class="text-center">
+                <a>
+                    <strong>View All</strong>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </li>
+    </ul>
+}

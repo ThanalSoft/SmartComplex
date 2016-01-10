@@ -10,11 +10,20 @@ namespace ThanalSoft.SmartComplex.Business.Common
 {
     public class NotificationContext : BaseBusiness<NotificationContext>
     {
+        public async Task<int> GetCount(Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var data = await context.Notifications.Where(pX => pX.TargetUserId == pUserId && !pX.HasUserRead).CountAsync();
+                return data;
+            }
+        }
+
         public async Task<NotificationInfo[]> GetAll(Int64 pUserId)
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var data = await context.Notifications.Where(pX => pX.TargetUserId == pUserId).OrderByDescending(pX => pX.CreatedDate).Take(5).ToArrayAsync();
+                var data = await context.Notifications.Where(pX => pX.TargetUserId == pUserId).OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
                 return data.Select(MapToInfo).ToArray();
             }
         }

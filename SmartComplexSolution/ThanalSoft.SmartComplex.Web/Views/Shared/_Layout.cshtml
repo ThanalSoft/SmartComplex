@@ -76,6 +76,11 @@
                                 </ul>
                             </li>
                             <li role="presentation" class="dropdown" id="userNotification">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge bg-red" id="notificationcount"></span>
+                                </a>
+
                             </li>
                         </ul>
                     </nav>
@@ -112,12 +117,30 @@
 @RenderSection("scripts", required: false)
 
 <script>
+
     $(document).ready(function () {
+        setInterval(setNotificationCount, 50000);
+        setNotificationCount();
+    });
+
+    function setNotificationCount() {
         $.ajax({
-            url: '@Url.Action("GetNotifications", "Home")',
+            url: '@Url.Action("GetUserNotificationCount", "Home")',
+            type: 'GET',
+            success: fillNotificationCount,
+            error: function () {
+                alert("error");
+            }
+        });
+    };
+
+    $("#userNotification").click(function () {
+        $.ajax({
+            url: '@Url.Action("ReadNotifications", "Home")',
             type: 'GET',
             success: function (result) {
-                $("#userNotification").html(result);
+                $("#userNotification").find("a").after(result);
+                $("#notificationcount").fadeOut("slow");
             },
             error: function () {
                 alert("error");
@@ -125,18 +148,15 @@
         });
     });
 
-    $("#userNotification").click(function () {
-        $.ajax({
-            url: '@Url.Action("ReadNotifications", "Home")',
-            type: 'GET',
-            success: function (result) {
-                $("#userNotification").html(result);
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    });
+    function fillNotificationCount(data) {
+        if (parseInt(data) !== 0) {
+            $("#notificationcount").fadeOut(100, function () {
+                $("#notificationcount").html(data);
+                $("#notificationcount").fadeIn(100);
+            });
+        }
+    };
+
     NProgress.done();
 </script>
 

@@ -27,7 +27,23 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetNotifications(int id)
+        public async Task<GeneralReturnInfo<int>> GetUserNotificationCount(int id)
+        {
+            var result = new GeneralReturnInfo<int>();
+            try
+            {
+                result.Info = await NotificationContext.Instance.GetCount(id);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetUserNotifications(int id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();
             try
@@ -43,7 +59,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadNotifications(int id)
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadUserNotifications(int id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();
             try

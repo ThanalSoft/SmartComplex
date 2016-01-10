@@ -15,6 +15,7 @@ $(function () {
             $('ul', this).slideUp();
             $(this).removeClass('nv');
             $(this).addClass('vn');
+            
         } else {
             $('#sidebar-menu li ul').slideUp();
             $(this).removeClass('vn');
@@ -32,6 +33,7 @@ $(function () {
             $('.left_col').removeClass('scroll-view');
             $('.left_col').removeAttr('style');
             $('.sidebar-footer').hide();
+            $("#logo").hide();//.attr("src", "/SmartComplex/Content/images/logo130x36.png");
 
             if ($('#sidebar-menu li').hasClass('active')) {
                 $('#sidebar-menu li.active').addClass('active-sm');
@@ -41,6 +43,7 @@ $(function () {
             $('body').removeClass('nav-sm');
             $('body').addClass('nav-md');
             $('.sidebar-footer').show();
+            $("#logo").show();//.attr("src", "/SmartComplex/Content/images/logo180x50.png");
 
             if ($('#sidebar-menu li').hasClass('active-sm')) {
                 $('#sidebar-menu li.active-sm').addClass('active');

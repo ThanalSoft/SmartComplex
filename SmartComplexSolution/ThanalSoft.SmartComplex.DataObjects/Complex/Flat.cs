@@ -19,6 +19,9 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public string Name { get; set; }
 
         [DataMember]
+        public int? FlatTypeId { get; set; }
+
+        [DataMember]
         [Required]
         public int Floor { get; set; }
 
@@ -38,6 +41,9 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
 
         [ForeignKey("ApartmentId")]
         public Apartment Apartment { get; set; }
+        
+        [ForeignKey("FlatTypeId")]
+        public FlatType FlatType { get; set; }
 
         public virtual ICollection<MemberFlat> MemberFlats { get; set; }
 

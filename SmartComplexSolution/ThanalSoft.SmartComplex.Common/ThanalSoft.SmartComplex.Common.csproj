@@ -69,6 +69,7 @@
     <Compile Include="Models\Complex\FlatUploadInfo.cs" />
     <Compile Include="Models\Complex\FlatUserInfo.cs" />
     <Compile Include="Models\Complex\ApartmentInfo.cs" />
+    <Compile Include="Models\Dashboard\AdminDashboardInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="String\KeyGenerator.cs" />
   </ItemGroup>

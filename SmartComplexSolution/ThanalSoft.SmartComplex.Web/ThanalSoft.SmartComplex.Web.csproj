@@ -208,6 +208,7 @@
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Account\UserLoginModel.cs" />
     <Compile Include="Models\Flat\FlatViewModel.cs" />
+    <Compile Include="Models\Home\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +234,7 @@
     <Content Include="Views\Shared\Partials\_Notification.cshtml" />
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Flat\View.cshtml" />
+    <Content Include="Views\Home\_AdminDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

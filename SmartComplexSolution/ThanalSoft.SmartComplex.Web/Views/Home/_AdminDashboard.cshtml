@@ -1,0 +1,33 @@
+﻿@model ThanalSoft.SmartComplex.Common.Models.Dashboard.AdminDashboardInfo
+<div class="row tile_count">
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-building"></i> Total Apartments</span>
+            <div class="count">@Model.TotalApartments</div>
+            <span class="count_bottom"><i class="red">@Model.TotalDeletedApartments </i> deleted Apartments</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-home"></i> Total Flats</span>
+            <div class="count">@Model.TotalFlats</div>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-users"></i> Total Users</span>
+            <div class="count">@Model.TotalActiveUsers</div>
+            <span class="count_bottom"><i class="green">@Model.TotalInactiveUsers </i> inactive Users</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i> Logged-in Users</span>
+            <div class="count">@Model.TotalLoggedinUsers</div>
+        </div>
+    </div>
+</div>

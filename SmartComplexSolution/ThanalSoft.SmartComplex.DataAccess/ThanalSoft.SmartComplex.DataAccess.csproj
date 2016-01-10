@@ -61,6 +61,10 @@
     <Compile Include="Migrations\201601091727241_FirstCreation.Designer.cs">
       <DependentUpon>201601091727241_FirstCreation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601101435531_Changes1.cs" />
+    <Compile Include="Migrations\201601101435531_Changes1.Designer.cs">
+      <DependentUpon>201601101435531_Changes1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartComplexDataObjectContext.cs" />
@@ -79,6 +83,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201601091727241_FirstCreation.resx">
       <DependentUpon>201601091727241_FirstCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601101435531_Changes1.resx">
+      <DependentUpon>201601101435531_Changes1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

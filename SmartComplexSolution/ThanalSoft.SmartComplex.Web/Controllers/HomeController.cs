@@ -1,16 +1,26 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Common;
+using ThanalSoft.SmartComplex.Common.Models.Dashboard;
 using ThanalSoft.SmartComplex.Web.Common;
+using ThanalSoft.SmartComplex.Web.Models.Home;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
     public class HomeController : BaseSecuredController
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var viewModel = new DashboardViewModel();
+            if (LoggedInUser.Roles.Any(pX => pX.Equals("Administrator")))
+            {
+                var dahboard = await new ApiConnector<GeneralReturnInfo<AdminDashboardInfo>>().SecureGetAsync("Dashboard", "GetAdministratorDashboard", LoggedInUser);
+                viewModel.AdminDashboardInfo = dahboard.Info;
+            }
+
+            return View(viewModel);
         }
 
         [HttpGet]

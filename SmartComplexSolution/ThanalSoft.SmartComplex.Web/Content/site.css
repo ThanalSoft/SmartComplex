@@ -258,7 +258,6 @@ body.nav-md .container.body .right_col {
 
 @media (max-width: 1200px) {
     .x_title h2 {
-        width: 62%;
         font-size: 17px;
     }
 
@@ -3269,7 +3268,7 @@ select.parsley-error {
     width: auto;
 }
 
-//---- .daterangepicker .daterangepicker_start_input label,
+.daterangepicker .daterangepicker_start_input label,
 .daterangepicker .daterangepicker_end_input label {
     color: #333;
     display: block;
@@ -3345,7 +3344,7 @@ select.parsley-error {
     border: none;
 }
 
-//---- .daterangepicker.single .ranges,
+.daterangepicker.single .ranges,
 .daterangepicker.single .calendar {
     float: none;
 }

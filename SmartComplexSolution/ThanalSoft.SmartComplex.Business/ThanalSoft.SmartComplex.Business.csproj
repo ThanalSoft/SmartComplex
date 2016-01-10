@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseBusiness.cs" />
+    <Compile Include="Common\DashboardContext.cs" />
     <Compile Include="Common\NotificationContext.cs" />
     <Compile Include="Common\StateContext.cs" />
     <Compile Include="Complex\ApartmentContext.cs" />

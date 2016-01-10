@@ -68,6 +68,7 @@
     <Compile Include="Complex\AssociationMember.cs" />
     <Compile Include="Complex\AssociationMemberRank.cs" />
     <Compile Include="Complex\Flat.cs" />
+    <Compile Include="Complex\FlatType.cs" />
     <Compile Include="Complex\FlatUser.cs" />
     <Compile Include="Complex\MemberFlat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

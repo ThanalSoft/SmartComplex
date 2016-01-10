@@ -56,6 +56,20 @@
         });
     };
 
+    function viewFlat(flatId) {
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("View", "Flat")',
+            type: "GET",
+            data: { pId: flatId },
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
+    };
+
     function editApartment(apartmentId) {
         loadAnimator();
         $.ajax({

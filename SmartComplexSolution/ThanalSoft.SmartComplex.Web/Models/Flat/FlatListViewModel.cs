@@ -1,6 +1,6 @@
 ﻿using ThanalSoft.SmartComplex.Common.Models.Complex;
 
-namespace ThanalSoft.SmartComplex.Web.Models.Apartment
+namespace ThanalSoft.SmartComplex.Web.Models.Flat
 {
     public class FlatListViewModel : BaseViewModel
     {

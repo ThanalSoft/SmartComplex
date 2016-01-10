@@ -14,6 +14,9 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [DataMember]
         public int ApartmentId { get; set; }
 
+        [DataMember]
+        public string ApartmentName { get; set; }
+
         [TableColumn("Name")]
         [DataMember]
         public string Name { get; set; }

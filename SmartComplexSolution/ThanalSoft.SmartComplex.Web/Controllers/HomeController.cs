@@ -16,6 +16,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public async Task<int> GetUserNotificationCount()
         {
+            if (LoggedInUser == null)
+                RedirectToAction("Index", "Account");
+
             var notifications = await new ApiConnector<GeneralReturnInfo<int>>().SecureGetAsync("Common", "GetUserNotificationCount", LoggedInUser, LoggedInUser.UserId.ToString());
             return notifications.Info;
         }

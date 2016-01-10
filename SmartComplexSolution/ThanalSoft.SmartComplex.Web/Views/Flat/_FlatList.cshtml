@@ -1,11 +1,11 @@
-﻿@model ThanalSoft.SmartComplex.Web.Models.Apartment.FlatListViewModel
+﻿@model ThanalSoft.SmartComplex.Web.Models.Flat.FlatListViewModel
 @{
     Layout = null;
 }
 <div class="x_panel">
     <div class="x_title">
         <h2>
-            <i class="fa fa-home"></i> Flats
+            <i class="fa fa-home"></i> Flats <small> in  '@(Model.Flats[0]?.ApartmentName)'</small>
         </h2>
         <button type="button" onclick="addNew()" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New</button>
         <button type="button" onclick="viewApartment(@Model.Flats[0].ApartmentId)" class="btn btn-dark pull-right"><i class="fa fa-backward"></i> Back</button>

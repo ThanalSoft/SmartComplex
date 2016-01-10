@@ -59,7 +59,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public PartialViewResult UploadFlats(int pId)
         {
-            return PartialView("_UploadFlats", new FlatManagementViewModel { ApartmentId = pId });
+            return PartialView("_UploadFlats", new ApartmentViewModel { ApartmentId = pId });
         }
 
         [HttpGet]
@@ -162,7 +162,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UploadFlats(FlatManagementViewModel pModel)
+        public async Task<ActionResult> UploadFlats(ApartmentViewModel pModel)
         {
             if (Request.Files["fileUpload"]?.ContentLength > 0)
             {

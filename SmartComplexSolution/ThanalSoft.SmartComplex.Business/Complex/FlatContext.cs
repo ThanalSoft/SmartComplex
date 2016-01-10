@@ -17,6 +17,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             {
                 var flats = await context.Flats
                     .Include(pX => pX.Apartment)
+                    .Include(pX => pX.FlatType)
                     .Where(pX => pX.ApartmentId.Equals(pApartmentId)).ToListAsync();
                 return flats.Select(MapToFlatInfo).ToArray();
             }
@@ -59,7 +60,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 ExtensionNumber = pFlat.ExtensionNumber,
                 SquareFeet = pFlat.SquareFeet,
                 Id = pFlat.Id,
-                ApartmentName = pFlat.Apartment.Name
+                ApartmentName = pFlat.Apartment.Name,
+                FlatType = pFlat.FlatType?.Name
             };
             return info;
         }

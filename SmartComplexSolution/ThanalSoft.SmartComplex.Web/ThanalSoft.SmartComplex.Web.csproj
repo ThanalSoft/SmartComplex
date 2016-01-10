@@ -235,6 +235,7 @@
     <Content Include="Views\Home\Notifications.cshtml" />
     <Content Include="Views\Flat\View.cshtml" />
     <Content Include="Views\Home\_AdminDashboard.cshtml" />
+    <Content Include="Views\Flat\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

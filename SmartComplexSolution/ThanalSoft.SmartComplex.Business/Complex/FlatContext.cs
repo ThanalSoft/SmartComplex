@@ -70,13 +70,14 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             {
                 ApartmentId = pApartmentFlatInfo.ApartmentId,
                 Block = pApartmentFlatInfo.Block,
-                ExtensionNumber = null,
-                Floor = pApartmentFlatInfo.Floor,
+                ExtensionNumber = pApartmentFlatInfo.ExtensionNumber,
+                Floor = pApartmentFlatInfo.Floor.Value,
                 Name = pApartmentFlatInfo.Name,
                 Phase = pApartmentFlatInfo.Phase,
-                SquareFeet = null,
+                SquareFeet = pApartmentFlatInfo.SquareFeet,
                 LastUpdated = DateTime.Now,
                 LastUpdatedBy = pUserId,
+                FlatTypeId = pApartmentFlatInfo.FlatTypeId <= 0 ? null : pApartmentFlatInfo.FlatTypeId
             };
         }
 

@@ -25,7 +25,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         [Required]
         public int Floor { get; set; }
 
-        [Required]
         [StringLength(10)]
         public string Block { get; set; }
 

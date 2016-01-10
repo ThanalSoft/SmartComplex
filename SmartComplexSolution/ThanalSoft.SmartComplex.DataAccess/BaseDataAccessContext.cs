@@ -35,6 +35,8 @@ namespace ThanalSoft.SmartComplex.DataAccess
 
         public virtual DbSet<FlatUser> FlatUsers { get; set; }
 
+        public virtual DbSet<FlatType> FlatTypes { get; set; }
+
         public virtual DbSet<Association> Associations { get; set; }
 
         public virtual DbSet<AssociationMember> AssociationMembers { get; set; }

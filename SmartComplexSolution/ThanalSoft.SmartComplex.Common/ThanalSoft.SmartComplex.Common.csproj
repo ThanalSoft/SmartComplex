@@ -63,8 +63,8 @@
     <Compile Include="Models\Account\LoginRequestInfo.cs" />
     <Compile Include="Models\Account\LoginResultInfo.cs" />
     <Compile Include="Models\Account\LoginUserInfo.cs" />
+    <Compile Include="Models\Common\GeneralInfo.cs" />
     <Compile Include="Models\Common\NotificationInfo.cs" />
-    <Compile Include="Models\Common\StateInfo.cs" />
     <Compile Include="Models\Complex\FlatInfo.cs" />
     <Compile Include="Models\Complex\FlatUploadInfo.cs" />
     <Compile Include="Models\Complex\FlatUserInfo.cs" />

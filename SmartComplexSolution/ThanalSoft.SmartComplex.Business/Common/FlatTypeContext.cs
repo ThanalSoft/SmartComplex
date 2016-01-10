@@ -6,13 +6,13 @@ using ThanalSoft.SmartComplex.DataAccess;
 
 namespace ThanalSoft.SmartComplex.Business.Common
 {
-    public class StateContext : BaseBusiness<StateContext>
+    public class FlatTypeContext : BaseBusiness<FlatTypeContext>
     {
-        public async Task<GeneralInfo[]> GetStatesAsync()
+        public async Task<GeneralInfo[]> GetFlatTypesAsync()
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var data = await context.States.ToArrayAsync();
+                var data = await context.FlatTypes.Where(pX => pX.IsActive).ToArrayAsync();
                 return data.Select(pX => new GeneralInfo
                 {
                     Name = pX.Name,

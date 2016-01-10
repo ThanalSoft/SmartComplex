@@ -231,10 +231,10 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
-            var response = await new ApiConnector<GeneralReturnInfo<StateInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);
             var stateDdl = new List<SelectListItem>
             {
-                new SelectListItem()
+                new SelectListItem
                 {
                     Value = null,
                     Text = "-- Select --"

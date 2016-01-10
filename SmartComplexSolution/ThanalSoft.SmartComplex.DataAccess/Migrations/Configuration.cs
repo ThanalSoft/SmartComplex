@@ -30,6 +30,8 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
 
             CreateAssosiationMemberRanks(pContext);
 
+            CreateFlatTypes(pContext);
+
             pContext.SaveChanges();
         }
 
@@ -365,5 +367,66 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 });
             pContext.SaveChanges();
         }
+
+        private void CreateFlatTypes(SmartComplexDataObjectContext pContext)
+        {
+            pContext.FlatTypes.AddOrUpdate(pName => pName.Name,
+                new FlatType
+                {
+                    Description = "1 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "1 BHK"
+                },
+                new FlatType
+                {
+                    Description = "1 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "1.5 BHK"
+                },
+                new FlatType
+                {
+                    Description = "2 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "2 BHK"
+                },
+                new FlatType
+                {
+                    Description = "2.5 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "2.5 BHK"
+                },
+                new FlatType
+                {
+                    Description = "3 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "3 BHK"
+                },
+                new FlatType
+                {
+                    Description = "3.5 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "3.5 BHK"
+                },
+                new FlatType
+                {
+                    Description = "4 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "4 BHK"
+                },
+                new FlatType
+                {
+                    Description = "4.5 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "4.5 BHK"
+                },
+                new FlatType
+                {
+                    Description = "5 Bed Room, Hall & Kitchen",
+                    IsActive = true,
+                    Name = "5 BHK"
+                });
+            pContext.SaveChanges();
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
+using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -49,6 +50,11 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 await FlatContext.Instance.Create(pApartmentFlatInfo, LoggedInUser);
+            }
+            catch (ItemAlreadyExistsException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
             }
             catch (Exception ex)
             {

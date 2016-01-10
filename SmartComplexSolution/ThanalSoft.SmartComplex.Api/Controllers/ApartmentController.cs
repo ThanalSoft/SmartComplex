@@ -14,8 +14,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureApiController
     {
-       
-
         [HttpGet]
         public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAll()
         {

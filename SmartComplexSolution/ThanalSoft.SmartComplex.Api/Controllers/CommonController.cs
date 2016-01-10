@@ -11,12 +11,28 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     public class CommonController : BaseSecureApiController
     {
         [HttpGet]
-        public async Task<GeneralReturnInfo<StateInfo[]>> GetStates()
+        public async Task<GeneralReturnInfo<GeneralInfo[]>> GetStates()
         {
-            var result = new GeneralReturnInfo<StateInfo[]>();
+            var result = new GeneralReturnInfo<GeneralInfo[]>();
             try
             {
                 result.Info = await StateContext.Instance.GetStatesAsync();
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<GeneralInfo[]>> GetFlatTypes()
+        {
+            var result = new GeneralReturnInfo<GeneralInfo[]>();
+            try
+            {
+                result.Info = await FlatTypeContext.Instance.GetFlatTypesAsync();
             }
             catch (Exception ex)
             {
@@ -73,7 +89,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
-
 
         [HttpGet]
         public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadUserNotifications(int id)

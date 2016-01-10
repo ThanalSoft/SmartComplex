@@ -2,12 +2,16 @@
 @{
     Layout = null;
 }
+@if (Model.ActionResultStatus != null)
+{
+    Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
+}
 <div class="x_panel">
     <div class="x_title">
         <h2>
             <i class="fa fa-home"></i> Flats <small> in  '@(Model.Flats[0]?.ApartmentName)'</small>
         </h2>
-        <button type="button" onclick="addNew()" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New</button>
+        <button type="button" onclick="addNewFlat(@Model.Flats[0].ApartmentId)" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New</button>
         <button type="button" onclick="viewApartment(@Model.Flats[0].ApartmentId)" class="btn btn-dark pull-right"><i class="fa fa-backward"></i> Back</button>
         <div class="clearfix"></div>
     </div>

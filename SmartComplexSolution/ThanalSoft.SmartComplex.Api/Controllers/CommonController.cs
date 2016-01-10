@@ -59,6 +59,23 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [HttpGet]
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetLatestUserNotifications(int id)
+        {
+            var result = new GeneralReturnInfo<NotificationInfo[]>();
+            try
+            {
+                result.Info = await NotificationContext.Instance.GetLatest(id);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+
+        [HttpGet]
         public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadUserNotifications(int id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();

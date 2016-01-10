@@ -231,6 +231,7 @@
     <Content Include="Views\Flat\_FlatList.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Shared\Partials\_Notification.cshtml" />
+    <Content Include="Views\Home\Notifications.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -8,7 +8,7 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
 {
     public static class TableHelper
     {
-        public static IHtmlString DisplayTableFor<TModel>(this HtmlHelper<TModel> pHtmlHelper, dynamic[] pTableValues, object pHtmlRowAttributes)
+        public static IHtmlString DisplayTableFor<TModel>(this HtmlHelper<TModel> pHtmlHelper, dynamic[] pTableValues, object pHtmlRowAttributes = null)
         {
             if (pTableValues == null || !pTableValues.Any())
             {

@@ -19,6 +19,15 @@ namespace ThanalSoft.SmartComplex.Business.Common
             }
         }
 
+        public async Task<NotificationInfo[]> GetLatest(Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var data = await context.Notifications.Where(pX => pX.TargetUserId == pUserId).Take(5).OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
+                return data.Select(MapToInfo).ToArray();
+            }
+        }
+
         public async Task<NotificationInfo[]> GetAll(Int64 pUserId)
         {
             using (var context = new SmartComplexDataObjectContext())

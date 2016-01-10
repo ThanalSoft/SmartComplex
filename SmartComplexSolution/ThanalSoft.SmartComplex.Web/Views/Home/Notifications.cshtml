@@ -1,0 +1,15 @@
+﻿@model ThanalSoft.SmartComplex.Common.Models.Common.NotificationInfo[]
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="x_panel">
+    <div class="x_title">
+        <h2>
+            <i class="fa fa-flag-checkered"></i> Your Notifications
+        </h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        @Html.DisplayTableFor(Model)
+    </div>
+</div>

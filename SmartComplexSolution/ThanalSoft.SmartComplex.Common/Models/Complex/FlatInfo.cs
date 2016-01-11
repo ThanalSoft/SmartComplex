@@ -43,11 +43,6 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [StringLength(10)]
         public string Phase { get; set; }
 
-        [TableColumn("Ext No.")]
-        [Display(Name = "Extension No.")]
-        [DataMember]
-        public int? ExtensionNumber { get; set; }
-
         [TableColumn("Sqft")]
         [Display(Name = "Square Feet")]
         [DataMember]
@@ -60,6 +55,11 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [TableColumn("Flat Type")]
         [DataMember]
         public string FlatType { get; set; }
+
+        [TableColumn("Ext No.")]
+        [Display(Name = "Extension No.")]
+        [DataMember]
+        public int? ExtensionNumber { get; set; }
 
         [DataMember]
         public FlatUserInfo[] ApartmentFlatUsers { get; set; }

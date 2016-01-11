@@ -78,6 +78,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var original = await context.Apartments.FindAsync(pApartmentInfo.Id);
+                if(original == null)
+                    throw new KeyNotFoundException(pApartmentInfo.Id.ToString());
 
                 if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.Id != original.Id))
                     throw new ItemAlreadyExistsException(pApartmentInfo.Name);
@@ -267,14 +269,15 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return new Flat
             {
                 ApartmentId = pApartmentFlatInfo.ApartmentId,
-                Block = pApartmentFlatInfo.Block,
+                Block = string.IsNullOrEmpty(pApartmentFlatInfo.Block) ? null : pApartmentFlatInfo.Block,
                 ExtensionNumber = null,
                 Floor = pApartmentFlatInfo.Floor,
                 Name = pApartmentFlatInfo.Name,
-                Phase = pApartmentFlatInfo.Phase,
+                Phase = string.IsNullOrEmpty(pApartmentFlatInfo.Phase) ? null : pApartmentFlatInfo.Phase,
                 SquareFeet = null,
+                FlatTypeId = null,
                 LastUpdated = DateTime.Now,
-                LastUpdatedBy = pUserId,
+                LastUpdatedBy = pUserId
             };
         }
 

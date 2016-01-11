@@ -52,7 +52,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             var response = await GetApartment(pId);
             return View(new ApartmentViewModel
             {
-                ApartmentInfo = response.Info
+                ApartmentInfo = response.Info,
+                ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
             });
         }
 
@@ -115,7 +116,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Apartment updated successfully!", ActionStatus.Success);
-                    return RedirectToAction("GetAllList");
+                    return RedirectToAction("View", new { pId  = pModel.ApartmentInfo.Id });
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Apartment"), ActionStatus.Error);
             }

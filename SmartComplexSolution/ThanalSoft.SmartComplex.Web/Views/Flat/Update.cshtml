@@ -2,7 +2,7 @@
 @{
     Layout = "";
 }
-@using (Ajax.BeginForm("Create", "Flat", FormMethod.Post, new AjaxOptions { UpdateTargetId = "container", OnBegin = "loadAnimator", OnComplete = "hideAnimator" }, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("Update", "Flat", FormMethod.Post, new AjaxOptions { UpdateTargetId = "container", OnBegin = "loadAnimator", OnComplete = "hideAnimator" }, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -13,10 +13,11 @@
     <div class="x_panel">
         <div class="x_title">
             <h2>
-                <i class="fa fa-home"></i> Add Flat<small>to the system!</small>
+                <i class="fa fa-home"></i> Update Flat
             </h2>
             <div class="clearfix"></div>
         </div>
+        @Html.HiddenFor(pX => pX.FlatInfo.Id)
         @Html.HiddenFor(pX => pX.FlatInfo.ApartmentId)
         <div class="x_content">
             <div class="form-group">
@@ -50,9 +51,9 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.FlatInfo.FlatTypeId, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+                @Html.LabelFor(m => m.FlatInfo.FlatTypeId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(m => m.FlatInfo.FlatTypeId, Model.FlatTypes, new {@class = "form-control col-md-7 col-xs-12"})
+                    @Html.DropDownListFor(m => m.FlatInfo.FlatTypeId, Model.FlatTypes, new { @class = "form-control col-md-7 col-xs-12" })
                 </div>
             </div>
             <div class="form-group">
@@ -64,7 +65,7 @@
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <button type="button" class="btn btn-dark cancel" onclick="loadFlats(@Model.FlatInfo.ApartmentId)">Cancel</button>
+                    <button type="button" class="btn btn-dark cancel" onclick="viewFlat(@Model.FlatInfo.Id)">Cancel</button>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>

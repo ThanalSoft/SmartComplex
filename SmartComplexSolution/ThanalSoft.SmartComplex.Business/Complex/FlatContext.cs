@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             {
                 var flatInfo = await context.Flats
                     .Include(pX => pX.Apartment)
+                    .Include(pX => pX.FlatType)
                     .Where(pX => pX.Id.Equals(pFlatId)).FirstAsync();
                 return MapToFlatInfo(flatInfo);
             }
@@ -61,7 +63,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 SquareFeet = pFlat.SquareFeet,
                 Id = pFlat.Id,
                 ApartmentName = pFlat.Apartment.Name,
-                FlatType = pFlat.FlatType?.Name
+                FlatType = pFlat.FlatType?.Name,
+                FlatTypeId = pFlat.FlatTypeId
             };
             return info;
         }
@@ -101,6 +104,32 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PhoneNumber = pFlatUser.User.PhoneNumber,
 
             };
+        }
+
+        public async Task Update(FlatInfo pApartmentFlatInfo, long pLoggedInUser)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var original = await context.Flats.FindAsync(pApartmentFlatInfo.Id);
+
+                if (original == null)
+                    throw new KeyNotFoundException(pApartmentFlatInfo.Id.ToString());
+
+                if (await context.Flats.AnyAsync(pX => pX.Name.Equals(pApartmentFlatInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.ApartmentId.Equals(pApartmentFlatInfo.ApartmentId) && pX.Id != original.Id))
+                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name);
+
+                original.Block = pApartmentFlatInfo.Block;
+                original.ExtensionNumber = pApartmentFlatInfo.ExtensionNumber;
+                original.FlatTypeId = pApartmentFlatInfo.FlatTypeId <= 0 ? null : pApartmentFlatInfo.FlatTypeId;
+                original.Floor = pApartmentFlatInfo.Floor.Value;
+                original.Name = pApartmentFlatInfo.Name;
+                original.Phase = pApartmentFlatInfo.Phase;
+                original.SquareFeet = pApartmentFlatInfo.SquareFeet;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = pLoggedInUser;
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

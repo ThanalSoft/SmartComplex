@@ -64,5 +64,25 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
+        [HttpPost]
+        public async Task<GeneralReturnInfo> Update(FlatInfo pApartmentFlatInfo)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                await FlatContext.Instance.Update(pApartmentFlatInfo, LoggedInUser);
+            }
+            catch (ItemAlreadyExistsException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
     }
 }

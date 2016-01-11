@@ -42,7 +42,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
             return View(new FlatViewModel
             {
-                FlatInfo = response.Info
+                FlatInfo = response.Info,
+                ActionResultStatus = (ActionResultStatusViewModel)TempData["Status"]
             });
         }
 
@@ -56,6 +57,17 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     ApartmentId = pApartmentId,
                 },
                 FlatTypes = await GetFlatTypes()
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Update(int pId)
+        {
+            var response = await GetFlat(pId);
+            return View(new FlatViewModel
+            {
+                FlatTypes = await GetFlatTypes(),
+                FlatInfo = response.Info
             });
         }
 
@@ -81,6 +93,37 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Flat created successfully!", ActionStatus.Success);
                     return RedirectToAction("GetAllList","Flat", new { pApartmentId = pModel.FlatInfo.ApartmentId });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Flat"), ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.FlatTypes = await GetFlatTypes();
+            return View(pModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(FlatViewModel pModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var response = await GetFlat(pModel.FlatInfo.Id);
+                return View(new FlatViewModel
+                {
+                    FlatInfo = response.Info,
+                    FlatTypes = await GetFlatTypes()
+                });
+            }
+            try
+            {
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Update", LoggedInUser, pModel.FlatInfo);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    TempData["Status"] = new ActionResultStatusViewModel("Flat updated successfully!", ActionStatus.Success);
+                    return RedirectToAction("View", "Flat", new { pId = pModel.FlatInfo.Id });
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + string.Format(result.Reason, "Flat"), ActionStatus.Error);
             }

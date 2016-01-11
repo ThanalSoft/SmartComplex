@@ -75,7 +75,7 @@
                 }
                 @if (@Model.ApartmentInfo.UserCount > 0)
                 {
-                    <a class="btn btn-app pull-left" onclick='editApartment(@Model.ApartmentInfo.Id)'>
+                    <a class="btn btn-app pull-left" onclick='loadApartmentUsers(@Model.ApartmentInfo.Id)'>
                         <span class="badge bg-orange">@Model.ApartmentInfo.UserCount</span>
                         <i class="fa fa-users"></i>Users
                     </a>
@@ -162,4 +162,5 @@
             }
         }
     }
+
 </script>

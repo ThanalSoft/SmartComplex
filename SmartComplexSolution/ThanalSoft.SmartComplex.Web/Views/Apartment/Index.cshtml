@@ -124,6 +124,20 @@
         });
     };
 
+    function loadApartmentUsers(apartmentId) {
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("GetAllList", "ApartmentUser")',
+            type: "GET",
+            data: { pApartmentId: apartmentId },
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
+    };
+
     function uploadFlats(apartmentId) {
         loadAnimator();
         $.ajax({

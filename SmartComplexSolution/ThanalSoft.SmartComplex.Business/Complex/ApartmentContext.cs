@@ -38,7 +38,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 var flats = await context.Flats.Where(pX => pX.ApartmentId.Equals(pApartmentId)).ToListAsync();
                 
                 var flatIds = flats.Select(pX => pX.Id);
-                var flatUsers = await context.MemberFlats.Where(pX => flatIds.Contains(pX.FlatId)).ToArrayAsync();
+                var flatUsers = await context.MemberFlats.Where(pX => flatIds.Contains(pX.FlatId)).Select(pX => pX.FlatUserId).Distinct().ToArrayAsync();
+
                 var apartmentInfo = MapToApartmentInfo(apartment);
                 apartmentInfo.FlatCount = flats.Count;
                 apartmentInfo.UserCount = flatUsers.Length;

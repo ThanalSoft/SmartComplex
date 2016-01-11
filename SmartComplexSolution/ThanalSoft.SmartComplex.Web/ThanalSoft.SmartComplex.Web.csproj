@@ -190,9 +190,11 @@
     <Compile Include="Common\Extensions\DateExt.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
+    <Compile Include="Controllers\ApartmentUserController.cs" />
     <Compile Include="Controllers\BaseSecuredController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FlatController.cs" />
+    <Compile Include="Controllers\FlatMemberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Global.asax.cs">
@@ -201,6 +203,8 @@
     <Compile Include="HTMLHelpers\TableHelper.cs" />
     <Compile Include="HTMLHelpers\test.cs" />
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />
+    <Compile Include="Models\ApartmentUser\ApartmentUserListViewModel.cs" />
+    <Compile Include="Models\ApartmentUser\ApartmentUserViewModel.cs" />
     <Compile Include="Models\Flat\FlatListViewModel.cs" />
     <Compile Include="Models\Common\ActionResultStatusViewModel.cs" />
     <Compile Include="Models\Apartment\ApartmentListViewModel.cs" />
@@ -237,6 +241,7 @@
     <Content Include="Views\Home\_AdminDashboard.cshtml" />
     <Content Include="Views\Flat\Create.cshtml" />
     <Content Include="Views\Flat\Update.cshtml" />
+    <Content Include="Views\ApartmentUser\_ApartmentUserList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -246,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\FlatMember\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThanalSoft.SmartComplex.Common\ThanalSoft.SmartComplex.Common.csproj">

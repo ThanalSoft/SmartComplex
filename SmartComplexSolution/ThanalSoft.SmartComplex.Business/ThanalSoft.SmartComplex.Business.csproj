@@ -63,6 +63,7 @@
     <Compile Include="Common\StateContext.cs" />
     <Compile Include="Complex\ApartmentContext.cs" />
     <Compile Include="Complex\FlatContext.cs" />
+    <Compile Include="Complex\FlatUserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

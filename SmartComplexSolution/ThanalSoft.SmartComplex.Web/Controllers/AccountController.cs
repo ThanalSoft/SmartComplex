@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 using ThanalSoft.SmartComplex.Web.Common;
-using ThanalSoft.SmartComplex.Web.Models;
 using ThanalSoft.SmartComplex.Web.Models.Account;
+using ThanalSoft.SmartComplex.Web.Security;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
@@ -14,7 +18,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public ActionResult Index(string returnUrl)
         {
-            if (LoggedInUser != null)
+            if (User != null)
                 return RedirectToAction("Index", "Home");
 
             ViewBag.ReturnUrl = returnUrl;
@@ -45,9 +49,32 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                         ViewBag.ModelError = "Invalid credentials. Try again.";
                         return View(pModel);
                     }
-                    LoggedInUser = loginResponse.LoginUserInfo;
-                    LoggedInUser.UserIdentity = token;
 
+                    var serializeModel = new SmartComplexPrincipalSerializeModel
+                    {
+                        Email = loginResponse.LoginUserInfo.Email,
+                        Name = loginResponse.LoginUserInfo.Name,
+                        UserName = loginResponse.LoginUserInfo.UserName,
+                        UserIdentity = token,
+                        UserId = loginResponse.LoginUserInfo.UserId,
+                        Roles = loginResponse.LoginUserInfo.Roles
+
+                    };
+                    var serializer = new JavaScriptSerializer();
+                    var userData = serializer.Serialize(serializeModel);
+
+                    var authTicket = new FormsAuthenticationTicket(
+                             1,
+                             loginResponse.LoginUserInfo.Email,
+                             DateTime.Now,
+                             DateTime.Now.AddDays(5),
+                             true,
+                             userData);
+
+                    var encTicket = FormsAuthentication.Encrypt(authTicket);
+                    var faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+                    Response.Cookies.Add(faCookie);
+                 
                     if (string.IsNullOrEmpty(returnUrl))
                         return RedirectToAction("Index", "Home");
 
@@ -91,7 +118,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
-            LoggedInUser = null;
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
     }

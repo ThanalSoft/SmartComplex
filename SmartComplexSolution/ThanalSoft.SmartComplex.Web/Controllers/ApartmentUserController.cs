@@ -24,7 +24,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         private async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetUsers(int pApartmentId)
         {
-            return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers", LoggedInUser, pApartmentId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers",  pApartmentId.ToString());
         }
     }
 }

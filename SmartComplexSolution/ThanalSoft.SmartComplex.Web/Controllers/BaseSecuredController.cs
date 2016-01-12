@@ -1,36 +1,11 @@
-﻿using System.Security.Principal;
-using System.Threading;
-using System.Web.Mvc;
-using ThanalSoft.SmartComplex.Common.Models.Account;
+﻿using System.Web.Mvc;
+using ThanalSoft.SmartComplex.Web.Security;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator,Owner,Tenant,MaintenanceAdmin,ApartmentAdmin")]
     public class BaseSecuredController : Controller
     {
-        protected LoginUserInfo LoggedInUser
-        {
-            get { return (LoginUserInfo) Session["UserInfo"]; }
-            set { Session["UserInfo"] = value; }
-        }
-
-        protected override void OnAuthorization(AuthorizationContext pFilterContext)
-        {
-            if (LoggedInUser != null)
-            {
-                var identity = new GenericIdentity(LoggedInUser.Email);
-                IPrincipal principal = new GenericPrincipal(identity, new[] {""});
-                Thread.CurrentPrincipal = principal;
-                pFilterContext.HttpContext.User = principal;
-            }
-            else
-            {
-                var identity = new GenericIdentity("");
-                IPrincipal principal = new GenericPrincipal(identity, new[] { "" });
-                Thread.CurrentPrincipal = principal;
-                pFilterContext.HttpContext.User = principal;
-            }
-            base.OnAuthorization(pFilterContext);
-        }
+        protected virtual new SmartComplexPrincipal User => HttpContext.User as SmartComplexPrincipal;
     }
 }

@@ -214,6 +214,10 @@
     <Compile Include="Models\Flat\FlatViewModel.cs" />
     <Compile Include="Models\Home\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ISmartComplexPrincipal.cs" />
+    <Compile Include="Security\SmartComplexPrincipal.cs" />
+    <Compile Include="Security\SmartComplexPrincipalSerializeModel.cs" />
+    <Compile Include="Views\BaseView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

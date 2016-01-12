@@ -4,14 +4,18 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json.Linq;
-using ThanalSoft.SmartComplex.Common.Models.Account;
+using ThanalSoft.SmartComplex.Web.Security;
 
 namespace ThanalSoft.SmartComplex.Web.Common
 {
     public class ApiConnector<TResponse>
     {
+        private SmartComplexPrincipal User => HttpContext.Current.User as SmartComplexPrincipal;
+
         private string ApiBaseURL => ConfigurationManager.AppSettings["API_URL"];
 
         public async Task<TResponse> GetAsync(string pController, string pAction, params string[] pParameters)
@@ -35,8 +39,6 @@ namespace ThanalSoft.SmartComplex.Web.Common
                     var result = await response.Content.ReadAsAsync<TResponse>();
                     return result;
                 }
-
-
                 throw new Exception();
             }
         }
@@ -59,13 +61,13 @@ namespace ThanalSoft.SmartComplex.Web.Common
             }
         }
 
-        public async Task<TResponse> SecureGetAsync(string pController, string pAction, LoginUserInfo pLoggedInUser, params string[] pParameters)
+        public async Task<TResponse> SecureGetAsync(string pController, string pAction, params string[] pParameters)
         {
-            if (pLoggedInUser == null)
+            if (Thread.CurrentPrincipal == null)
                 return default(TResponse);
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pLoggedInUser.UserIdentity);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", User.UserIdentity);
                 client.BaseAddress = new Uri(ApiBaseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -89,11 +91,11 @@ namespace ThanalSoft.SmartComplex.Web.Common
             }
         }
 
-        public async Task<TResponse> SecurePostAsync<TParameter>(string pController, string pAction, LoginUserInfo pLoggedInUser, TParameter pParameter)
+        public async Task<TResponse> SecurePostAsync<TParameter>(string pController, string pAction, TParameter pParameter)
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", pLoggedInUser.UserIdentity);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", User.UserIdentity);
                 client.BaseAddress = new Uri(ApiBaseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

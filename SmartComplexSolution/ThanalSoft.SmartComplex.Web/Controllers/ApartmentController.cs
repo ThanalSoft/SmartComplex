@@ -13,6 +13,7 @@ using ThanalSoft.SmartComplex.Web.Models.Common;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ApartmentController : BaseSecuredController
     {
         [HttpGet]
@@ -85,7 +86,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             try
             {
-                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", LoggedInUser, pModel.ApartmentInfo);
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", pModel.ApartmentInfo);
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Apartment created successfully!", ActionStatus.Success);
@@ -112,7 +113,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             try
             {
-                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", LoggedInUser, pModel.ApartmentInfo);
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", pModel.ApartmentInfo);
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Apartment updated successfully!", ActionStatus.Success);
@@ -132,7 +133,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<string> DeleteUndelete(int pId)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete", LoggedInUser, pId);
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete", pId);
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 
@@ -143,7 +144,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<string> Lock(ApartmentViewModel pModel)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo { Id = pModel.ApartmentInfo.Id, LockReason = pModel.ApartmentInfo.LockReason });
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", new ApartmentInfo { Id = pModel.ApartmentInfo.Id, LockReason = pModel.ApartmentInfo.LockReason });
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 
@@ -154,7 +155,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<string> Unlock(int pId)
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", LoggedInUser, new ApartmentInfo { Id = pId });
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "LockUnlock", new ApartmentInfo { Id = pId });
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 
@@ -211,7 +212,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                                 });
                             }
 
-                            var response = new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", LoggedInUser, flatUploadDataInfoList);
+                            var response = new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", flatUploadDataInfoList);
                         }
                         else
                             pModel.ActionResultStatus = new ActionResultStatusViewModel("File not formed correctly. Contact Administrator!", ActionStatus.Error);
@@ -232,7 +233,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         
         private async Task<List<SelectListItem>> GetStatesAsync()
         {
-            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates", LoggedInUser);
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates");
             var stateDdl = new List<SelectListItem>
             {
                 new SelectListItem
@@ -252,13 +253,13 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         private async Task<GeneralReturnInfo<ApartmentInfo[]>> GetApartmentInfoList()
         {
-            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll", LoggedInUser);
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll");
             return response;
         }
 
         private async Task<GeneralReturnInfo<ApartmentInfo>> GetApartment(int pId)
         {
-            return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", LoggedInUser, pId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", pId.ToString());
         }
     }
 }

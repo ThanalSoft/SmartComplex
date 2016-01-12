@@ -88,7 +88,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             try
             {
-                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Create", LoggedInUser, pModel.FlatInfo);
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Create",  pModel.FlatInfo);
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Flat created successfully!", ActionStatus.Success);
@@ -119,7 +119,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             try
             {
-                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Update", LoggedInUser, pModel.FlatInfo);
+                var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Update", pModel.FlatInfo);
                 if (result.Result == ApiResponseResult.Success)
                 {
                     TempData["Status"] = new ActionResultStatusViewModel("Flat updated successfully!", ActionStatus.Success);
@@ -137,7 +137,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         private async Task<List<SelectListItem>> GetFlatTypes()
         {
-            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes", LoggedInUser);
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes");
             var ddlItems = new List<SelectListItem>
             {
                 new SelectListItem
@@ -157,12 +157,12 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         private async Task<GeneralReturnInfo<FlatInfo>> GetFlat(int pId)
         {
-            return await new ApiConnector<GeneralReturnInfo<FlatInfo>>().SecureGetAsync("Flat", "Get", LoggedInUser, pId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo>>().SecureGetAsync("Flat", "Get", pId.ToString());
         }
 
         private async Task<GeneralReturnInfo<FlatInfo[]>> GetFlats(int pApartmentId)
         {
-            return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", LoggedInUser, pApartmentId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", pApartmentId.ToString());
         }
     }
 }

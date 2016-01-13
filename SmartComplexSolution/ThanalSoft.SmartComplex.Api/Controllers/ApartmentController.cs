@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -153,6 +154,11 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
+                foreach (var apartmentUserInfo in result.Info)
+                {
+                    var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
+                    apartmentUserInfo.UserRoles = string.Join(", ", roles);
+                }
             }
             catch (Exception ex)
             {
@@ -169,6 +175,23 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
+                await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
             }
             catch (Exception ex)
             {

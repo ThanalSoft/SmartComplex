@@ -49,6 +49,10 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         public string BloodGroup { get; set; }
 
         [DataMember]
+        [TableColumn("Roles")]
+        public string UserRoles { get; set; }
+
+        [DataMember]
         [Required]
         [Display(Name = "Owner")]
         [TableColumn("Owner")]
@@ -81,5 +85,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [DataMember]
         public string ApartmentName { get; set; }
 
+        [DataMember]
+        public long UserId { get; set; }
     }
 }

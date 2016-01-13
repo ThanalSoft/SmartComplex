@@ -16,6 +16,7 @@
         </h2>
         <div class="clearfix"></div>
     </div>
+    
     <div class="x_content form-horizontal form-label-left">
         <div class="form-group">
             @Html.LabelFor(m => m.UserInfo.FirstName, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
@@ -53,8 +54,8 @@
                 <a class="btn btn-app pull-left" onclick='loadApartmentUsers(@Model.UserInfo.ApartmentId)'>
                     <i class="fa fa-backward"></i>Back
                 </a>
-                <a class="btn btn-app pull-left" onclick='editUser(@Model.UserInfo.Id)'>
-                    <i class="fa fa-edit"></i>Edit
+                <a class="btn btn-app pull-left" onclick='markUserAdmin(@Model.UserInfo.ApartmentId, @Model.UserInfo.Id)'>
+                    <i class="fa fa-anchor"></i>Mark Admin
                 </a>
             </div>
         </div>

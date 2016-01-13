@@ -167,6 +167,20 @@
         });
     };
 
+    function markUserAdmin(apartmentId, userId) {
+        loadAnimator();
+        $.ajax({
+            url: '@Url.Action("MarkUserAdmin", "ApartmentUser")',
+            type: "POST",
+            data: { pApartmentId : apartmentId, pId: userId },
+            success: fillContainerData,
+            error: function () {
+                alert("An error has occured!!!");
+                hideAnimator();
+            }
+        });
+    };
+
     function closeApartment() {
         apartmentListView();
     };

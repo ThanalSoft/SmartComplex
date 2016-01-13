@@ -1,6 +1,8 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
@@ -14,6 +16,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 var users = await context.FlatUsers
+                    .Include(pX => pX.User)
                     .Include(pX => pX.BloodGroup)
                     .Include(pX => pX.MemberFlats)
                     .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
@@ -44,6 +47,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return new ApartmentUserInfo
             {
                 Id = pFlatUser.Id,
+                UserId = pFlatUser.User.Id,
                 IsLocked = pFlatUser.IsLocked,
                 Email = pFlatUser.Email,
                 LockReason = pFlatUser.LockReason,
@@ -56,7 +60,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 BloodGroupId = pFlatUser.BloodGroupId,
                 UserFlats = pFlatUser.MemberFlats.Select(pX => MapToFlatInfo(pX.Flat)).ToArray(),
                 ApartmentId = pFlatUser.MemberFlats.First().Flat.ApartmentId,
-                ApartmentName = pFlatUser.MemberFlats.First().Flat.Apartment.Name,
+                ApartmentName = pFlatUser.MemberFlats.First().Flat.Apartment.Name
             };
         }
 
@@ -77,6 +81,16 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 FlatTypeId = pFlat.FlatTypeId
             };
             return info;
+        }
+
+        public async Task<Int64> GetUserId(int pFlatUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var users = await context.FlatUsers.Where(pX => pX.Id.Equals(pFlatUserId)).FirstAsync();
+
+                return users.UserId;
+            }
         }
     }
 }

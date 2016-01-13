@@ -22,7 +22,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             });
         }
 
-
         [HttpGet]
         public async Task<ActionResult> View(int pId)
         {
@@ -35,6 +34,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             });
         }
 
+
         private async Task<GeneralReturnInfo<ApartmentUserInfo>> GetUser(int pId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo>>().SecureGetAsync("Apartment", "GetApartmentUser", pId.ToString());
@@ -43,6 +43,13 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         private async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetUsers(int pApartmentId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers",  pApartmentId.ToString());
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> MarkUserAdmin(int pApartmentId, int pId)
+        {
+            await new ApiConnector<GeneralReturnInfo>().SecureGetAsync("Apartment", "MarkUserAdmin", pId.ToString());
+            return await GetAllList(pApartmentId);
         }
     }
 }

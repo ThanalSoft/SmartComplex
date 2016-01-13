@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common;
@@ -10,6 +9,7 @@ using ThanalSoft.SmartComplex.Web.Models.Home;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
+    [Authorize(Roles = "Administrator,Owner,Tenant,MaintenanceAdmin,ApartmentAdmin")]
     public class HomeController : BaseSecuredController
     {
         public async Task<ActionResult> Index()

@@ -12,6 +12,7 @@ using ThanalSoft.SmartComplex.Web.Models.Flat;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class FlatController : BaseSecuredController
     {
         public async Task<ActionResult> Index(int pApartmentId)

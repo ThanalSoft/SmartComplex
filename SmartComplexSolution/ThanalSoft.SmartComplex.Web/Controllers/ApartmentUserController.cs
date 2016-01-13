@@ -5,10 +5,10 @@ using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models.ApartmentUser;
 using ThanalSoft.SmartComplex.Web.Models.Common;
-using ThanalSoft.SmartComplex.Web.Models.Flat;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ApartmentUserController : BaseSecuredController
     {
         [HttpGet]

@@ -91,18 +91,41 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
                         if (!isHidden)
                         {
                             var bodyTdTag = new TagBuilder("td");
-                            var value = Convert.ToString(modelProperty.GetValue(tableValue));
-                            if (string.IsNullOrEmpty(value))
+                            if (modelProperty.PropertyType == typeof (bool))
                             {
-                                var emptyValue = column.NamedArguments != null && column.NamedArguments.Any(pX => pX.MemberName.Equals("EmptyValue"))
-                                            ? Convert.ToString(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("EmptyValue")).TypedValue.Value)
-                                            : String.Empty;
-
-                                if (!string.IsNullOrEmpty(emptyValue))
-                                    value = emptyValue;
+                                var value = Convert.ToBoolean(modelProperty.GetValue(tableValue));
+                                if (value)
+                                {
+                                    bodyTdTag.AddCssClass("green");
+                                    var boolTag = new TagBuilder("i");
+                                    boolTag.AddCssClass("fa-check");
+                                    boolTag.AddCssClass("fa");
+                                    bodyTdTag.InnerHtml += boolTag.ToString();
+                                }
+                                else
+                                {
+                                    bodyTdTag.AddCssClass("red");
+                                    var boolTag = new TagBuilder("i");
+                                    boolTag.AddCssClass("fa-close");
+                                    boolTag.AddCssClass("fa");
+                                    bodyTdTag.InnerHtml += boolTag.ToString();
+                                }
                             }
+                            else
+                            {
+                                var value = Convert.ToString(modelProperty.GetValue(tableValue));
+                                if (string.IsNullOrEmpty(value))
+                                {
+                                    var emptyValue = column.NamedArguments != null && column.NamedArguments.Any(pX => pX.MemberName.Equals("EmptyValue"))
+                                        ? Convert.ToString(column.NamedArguments.FirstOrDefault(pX => pX.MemberName.Equals("EmptyValue")).TypedValue.Value)
+                                        : String.Empty;
 
-                            bodyTdTag.SetInnerText(value);
+                                    if (!string.IsNullOrEmpty(emptyValue))
+                                        value = emptyValue;
+                                }
+
+                                bodyTdTag.SetInnerText(value);
+                            }
                             if (Convert.ToBoolean(table.ConstructorArguments[0].Value))
                                 bodyTdTag.AddCssClass("clickable");
                             bodyTrTag.InnerHtml += bodyTdTag.ToString();

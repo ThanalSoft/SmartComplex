@@ -17,15 +17,17 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
         [Required]
         [StringLength(250)]
         [Display(Name = "First Name")]
-        [TableColumn("First Name")]
         public string FirstName { get; set; }
 
         [DataMember]
         [Required]
         [StringLength(250)]
         [Display(Name = "Last Name")]
-        [TableColumn("Last Name")]
         public string LastName { get; set; }
+
+        [DataMember]
+        [TableColumn("Name")]
+        public string Name => FirstName + (string.IsNullOrEmpty(LastName) ? "" : " " + LastName);
 
         [DataMember]
         [StringLength(25)]

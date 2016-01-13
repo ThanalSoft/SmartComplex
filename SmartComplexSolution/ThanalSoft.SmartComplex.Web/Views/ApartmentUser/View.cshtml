@@ -1,0 +1,62 @@
+﻿@using System.Web.Mvc.Html
+@model ThanalSoft.SmartComplex.Web.Models.ApartmentUser.ApartmentUserViewModel
+
+@{
+    Layout = "";
+}
+
+@if (Model.ActionResultStatus != null)
+{
+    Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
+}
+<div class="x_panel">
+    <div class="x_title">
+        <h2>
+            <i class="fa fa-home"></i> Flat User Details <small> Apartment '@Model.UserInfo.ApartmentName'</small>
+        </h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content form-horizontal form-label-left">
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserInfo.FirstName, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.LabelForModel(Model.UserInfo.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserInfo.LastName, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.LabelForModel(Model.UserInfo.LastName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserInfo.Email, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.LabelForModel(Model.UserInfo.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserInfo.Mobile, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.LabelForModel(Model.UserInfo.Mobile)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserInfo.BloodGroup, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+                @Html.LabelForModel(Model.UserInfo.BloodGroup)
+            </div>
+        </div>
+        <div class="divider-dashed"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <a class="btn btn-app pull-left" onclick='loadApartmentUsers(@Model.UserInfo.ApartmentId)'>
+                    <i class="fa fa-backward"></i>Back
+                </a>
+                <a class="btn btn-app pull-left" onclick='editUser(@Model.UserInfo.Id)'>
+                    <i class="fa fa-edit"></i>Edit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

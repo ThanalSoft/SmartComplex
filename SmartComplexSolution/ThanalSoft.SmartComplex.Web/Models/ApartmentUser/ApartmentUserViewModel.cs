@@ -6,7 +6,7 @@ namespace ThanalSoft.SmartComplex.Web.Models.ApartmentUser
 {
     public class ApartmentUserViewModel : BaseViewModel
     {
-        public ApartmentUserInfo Users { get; set; }
+        public ApartmentUserInfo UserInfo { get; set; }
 
         public IEnumerable<SelectListItem> BloodGroups { get; set; }
     }

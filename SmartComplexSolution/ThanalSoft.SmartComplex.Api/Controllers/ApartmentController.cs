@@ -162,6 +162,22 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
+        [HttpGet]
+        public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentUserInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
         private void ConfigureUser(FlatUploadInfo pUser, string pPassword, string pActivationCode)
         {
             if (string.IsNullOrEmpty(pUser.OwnerEmail))

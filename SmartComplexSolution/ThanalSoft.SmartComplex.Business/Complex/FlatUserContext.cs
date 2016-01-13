@@ -13,14 +13,29 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var flats = await context.FlatUsers
+                var users = await context.FlatUsers
                     .Include(pX => pX.BloodGroup)
                     .Include(pX => pX.MemberFlats)
                     .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
                     .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
                     .Where(pX => pX.MemberFlats.Any(pY => pY.Flat.Apartment.Id.Equals(pApartmentId))).ToListAsync();
 
-                return flats.Select(MapApartmentUserInfo).ToArray();
+                return users.Select(MapApartmentUserInfo).ToArray();
+            }
+        }
+
+        public async Task<ApartmentUserInfo> Get(int pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var user = await context.FlatUsers
+                    .Include(pX => pX.BloodGroup)
+                    .Include(pX => pX.MemberFlats)
+                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
+                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
+                    .Where(pX => pX.Id.Equals(pUserId)).FirstAsync();
+
+                return MapApartmentUserInfo(user);
             }
         }
 

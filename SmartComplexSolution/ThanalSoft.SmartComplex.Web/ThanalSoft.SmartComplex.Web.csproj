@@ -249,6 +249,7 @@
     <Content Include="Views\Flat\Create.cshtml" />
     <Content Include="Views\Flat\Update.cshtml" />
     <Content Include="Views\ApartmentUser\_ApartmentUserList.cshtml" />
+    <Content Include="Views\ApartmentUser\View.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

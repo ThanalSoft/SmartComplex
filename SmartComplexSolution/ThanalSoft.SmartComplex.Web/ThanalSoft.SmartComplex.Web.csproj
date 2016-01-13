@@ -188,6 +188,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common\ApiConnector.cs" />
     <Compile Include="Common\Extensions\DateExt.cs" />
+    <Compile Include="Common\MainMenu\SecuredMenuInfo.cs" />
+    <Compile Include="Common\MainMenu\SecuredMenuList.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\ApartmentUserController.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HTMLHelpers\MainMenuHelper.cs" />
     <Compile Include="HTMLHelpers\TableHelper.cs" />
     <Compile Include="HTMLHelpers\test.cs" />
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />

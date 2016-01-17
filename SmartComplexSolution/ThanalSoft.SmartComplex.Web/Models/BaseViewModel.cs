@@ -2,8 +2,10 @@
 
 namespace ThanalSoft.SmartComplex.Web.Models
 {
-    public class BaseViewModel
+    public abstract class BaseViewModel
     {
         public ActionResultStatusViewModel ActionResultStatus { get; set; }
+
+        public bool IsAsyncRequest { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using ThanalSoft.SmartComplex.Common.Models.Common;
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [RoutePrefix("api/Common")]
-    public class CommonController : BaseSecureApiController
+    public class CommonController : BaseSecureController
     {
         [HttpGet]
         public async Task<GeneralReturnInfo<GeneralInfo[]>> GetStates()

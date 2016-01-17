@@ -8,7 +8,7 @@ using ThanalSoft.SmartComplex.Common.Models.Dashboard;
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [RoutePrefix("api/Dashboard")]
-    public class DashboardController : BaseSecureApiController
+    public class DashboardController : BaseSecureController
     {
         [HttpGet]
         public async Task<GeneralReturnInfo<AdminDashboardInfo>> GetAdministratorDashboard()

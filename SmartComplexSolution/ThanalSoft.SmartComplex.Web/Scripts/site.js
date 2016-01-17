@@ -15,7 +15,7 @@ $(function () {
             $('ul', this).slideUp();
             $(this).removeClass('nv');
             $(this).addClass('vn');
-            
+
         } else {
             $('#sidebar-menu li ul').slideUp();
             $(this).removeClass('vn');
@@ -324,6 +324,53 @@ function loadAnimator() {
 
 function hideAnimator() {
     $("#divLoading").hide();
+}
+
+function invokeAjaxAndFillContainer(url) {
+    try {
+            loadAnimator();
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: fillContainer,
+                error: function () {
+                    console.log("An error occured while creating Apartment!");
+                    hideAnimator();
+                }
+            });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
+}
+
+function invokeAjaxAndFillContainer(url, data) {
+    try {
+            loadAnimator();
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: data,
+                success: fillContainer,
+                error: function () {
+                    console.log("An error occured while creating Apartment!");
+                    hideAnimator();
+                }
+            });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
+}
+
+function fillContainer(data) {
+    try {
+            $("#container").fadeOut(100, function () {
+                $("#container").html(data);
+                $("#container").fadeIn(100);
+                hideAnimator();
+            });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
 }
 
 function getResultStatusHtml(type, text) {

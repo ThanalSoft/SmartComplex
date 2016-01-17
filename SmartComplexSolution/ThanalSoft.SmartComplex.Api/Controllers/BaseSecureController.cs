@@ -8,7 +8,7 @@ using ThanalSoft.SmartComplex.Api.Security;
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [Authorize]
-    public class BaseSecureApiController : ApiController
+    public class BaseSecureController : ApiController
     {
         private SecureUserManager _userManager;
         private SecureSignInManager _signInManager;

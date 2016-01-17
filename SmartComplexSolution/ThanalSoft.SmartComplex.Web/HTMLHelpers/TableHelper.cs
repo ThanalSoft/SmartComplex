@@ -85,7 +85,7 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
                         if (isHidden)
                         {
                             if(isIdCol)
-                                bodyTrTag.MergeAttribute("id", Convert.ToString(modelProperty.GetValue(tableValue)));
+                                bodyTrTag.MergeAttribute("data-rowid", Convert.ToString(modelProperty.GetValue(tableValue)));
                         }
 
                         if (!isHidden)

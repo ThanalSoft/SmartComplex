@@ -73,15 +73,25 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
 
         private static string GetUrl<TModel>(HtmlHelper<TModel> pHtmlHelper, SecuredMenuInfo pMenu)
         {
-            var url = UrlHelper.GenerateUrl("Default", pMenu.Action, pMenu.Controller, null, pHtmlHelper.RouteCollection, pHtmlHelper.ViewContext.RequestContext, true);
+            var url = UrlHelper.GenerateUrl(
+                string.IsNullOrEmpty(pMenu.Area) ? "Default" : pMenu.Area + "_default", 
+                pMenu.Action, 
+                pMenu.Controller, 
+                null, 
+                pHtmlHelper.RouteCollection, 
+                pHtmlHelper.ViewContext.RequestContext, 
+                true);
             return url;
         }
 
         private static string GenerateSubMenus<TModel>(HtmlHelper<TModel> pHtmlHelper, IEnumerable<SecuredMenuInfo> pSubMenus)
         {
+            var currentUser = HttpContext.Current.User as SmartComplexPrincipal;
             var subMenu = new StringBuilder("<ul class=\"nav child_menu\" style=\"display:none\">");
             foreach (var menu in pSubMenus)
             {
+                if(IsMenuNotInRole<TModel>(menu, currentUser)) continue;
+
                 subMenu.Append(string.IsNullOrEmpty(menu.CssClass) ? "<li>" : $"<li class=\"{menu.CssClass}\">");
                 subMenu.Append(!string.IsNullOrEmpty(menu.Action) ? $"<a href=\"{GetUrl(pHtmlHelper, menu)}\">" : "<a>");
                 subMenu.Append(menu.Text);

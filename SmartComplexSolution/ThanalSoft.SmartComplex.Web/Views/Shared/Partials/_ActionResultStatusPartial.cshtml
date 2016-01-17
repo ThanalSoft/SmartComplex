@@ -1,6 +1,5 @@
-﻿@using ThanalSoft.SmartComplex.Web.Models
-@using ThanalSoft.SmartComplex.Web.Models.Common
-@model ThanalSoft.SmartComplex.Web.Models.Common.ActionResultStatusViewModel
+﻿@using ThanalSoft.SmartComplex.Web.Models.Common
+@model ActionResultStatusViewModel
 @switch (Model.ActionStatus)
 {
     case ActionStatus.Success:
@@ -8,7 +7,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            @Model.Data
+            @Model.Message
         </div>
         break;
     case ActionStatus.Information:
@@ -16,7 +15,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            @Model.Data
+            @Model.Message
         </div>
         break;
     case ActionStatus.Error:
@@ -24,7 +23,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            @Model.Data
+            @Model.Message
         </div>
         break;
     case ActionStatus.Warning:
@@ -32,7 +31,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
-            @Model.Data
+            @Model.Message
         </div>
         break;
 }

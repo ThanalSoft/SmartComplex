@@ -1,0 +1,18 @@
+﻿@using ThanalSoft.SmartComplex.Web.HTMLHelpers
+@model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.ApartmentUserListViewModel
+@{
+    Layout = "~/Views/Shared/_TitleView.cshtml";
+}
+@section title {
+    <i class="fa fa-users"></i> Apartment Users
+}
+
+@Html.DisplayTableFor(Model.Users)
+<script>
+$(
+    $("[data-rowid]").click(function () {
+        var id = $(this).data("rowid");
+        invokeAjaxAndFillContainer('@Url.Action("GetApartmentUser", "Manage")', { pUserId: id });
+    })
+);
+</script>

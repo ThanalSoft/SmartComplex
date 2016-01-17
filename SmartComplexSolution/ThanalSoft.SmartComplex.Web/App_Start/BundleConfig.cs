@@ -11,7 +11,6 @@ namespace ThanalSoft.SmartComplex.Web
                         "~/Scripts/nprogress.js"));
 
             pBundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                         "~/Scripts/jquery.unobtrusive*",
                          "~/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -20,8 +19,8 @@ namespace ThanalSoft.SmartComplex.Web
                         "~/Scripts/modernizr-*"));
 
             pBundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/jquery.unobtrusive*",
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/jquery.unobtrusive-ajax.js",
                       "~/Scripts/jquery.nicescroll.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/site.js"));

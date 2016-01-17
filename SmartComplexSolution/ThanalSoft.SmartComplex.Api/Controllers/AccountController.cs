@@ -10,7 +10,7 @@ using ThanalSoft.SmartComplex.Common.Models.Account;
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Account")]
-    public class AccountController : BaseSecureApiController
+    public class AccountController : BaseSecureController
     {
         [System.Web.Http.HttpPost]
         [System.Web.Http.AllowAnonymous]
@@ -36,6 +36,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             {
                 case SignInStatus.Success:
                     var flatUser = await ApartmentContext.Instance.GetMember(user.Id);
+
                     var userInfo = new LoginUserInfo
                     {
                         Email = pLogin.Email,

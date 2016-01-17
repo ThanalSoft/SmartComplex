@@ -11,6 +11,7 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
         public string[] Roles { get; set; }
         public string Action { get; set; }
         public string Controller { get; set; }
+        public string Area { get; set; }
 
         public MenuType MenuType { get; set; }
 

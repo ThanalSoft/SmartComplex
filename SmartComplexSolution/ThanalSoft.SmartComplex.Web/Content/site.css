@@ -336,49 +336,49 @@ dark,
 .bg-white {
     background: #fff !important;
     border: 1px solid #fff !important;
-    color: #73879C;
+    color: #73879C !important;
 }
 
 .bg-green {
     background: #039FC6 !important;
     border: 1px solid #039FC6 !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .bg-red {
     background: #E74C3C !important;
     border: 1px solid #E74C3C !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .bg-blue {
     background: #3498DB !important;
     border: 1px solid #3498DB !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .bg-grey {
     background: #777777 !important;
     border: 1px solid #777777 !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .bg-orange {
-    background: #F39C12 !important;
-    border: 1px solid #F39C12 !important;
-    color: #fff;
+    background: #f17a00 !important;
+    border: 1px solid #f17a00 !important;
+    color: #fff !important;
 }
 
 .bg-purple {
     background: #9B59B6 !important;
     border: 1px solid #9B59B6 !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .bg-blue-sky {
     background: #50C1CF !important;
     border: 1px solid #50C1CF !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .container {
@@ -1091,7 +1091,7 @@ h2 {
     position: relative;
     width: 100%;
     margin-bottom: 10px;
-    padding: 10px 17px;
+    padding: 10px;
     display: inline-block;
     background: #fff;
     border: 1px solid #E6E9ED;
@@ -1118,7 +1118,7 @@ h2 {
     }
 
     .x_title h2 {
-        margin: 5px 0 6px;
+        margin: 10px 0 6px;
         float: left;
         display: block;
         text-overflow: ellipsis;
@@ -1140,7 +1140,7 @@ h2 {
     width: 100%;
     float: left;
     clear: both;
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
     .x_content h4 {

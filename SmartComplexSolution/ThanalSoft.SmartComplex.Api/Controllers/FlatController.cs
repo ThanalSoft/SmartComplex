@@ -9,7 +9,7 @@ using ThanalSoft.SmartComplex.Common.Models.Complex;
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [RoutePrefix("api/Flat")]
-    public class FlatController : BaseSecureApiController
+    public class FlatController : BaseSecureController
     {
         [HttpGet]
         public async Task<GeneralReturnInfo<FlatInfo>> Get(int id)

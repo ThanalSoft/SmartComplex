@@ -53,7 +53,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
@@ -61,6 +61,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -157,11 +158,34 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="App_Readme\NProgressjs_README.md" />
     <Content Include="App_Readme\NProgressjs_LICENSE" />
-    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Areas\Apartment\Views\web.config" />
+    <Content Include="Areas\Document\Views\web.config" />
+    <Content Include="Areas\Communication\Views\web.config" />
+    <Content Include="Areas\Maintenance\Views\web.config" />
+    <Content Include="Areas\Employee\Views\web.config" />
+    <Content Include="Areas\Contact\Views\web.config" />
+    <Content Include="Areas\Dashboard\Views\web.config" />
+    <Content Include="Areas\Account\Views\web.config" />
+    <Content Include="Areas\Members\Views\web.config" />
+    <Content Include="Areas\Apartment\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Apartment\Views\Shared\Partials\_ApartmentList.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\GetAll.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\Create.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-2.1.4.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Areas\Apartment\Views\Manage\Get.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\Update.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\UploadFlats.cshtml" />
+    <Content Include="Areas\Apartment\Views\Flat\GetAll.cshtml" />
+    <Content Include="Areas\Apartment\Views\Flat\Create.cshtml" />
+    <Content Include="Areas\Apartment\Views\Flat\Update.cshtml" />
+    <Content Include="Areas\Apartment\Views\Flat\Get.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\GetAllApartmentUsers.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\GetApartmentUser.cshtml" />
+    <None Include="Scripts\jquery-2.2.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.nicescroll.min.js" />
@@ -185,19 +209,54 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\ExpenseController.cs" />
+    <Compile Include="Areas\Account\Controllers\IncomeController.cs" />
+    <Compile Include="Areas\Apartment\ApartmentAreaRegistration.cs" />
+    <Compile Include="Areas\Apartment\Controllers\AmenitiesController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\AssetController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\AssociationController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\FlatController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\ManageController.cs" />
+    <Compile Include="Areas\Apartment\Controllers\SettingsController.cs" />
+    <Compile Include="Areas\Apartment\Models\ApartmentListViewModel.cs" />
+    <Compile Include="Areas\Apartment\Models\ApartmentUserListViewModel.cs" />
+    <Compile Include="Areas\Apartment\Models\ApartmentUserViewModel.cs" />
+    <Compile Include="Areas\Apartment\Models\ApartmentViewModel.cs" />
+    <Compile Include="Areas\Apartment\Models\FlatListViewModel.cs" />
+    <Compile Include="Areas\Apartment\Models\FlatViewModel.cs" />
+    <Compile Include="Areas\Communication\CommunicationAreaRegistration.cs" />
+    <Compile Include="Areas\Communication\Controllers\CompaintController.cs" />
+    <Compile Include="Areas\Communication\Controllers\DiscussionController.cs" />
+    <Compile Include="Areas\Communication\Controllers\EventController.cs" />
+    <Compile Include="Areas\Communication\Controllers\MeetingController.cs" />
+    <Compile Include="Areas\Communication\Controllers\MessageController.cs" />
+    <Compile Include="Areas\Communication\Controllers\ReminderController.cs" />
+    <Compile Include="Areas\Communication\Controllers\VotingController.cs" />
+    <Compile Include="Areas\Contact\ContactAreaRegistration.cs" />
+    <Compile Include="Areas\Contact\Controllers\EmployeeController.cs" />
+    <Compile Include="Areas\Contact\Controllers\ImportantController.cs" />
+    <Compile Include="Areas\Contact\Controllers\SharedController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
+    <Compile Include="Areas\Document\Controllers\ManagementController.cs" />
+    <Compile Include="Areas\Document\DocumentAreaRegistration.cs" />
+    <Compile Include="Areas\Employee\Controllers\ManagementController.cs" />
+    <Compile Include="Areas\Employee\EmployeeAreaRegistration.cs" />
+    <Compile Include="Areas\Maintenance\Controllers\RequestController.cs" />
+    <Compile Include="Areas\Maintenance\MaintenanceAreaRegistration.cs" />
+    <Compile Include="Areas\Members\Controllers\OwnerController.cs" />
+    <Compile Include="Areas\Members\Controllers\ResidenceController.cs" />
+    <Compile Include="Areas\Members\Controllers\TenantController.cs" />
+    <Compile Include="Areas\Members\MembersAreaRegistration.cs" />
     <Compile Include="Common\ApiConnector.cs" />
     <Compile Include="Common\Extensions\DateExt.cs" />
     <Compile Include="Common\MainMenu\SecuredMenuInfo.cs" />
     <Compile Include="Common\MainMenu\SecuredMenuList.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApartmentController.cs" />
-    <Compile Include="Controllers\ApartmentUserController.cs" />
     <Compile Include="Controllers\BaseSecuredController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\FlatController.cs" />
-    <Compile Include="Controllers\FlatMemberController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -208,13 +267,10 @@
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />
     <Compile Include="Models\ApartmentUser\ApartmentUserListViewModel.cs" />
     <Compile Include="Models\ApartmentUser\ApartmentUserViewModel.cs" />
-    <Compile Include="Models\Flat\FlatListViewModel.cs" />
     <Compile Include="Models\Common\ActionResultStatusViewModel.cs" />
-    <Compile Include="Models\Apartment\ApartmentListViewModel.cs" />
     <Compile Include="Models\Apartment\ApartmentViewModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Account\UserLoginModel.cs" />
-    <Compile Include="Models\Flat\FlatViewModel.cs" />
     <Compile Include="Models\Home\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ISmartComplexPrincipal.cs" />
@@ -226,7 +282,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -250,6 +305,7 @@
     <Content Include="Views\Flat\Update.cshtml" />
     <Content Include="Views\ApartmentUser\_ApartmentUserList.cshtml" />
     <Content Include="Views\ApartmentUser\View.cshtml" />
+    <Content Include="Views\Shared\_TitleView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -259,6 +315,45 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Account\Models\" />
+    <Folder Include="Areas\Account\Views\Expense\" />
+    <Folder Include="Areas\Account\Views\Income\" />
+    <Folder Include="Areas\Account\Views\Shared\" />
+    <Folder Include="Areas\Apartment\Views\Amenities\" />
+    <Folder Include="Areas\Apartment\Views\Asset\" />
+    <Folder Include="Areas\Apartment\Views\Association\" />
+    <Folder Include="Areas\Apartment\Views\Settings\" />
+    <Folder Include="Areas\Communication\Models\" />
+    <Folder Include="Areas\Communication\Views\Compaint\" />
+    <Folder Include="Areas\Communication\Views\Discussion\" />
+    <Folder Include="Areas\Communication\Views\Event\" />
+    <Folder Include="Areas\Communication\Views\Meeting\" />
+    <Folder Include="Areas\Communication\Views\Message\" />
+    <Folder Include="Areas\Communication\Views\Reminder\" />
+    <Folder Include="Areas\Communication\Views\Shared\" />
+    <Folder Include="Areas\Communication\Views\Voting\" />
+    <Folder Include="Areas\Contact\Models\" />
+    <Folder Include="Areas\Contact\Views\Employee\" />
+    <Folder Include="Areas\Contact\Views\Important\" />
+    <Folder Include="Areas\Contact\Views\Shared\" />
+    <Folder Include="Areas\Dashboard\Models\" />
+    <Folder Include="Areas\Dashboard\Views\Home\" />
+    <Folder Include="Areas\Dashboard\Views\Shared\" />
+    <Folder Include="Areas\Document\Models\" />
+    <Folder Include="Areas\Document\Views\Management\" />
+    <Folder Include="Areas\Document\Views\Shared\" />
+    <Folder Include="Areas\Employee\Models\" />
+    <Folder Include="Areas\Employee\Views\Management\" />
+    <Folder Include="Areas\Employee\Views\Shared\" />
+    <Folder Include="Areas\Maintenance\Models\" />
+    <Folder Include="Areas\Maintenance\Views\Request\" />
+    <Folder Include="Areas\Maintenance\Views\Shared\" />
+    <Folder Include="Areas\Members\Models\" />
+    <Folder Include="Areas\Members\Views\Owner\" />
+    <Folder Include="Areas\Members\Views\Residence\" />
+    <Folder Include="Areas\Members\Views\Shared\" />
+    <Folder Include="Areas\Members\Views\Tenant\" />
+    <Folder Include="Models\Flat\" />
     <Folder Include="Views\FlatMember\" />
   </ItemGroup>
   <ItemGroup>

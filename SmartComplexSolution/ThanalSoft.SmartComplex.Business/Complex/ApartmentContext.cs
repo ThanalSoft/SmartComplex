@@ -53,7 +53,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase)))
-                    throw new ItemAlreadyExistsException(pApartmentInfo.Name);
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name, "Apartment");
 
                 context.Apartments.Add(new Apartment
                 {
@@ -83,7 +83,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     throw new KeyNotFoundException(pApartmentInfo.Id.ToString());
 
                 if (await context.Apartments.AnyAsync(pX => pX.Name.Equals(pApartmentInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.Id != original.Id))
-                    throw new ItemAlreadyExistsException(pApartmentInfo.Name);
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name, "Apartment");
 
                 original.Phone = pApartmentInfo.Phone;
                 original.StateId = pApartmentInfo.StateId;

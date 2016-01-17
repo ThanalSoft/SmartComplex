@@ -12,36 +12,36 @@ using ThanalSoft.SmartComplex.Web.Security;
 
 namespace ThanalSoft.SmartComplex.Web.Common
 {
-    public class ApiConnector<TResponse>
+    public class ApiConnector<TResponse> where TResponse : new()
     {
         private SmartComplexPrincipal User => HttpContext.Current.User as SmartComplexPrincipal;
 
         private string ApiBaseURL => ConfigurationManager.AppSettings["API_URL"];
 
-        public async Task<TResponse> GetAsync(string pController, string pAction, params string[] pParameters)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ApiBaseURL);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response;
-                if (pParameters != null && pParameters.Any())
-                {
-                    var formattedParams = string.Join("/", pParameters);
-                    response = await client.GetAsync($"api/{pController}/{pAction}/{formattedParams}");
-                }
-                else
-                    response = await client.GetAsync($"api/{pController}/{pAction}");
+        //public async Task<TResponse> GetAsync(string pController, string pAction, params string[] pParameters)
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(ApiBaseURL);
+        //        client.DefaultRequestHeaders.Accept.Clear();
+        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //        HttpResponseMessage response;
+        //        if (pParameters != null && pParameters.Any())
+        //        {
+        //            var formattedParams = string.Join("/", pParameters);
+        //            response = await client.GetAsync($"api/{pController}/{pAction}/{formattedParams}");
+        //        }
+        //        else
+        //            response = await client.GetAsync($"api/{pController}/{pAction}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadAsAsync<TResponse>();
-                    return result;
-                }
-                throw new Exception();
-            }
-        }
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var result = await response.Content.ReadAsAsync<TResponse>();
+        //            return result;
+        //        }
+        //        throw new Exception();
+        //    }
+        //}
 
         public async Task<TResponse> PostAsync<TParameter>(string pController, string pAction, TParameter pParameter)
         {
@@ -57,7 +57,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
                     return result;
                 }
 
-                throw new Exception();
+                return new TResponse();
             }
         }
 
@@ -87,7 +87,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
                     return result;
                 }
 
-                throw new Exception();
+                return new TResponse();
             }
         }
 
@@ -106,7 +106,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
                     return result;
                 }
 
-                throw new Exception();
+                return new TResponse();
             }
         }
 

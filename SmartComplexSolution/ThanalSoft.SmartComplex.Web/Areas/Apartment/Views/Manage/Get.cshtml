@@ -1,0 +1,114 @@
+﻿@using Microsoft.Ajax.Utilities
+@model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.ApartmentViewModel
+@{
+    Layout = "~/Views/Shared/_TitleView.cshtml";
+}
+
+@section title {
+    <i class="fa fa-building"></i> Apartment Details <small>'@Model.Apartment.Name'</small>
+}
+
+<div class="form-horizontal form-label-left">
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Name)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Address, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Address)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.City, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.City)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.StateId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.State)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.PinCode, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.PinCode.ToString())
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Phone, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Phone.IsNullOrWhiteSpace() ? "" : Model.Apartment.Phone)
+        </div>
+    </div>
+    <div class="divider-dashed"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <a class="btn btn-app pull-left" id="closeApartment">
+                <i class="fa fa-backward"></i>Back
+            </a>
+            @if (Model.Apartment.HasFlats)
+            {
+                <a class="btn btn-app pull-left" id="viewApartmentFlats">
+                    <span class="badge bg-purple">@Model.Apartment.FlatCount</span>
+                    <i class="fa fa-home"></i>Flats
+                </a>
+            }
+            else {
+                <a class="btn btn-app pull-left" id="uploadApartmentFlats">
+                    <i class="fa fa-home"></i>Upload Flats
+                </a>
+            }
+            @if (@Model.Apartment.UserCount > 0)
+            {
+                <a class="btn btn-app pull-left" id="viewApartmentUsers">
+                    <span class="badge bg-orange">@Model.Apartment.UserCount</span>
+                    <i class="fa fa-users"></i>Users
+                </a>
+            }
+            <a class="btn btn-app pull-left" id="editApartment">
+                <i class="fa fa-edit"></i>Edit
+            </a>
+            @*@using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.Apartment.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button id="deletebtn" type="submit" class="@(Model.Apartment.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
+                }
+                @if (!Model.Apartment.IsLocked)
+                {
+                    <button id="lockbtn" type="submit" data-toggle="modal" data-target=".lockModel" class="@(Model.Apartment.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-lock"></i> Lock</button>
+                }
+                @if (Model.Apartment.IsLocked)
+                {
+                    using (Ajax.BeginForm("Unlock", "Apartment", new { pId = @Model.Apartment.Id }, new AjaxOptions { OnSuccess = "onLockApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button id="lockbtn" type="submit" class="@(Model.Apartment.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-lock"></i> Lock</button>
+                    }
+                }*@
+        </div>
+    </div>
+</div>
+<script>
+$(
+    $("#closeApartment").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage")');
+    }),
+    $("#editApartment").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("Update", "Manage")', { pApartmentId : @Model.Apartment.Id});
+    }),
+    $("#uploadApartmentFlats").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage")', { pApartmentId : @Model.Apartment.Id});
+    }),
+    $("#viewApartmentFlats").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat")', { pApartmentId : @Model.Apartment.Id});
+    }),
+    $("#viewApartmentUsers").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.Apartment.Id});
+    })
+);
+</script>

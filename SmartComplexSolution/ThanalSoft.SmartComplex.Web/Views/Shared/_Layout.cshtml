@@ -73,7 +73,9 @@
             </div>
             <div class="right_col" role="main">
                 <div class="row">
-                    @RenderBody()
+                    <div class="col-md-12 col-sm-12 col-xs-12" id="container">
+                        @RenderBody()
+                    </div>
                 </div>
                 <footer>
                     <div class="">
@@ -100,49 +102,48 @@
 
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
+@*<script>
 
-<script>
-
-    $(document).ready(function () {
-        setInterval(setNotificationCount, 100000);
-        setNotificationCount();
-    });
-
-    function setNotificationCount() {
-        $.ajax({
-            url: '@Url.Action("GetUserNotificationCount", "Home")',
-            type: 'GET',
-            success: fillNotificationCount,
-            error: function () {
-                alert("error");
-            }
+        $(document).ready(function () {
+            setInterval(setNotificationCount, 100000);
+            setNotificationCount();
         });
-    };
 
-    $("#userNotification").click(function () {
-        $.ajax({
-            url: '@Url.Action("ReadNotifications", "Home")',
-            type: 'GET',
-            success: function (result) {
-                $("#userNotification").find("a").after(result);
-                $("#notificationcount").fadeOut("slow");
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    });
-
-    function fillNotificationCount(data) {
-        if (parseInt(data) !== 0) {
-            $("#notificationcount").fadeOut(100, function () {
-                $("#notificationcount").html(data);
-                $("#notificationcount").fadeIn(100);
+        function setNotificationCount() {
+            $.ajax({
+                url: '@Url.Action("GetUserNotificationCount", "Home")',
+                type: 'GET',
+                success: fillNotificationCount,
+                error: function () {
+                    alert("error");
+                }
             });
-        }
-    };
+        };
 
-    NProgress.done();
-</script>
+        $("#userNotification").click(function () {
+            $.ajax({
+                url: '@Url.Action("ReadNotifications", "Home")',
+                type: 'GET',
+                success: function (result) {
+                    $("#userNotification").find("a").after(result);
+                    $("#notificationcount").fadeOut("slow");
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+
+        function fillNotificationCount(data) {
+            if (parseInt(data) !== 0) {
+                $("#notificationcount").fadeOut(100, function () {
+                    $("#notificationcount").html(data);
+                    $("#notificationcount").fadeIn(100);
+                });
+            }
+        };
+
+        NProgress.done();
+    </script>*@
 
 </html>

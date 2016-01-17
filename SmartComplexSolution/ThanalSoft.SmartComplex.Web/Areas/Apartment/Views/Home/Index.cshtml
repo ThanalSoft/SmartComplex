@@ -1,0 +1,11 @@
+﻿@using ThanalSoft.SmartComplex.Web.HTMLHelpers
+@model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.ApartmentListViewModel
+@{
+    Layout = "~/Views/Shared/_TitleView.cshtml";
+}
+
+@section titleicon {
+    <i class="fa fa-building"></i>
+}
+
+@Html.DisplayTableFor(Model.Apartments, new { onclick = "viewApartment(this.id)" })

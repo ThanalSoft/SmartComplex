@@ -43,7 +43,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             switch (loginResponse.LoginStatus)
             {
                 case LoginStatus.Success:
-                    var token = await new ApiConnector<string>().GetApiToken(pModel.Email, pModel.Password);
+                    var token = await new ApiConnector<object>().GetApiToken(pModel.Email, pModel.Password);
                     if (string.IsNullOrEmpty(token))
                     {
                         ViewBag.ModelError = "Invalid credentials. Try again.";
@@ -58,7 +58,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                         UserIdentity = token,
                         UserId = loginResponse.LoginUserInfo.UserId,
                         Roles = loginResponse.LoginUserInfo.Roles
-
                     };
                     var serializer = new JavaScriptSerializer();
                     var userData = serializer.Serialize(serializeModel);
@@ -76,7 +75,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     Response.Cookies.Add(faCookie);
                  
                     if (string.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new { area = "Dashboard"});
 
                     return RedirectToLocal(returnUrl);
                 case LoginStatus.LockedOut:
@@ -92,15 +91,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     ViewBag.ModelError = "Invalid credentials. Try again.";
                     return View(pModel);
             }
-        }
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -120,6 +110,15 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

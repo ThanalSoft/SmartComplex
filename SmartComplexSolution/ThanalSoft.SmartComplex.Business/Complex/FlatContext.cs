@@ -41,7 +41,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             using (var context = new SmartComplexDataObjectContext())
             {
                 if(await context.Flats.AnyAsync(pX => pX.ApartmentId.Equals(pApartmentFlatInfo.ApartmentId) && pX.Name.Equals(pApartmentFlatInfo.Name)))
-                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name);
+                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name, "Flat");
 
                 var flat = AddFlat(pApartmentFlatInfo, pUserId);
                 context.Flats.Add(flat);
@@ -116,7 +116,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     throw new KeyNotFoundException(pApartmentFlatInfo.Id.ToString());
 
                 if (await context.Flats.AnyAsync(pX => pX.Name.Equals(pApartmentFlatInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.ApartmentId.Equals(pApartmentFlatInfo.ApartmentId) && pX.Id != original.Id))
-                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name);
+                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name, "Flat");
 
                 original.Block = pApartmentFlatInfo.Block;
                 original.ExtensionNumber = pApartmentFlatInfo.ExtensionNumber;

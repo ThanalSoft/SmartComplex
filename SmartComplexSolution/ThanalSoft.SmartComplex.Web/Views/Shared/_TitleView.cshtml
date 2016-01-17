@@ -1,0 +1,32 @@
+﻿@model ThanalSoft.SmartComplex.Web.Models.BaseViewModel
+@{
+    if (!Model.IsAsyncRequest)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "";
+    }
+}
+@if (Model?.ActionResultStatus != null)
+{
+    Html.RenderPartial("Partials/_ActionResultStatusPartial", Model.ActionResultStatus);
+}
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>
+            @RenderSection("title", required: false)
+        </h2>
+        <div class="pull-right">
+            @RenderSection("topbuttons", required: false)
+        </div>
+        <div class="clearfix"></div>
+        <div class="x_content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@RenderSection("scripts", required: false)

@@ -21,7 +21,6 @@ namespace ThanalSoft.SmartComplex.Web.Security
         public string Name { get; set; }
         public string Email { get; set; }
         public string UserIdentity { get; set; }
-
         public string[] Roles { get; set; }
     }
 }

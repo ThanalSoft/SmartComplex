@@ -6,7 +6,7 @@ namespace ThanalSoft.SmartComplex.Web.Models.Flat
 {
     public class FlatViewModel : BaseViewModel
     {
-        public FlatInfo FlatInfo { get; set; }
+        public FlatInfo Flat { get; set; }
 
         public IEnumerable<SelectListItem> FlatTypes { get; set; }
     }

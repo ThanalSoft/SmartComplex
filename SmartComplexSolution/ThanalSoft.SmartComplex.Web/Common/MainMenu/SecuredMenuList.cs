@@ -22,29 +22,19 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                 new SecuredMenuInfo
                 {
                     IsMainMenu = true,
-                    IconCssClass = "fa-building",
+                    IconCssClass = "fa-building-o",
                     Text = "Apartment",
-                    Roles = new []{ "Administrator" },
+                    Roles = new []{ "ApartmentAdmin", "Administrator" },
                     SubMenus = new List<SecuredMenuInfo>
                     {
                         new SecuredMenuInfo
                         {
                             Roles = new []{ "Administrator" },
                             Text = "View All",
-                            Action = "Index",
-                            Controller = "Apartment",
-                            MenuType = MenuType.New
-                        }
-                    }
-                },
-                new SecuredMenuInfo
-                {
-                    IsMainMenu = true,
-                    IconCssClass = "fa-building-o",
-                    Text = "Apartment",
-                    Roles = new []{ "ApartmentAdmin" },
-                    SubMenus = new List<SecuredMenuInfo>
-                    {
+                            Action = "GetAll",
+                            Controller = "Manage",
+                            Area = "Apartment"
+                        },
                         new SecuredMenuInfo
                         {
                             Roles = new []{ "ApartmentAdmin" },
@@ -117,10 +107,17 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                 {
                     IsMainMenu = true,
                     IconCssClass = "fa-users",
-                    Text = "Residence",
+                    Text = "Members",
                     Roles = new []{ "ApartmentAdmin" },
                     SubMenus = new List<SecuredMenuInfo>
                     {
+                        new SecuredMenuInfo
+                        {
+                            Roles = new []{ "ApartmentAdmin" },
+                            Text = "Residence",
+                            Action = "Index",
+                            Controller = "Apartment"
+                        },
                         new SecuredMenuInfo
                         {
                             Roles = new []{ "ApartmentAdmin" },
@@ -148,7 +145,7 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                         new SecuredMenuInfo
                         {
                             Roles = new []{ "ApartmentAdmin" },
-                            Text = "Documents",
+                            Text = "Management",
                             Action = "Index",
                             Controller = "Apartment"
                         }
@@ -241,7 +238,7 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                         new SecuredMenuInfo
                         {
                             Roles = new []{ "ApartmentAdmin" },
-                            Text = "Employee Management",
+                            Text = "Management",
                             Action = "Index",
                             Controller = "Apartment"
                         }

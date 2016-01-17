@@ -1,22 +1,29 @@
-﻿namespace ThanalSoft.SmartComplex.Web.Models.Common
+﻿using System.Runtime.Serialization;
+
+namespace ThanalSoft.SmartComplex.Web.Models.Common
 {
+    [DataContract]
     public class ActionResultStatusViewModel
     {
-        public ActionResultStatusViewModel(string pData, ActionStatus pActionStatus)
+        public ActionResultStatusViewModel(string pMessage, ActionStatus pActionStatus)
         {
-            Data = pData;
+            Message = pMessage;
             ActionStatus = pActionStatus;
         }
-        public string Data { get; set; }
 
+        [DataMember]
+        public string Message { get; set; }
+
+        [DataMember]
         public ActionStatus ActionStatus { get; set; }
     }
 
+    [DataContract]
     public enum ActionStatus
     {
-        Success,
-        Information,
-        Error,
-        Warning
+        [EnumMember]Success,
+        [EnumMember]Information,
+        [EnumMember]Error,
+        [EnumMember]Warning
     }
 }

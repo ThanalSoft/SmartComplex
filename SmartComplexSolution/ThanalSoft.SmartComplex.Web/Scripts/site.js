@@ -33,6 +33,7 @@ $(function () {
             $('.left_col').removeClass('scroll-view');
             $('.left_col').removeAttr('style');
             $('.sidebar-footer').hide();
+            $('.label').hide();
             $("#logo").hide();//.attr("src", "/SmartComplex/Content/images/logo130x36.png");
 
             if ($('#sidebar-menu li').hasClass('active')) {
@@ -43,6 +44,7 @@ $(function () {
             $('body').removeClass('nav-sm');
             $('body').addClass('nav-md');
             $('.sidebar-footer').show();
+            $('.label').show();
             $("#logo").show();//.attr("src", "/SmartComplex/Content/images/logo180x50.png");
 
             if ($('#sidebar-menu li').hasClass('active-sm')) {
@@ -334,7 +336,7 @@ function invokeAjaxAndFillContainer(url) {
                 type: "GET",
                 success: fillContainer,
                 error: function () {
-                    console.log("An error occured while creating Apartment!");
+                    console.log("An error occured while invoking Ajax!");
                     hideAnimator();
                 }
             });
@@ -352,10 +354,45 @@ function invokeAjaxAndFillContainer(url, data) {
                 data: data,
                 success: fillContainer,
                 error: function () {
-                    console.log("An error occured while creating Apartment!");
+                    console.log("An error occured while invoking Ajax!");
                     hideAnimator();
                 }
             });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
+}
+
+function postAjaxAndFillContainer(url) {
+    try {
+        loadAnimator();
+        $.ajax({
+            url: url,
+            type: "POST",
+            success: fillContainer,
+            error: function () {
+                console.log("An error occured while invoking Ajax!");
+                hideAnimator();
+            }
+        });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
+}
+
+function postAjaxAndFillContainer(url, data) {
+    try {
+        loadAnimator();
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            success: fillContainer,
+            error: function () {
+                console.log("An error occured while invoking Ajax!");
+                hideAnimator();
+            }
+        });
     } catch (e) {
         console.log("An error occured while filling container. Reason: " + e.message);
     }

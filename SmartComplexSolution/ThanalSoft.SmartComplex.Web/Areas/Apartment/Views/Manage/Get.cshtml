@@ -58,7 +58,8 @@
                     <i class="fa fa-home"></i>Flats
                 </a>
             }
-            else {
+            else
+            {
                 <a class="btn btn-app pull-left" id="uploadApartmentFlats">
                     <i class="fa fa-home"></i>Upload Flats
                 </a>
@@ -73,12 +74,12 @@
             <a class="btn btn-app pull-left" id="editApartment">
                 <i class="fa fa-edit"></i>Edit
             </a>
-            @*@using (Ajax.BeginForm("DeleteUndelete", "Apartment", new { pId = @Model.Apartment.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button id="deletebtn" type="submit" class="@(Model.Apartment.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
-                }
-                @if (!Model.Apartment.IsLocked)
+            @using (Ajax.BeginForm("DeleteUndelete", "Manage", new { pApartmentId = @Model.Apartment.Id }, new AjaxOptions { OnSuccess = "onDeleteApartment", OnBegin = "loadAnimator", OnComplete = "hideAnimator", HttpMethod = "POST" }, new { @class = "pull-left", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <button id="deletebtn" type="submit" class="@(Model.Apartment.IsDeleted ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-remove"></i> Delete</button>
+            }
+            @*@if (!Model.Apartment.IsLocked)
                 {
                     <button id="lockbtn" type="submit" data-toggle="modal" data-target=".lockModel" class="@(Model.Apartment.IsLocked ? "btn btn-app activebuttonRed" : "btn btn-app")"><i class="fa fa-lock"></i> Lock</button>
                 }
@@ -93,22 +94,35 @@
         </div>
     </div>
 </div>
+<div class="popover editable-container editable-popup fade in top" role="tooltip" id="popover412819" style="top: -140px; left: 75.3281px; display: block;"><div class="arrow" style="left: 50%;"></div><h3 class="popover-title">Change Password</h3><div class="popover-content"> <div><div class="editableform-loading" style="display: none;"></div><form class="form-inline editableform" style=""><div class="form-group"><div><div class="editable-input"><div class="editable-address"><label><span>New Password: </span><input placeholder="Min. 6 charaters" type="password" name="password" id="password" class="form-control input-small"></label></div><div class="editable-address"><label><span>Confirm Password </span><input type="password" name="confirmpwd" id="confirmpwd" class="form-control input-small"></label></div></div><div class="editable-buttons"><button type="submit" class="btn blue editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn default editable-cancel"><i class="fa fa-times"></i></button></div></div><div class="editable-error-block help-block" style="display: none;"></div></div></form></div></div></div>
 <script>
-$(
-    $("#closeApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage")');
-    }),
-    $("#editApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Update", "Manage")', { pApartmentId : @Model.Apartment.Id});
-    }),
-    $("#uploadApartmentFlats").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage")', { pApartmentId : @Model.Apartment.Id});
-    }),
-    $("#viewApartmentFlats").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat")', { pApartmentId : @Model.Apartment.Id});
-    }),
-    $("#viewApartmentUsers").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.Apartment.Id});
-    })
-);
+    $(
+        $("#closeApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage")');
+        }),
+        $("#editApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Update", "Manage")', { pApartmentId : @Model.Apartment.Id});
+        }),
+        $("#uploadApartmentFlats").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage")', { pApartmentId : @Model.Apartment.Id});
+        }),
+        $("#viewApartmentFlats").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat")', { pApartmentId : @Model.Apartment.Id});
+        }),
+        $("#viewApartmentUsers").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.Apartment.Id});
+        })
+    );
+
+    function onDeleteApartment(data) {
+        if (data == 'Success') {
+            if ($('#deletebtn').hasClass('activebuttonRed')) {
+                $('#deletebtn').removeClass('activebuttonRed');
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment undeleted successfully."));
+            } else {
+                $('#deletebtn').addClass('activebuttonRed');
+                $('#successNotify').html(getResultStatusHtml("success", "Apartment deleted successfully."));
+            }
+        }
+    }
 </script>

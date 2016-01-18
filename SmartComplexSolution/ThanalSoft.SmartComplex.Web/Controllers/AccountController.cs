@@ -19,7 +19,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         public ActionResult Index(string returnUrl)
         {
             if (User != null)
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { area = "Dashboard" });
 
             ViewBag.ReturnUrl = returnUrl;
             return View(new UserLoginModel
@@ -109,7 +109,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index");
+            return View();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -120,5 +120,6 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        
     }
 }

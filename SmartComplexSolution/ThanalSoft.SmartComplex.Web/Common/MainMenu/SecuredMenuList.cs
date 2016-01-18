@@ -17,6 +17,7 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                     Text = "Dashboard",
                     Action = "Index",
                     Controller = "Home",
+                    Area = "Dashboard",
                     MenuType = MenuType.CommingSoon
                 },
                 new SecuredMenuInfo

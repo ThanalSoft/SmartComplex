@@ -191,7 +191,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
-                await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
+                if(await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
+                    await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
+                else
+                    await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
             }
             catch (Exception ex)
             {

@@ -6,10 +6,16 @@
 @section title {
     <i class="fa fa-users"></i> Apartment Users
 }
+@section topbuttons {
+    <button type="button" id="backToApartment" class="btn btn-dark"><i class="fa fa-backward"></i> Back</button>
+}
 
 @Html.DisplayTableFor(Model.Users)
 <script>
 $(
+    $("#backToApartment").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage")', { pApartmentId: @Model.ApartmentId });
+    }),
     $("[data-rowid]").click(function () {
         var id = $(this).data("rowid");
         invokeAjaxAndFillContainer('@Url.Action("GetApartmentUser", "Manage")', { pUserId: id });

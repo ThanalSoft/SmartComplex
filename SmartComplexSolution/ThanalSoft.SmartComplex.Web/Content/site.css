@@ -252,9 +252,9 @@ body.nav-md .container.body .right_col {
     }
 }
 
- .right_col {
-        padding-bottom: 25px !important;
-    }
+.right_col {
+    padding-bottom: 25px !important;
+}
 
 @media (max-width: 1200px) {
     .x_title h2 {
@@ -4507,6 +4507,25 @@ ul.messages {
                 border-left: 5px solid #eee;
             }
 
+ul.user_data_dash li {
+    border-bottom: 1px dashed #D4D7DB;
+}
+ul.user_data_dash li:hover {
+    color: #333;
+}
+    ul.user_data_dash li div {
+        padding-bottom: 15px;
+        padding-top: 15px;
+        padding-left: 3px;
+    }
+    ul.user_data_dash li div i {
+        padding-right: 5px;
+    }
+
+    ul.user_data_dash li p {
+        margin-bottom: 0;
+    }
+
 ul.user_data li {
     margin-bottom: 6px;
 }
@@ -4682,7 +4701,7 @@ ul.project_files li {
         top: 15px;
         width: 120px;
         line-height: 20px;
-        background-color: #555;
+        background-color: #2A3F54;
         box-shadow: 0 0 3px rgba(0, 0, 0, .3);
     }
 

@@ -232,6 +232,24 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             return RedirectToAction("Get", "Manage", new { pApartmentId = pModel.Apartment.Id });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> MarkApartmentUserAdmin(int pApartmentId, int pUserId)
+        {
+            await MarkUserAdmin(pUserId);
+            return RedirectToAction("GetAllApartmentUsers", new { pApartmentId = pApartmentId});
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<string> DeleteUndelete(int pApartmentId)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete", pApartmentId);
+            if (response.Result == ApiResponseResult.Success)
+                return ApiResponseResult.Success.ToString();
+
+            return ApiResponseResult.Error.ToString();
+        }
+
         #endregion
 
         #region Private Methods
@@ -292,6 +310,11 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         private async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUserData(int pUserId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo>>().SecureGetAsync("Apartment", "GetApartmentUser", pUserId.ToString());
+        }
+
+        private static async Task MarkUserAdmin(int pId)
+        {
+            await new ApiConnector<GeneralReturnInfo>().SecureGetAsync("Apartment", "MarkUserAdmin", pId.ToString());
         }
 
         #endregion

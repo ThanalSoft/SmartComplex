@@ -165,7 +165,6 @@
     <Content Include="Areas\Employee\Views\web.config" />
     <Content Include="Areas\Contact\Views\web.config" />
     <Content Include="Areas\Dashboard\Views\web.config" />
-    <Content Include="Areas\Account\Views\web.config" />
     <Content Include="Areas\Members\Views\web.config" />
     <Content Include="Areas\Apartment\Views\Home\Index.cshtml" />
     <Content Include="Areas\Apartment\Views\Shared\Partials\_ApartmentList.cshtml" />
@@ -209,9 +208,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
-    <Compile Include="Areas\Account\Controllers\ExpenseController.cs" />
-    <Compile Include="Areas\Account\Controllers\IncomeController.cs" />
     <Compile Include="Areas\Apartment\ApartmentAreaRegistration.cs" />
     <Compile Include="Areas\Apartment\Controllers\AmenitiesController.cs" />
     <Compile Include="Areas\Apartment\Controllers\AssetController.cs" />
@@ -264,6 +260,7 @@
     <Compile Include="HTMLHelpers\MainMenuHelper.cs" />
     <Compile Include="HTMLHelpers\TableHelper.cs" />
     <Compile Include="HTMLHelpers\test.cs" />
+    <Compile Include="HTMLHelpers\UrlGenerationHelper.cs" />
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />
     <Compile Include="Models\ApartmentUser\ApartmentUserListViewModel.cs" />
     <Compile Include="Models\ApartmentUser\ApartmentUserViewModel.cs" />
@@ -306,6 +303,7 @@
     <Content Include="Views\ApartmentUser\_ApartmentUserList.cshtml" />
     <Content Include="Views\ApartmentUser\View.cshtml" />
     <Content Include="Views\Shared\_TitleView.cshtml" />
+    <Content Include="Views\Account\Logout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -315,10 +313,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Account\Models\" />
-    <Folder Include="Areas\Account\Views\Expense\" />
-    <Folder Include="Areas\Account\Views\Income\" />
-    <Folder Include="Areas\Account\Views\Shared\" />
     <Folder Include="Areas\Apartment\Views\Amenities\" />
     <Folder Include="Areas\Apartment\Views\Asset\" />
     <Folder Include="Areas\Apartment\Views\Association\" />

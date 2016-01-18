@@ -44,18 +44,20 @@
             <a class="btn btn-app pull-left" id="cancelApartmentUser">
                 <i class="fa fa-backward"></i>Back
             </a>
-            <a class="btn btn-app pull-left" onclick='markUserAdmin(@Model.User.ApartmentId, @Model.User.Id)'>
-                <i class="fa fa-anchor"></i>Mark Admin
+            <a class="btn btn-app pull-left" id="markApartmentAdmin">
+                <i class="fa fa-anchor"></i>Mark/Unmark as Admin
             </a>
         </div>
     </div>
 </div>
 
-
 <script>
 $(
     $("#cancelApartmentUser").click(function () {
         invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.User.ApartmentId});
+    }),
+    $("#markApartmentAdmin").click(function () {
+        postAjaxAndFillContainer('@Url.Action("MarkApartmentUserAdmin", "Manage")', { pApartmentId : @Model.User.ApartmentId, pUserId : @Model.User.Id});
     })
 );
 </script>

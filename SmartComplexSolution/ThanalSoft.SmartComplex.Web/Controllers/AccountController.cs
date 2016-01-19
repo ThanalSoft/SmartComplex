@@ -14,6 +14,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 {
     public class AccountController : BaseSecuredController
     {
+        #region Get Methods
+
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Index(string returnUrl)
@@ -28,6 +30,35 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                 Password = "admin"
             });
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string id, string token)
+        {
+            var response = await new ApiConnector<GeneralReturnInfo>().PostAsync("Account", "ConfirmUser", new ConfirmEmailAccount { Id = id, Token = token });
+            if (response.Result == ApiResponseResult.Success)
+                return View();
+
+            return View(new ErrorConfirmModel(response.Reason));
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Post Methods
 
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -73,9 +104,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
                     var encTicket = FormsAuthentication.Encrypt(authTicket);
                     var faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                     Response.Cookies.Add(faCookie);
-                 
+
                     if (string.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home", new { area = "Dashboard"});
+                        return RedirectToAction("Index", "Home", new { area = "Dashboard" });
 
                     return RedirectToLocal(returnUrl);
                 case LoginStatus.LockedOut:
@@ -93,25 +124,11 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string id, string token)
-        {
-            var response = await new ApiConnector<GeneralReturnInfo>().PostAsync("Account", "ConfirmUser", new ConfirmEmailAccount { Id = id, Token = token });
-            if(response.Result == ApiResponseResult.Success)
-                return View();
+        #endregion
 
-            return View(new ErrorConfirmModel(response.Reason));
-        }
+        #region Private Methods
 
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return View();
-        }
-
+        [NonAction]
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -120,6 +137,7 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-        
+
+        #endregion
     }
 }

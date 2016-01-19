@@ -1,6 +1,6 @@
 ﻿@model ThanalSoft.SmartComplex.Web.Models.BaseViewModel
 @{
-    if (!Model.IsAsyncRequest)
+    if (Model == null || !Model.IsAsyncRequest)
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }

@@ -1,12 +1,13 @@
 ﻿using System.Web.Mvc;
+using ThanalSoft.SmartComplex.Web.Controllers;
 
 namespace ThanalSoft.SmartComplex.Web.Areas.Dashboard.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseSecuredController
     {
-        // GET: Dashboard/Home
         public ActionResult Index()
         {
+            
             return View();
         }
     }

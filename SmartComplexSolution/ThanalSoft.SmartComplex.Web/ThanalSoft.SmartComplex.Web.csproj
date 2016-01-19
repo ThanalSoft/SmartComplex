@@ -281,7 +281,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Home\Index.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Apartment\Index.cshtml" />
     <Content Include="Views\Apartment\Create.cshtml" />
@@ -304,6 +304,7 @@
     <Content Include="Views\ApartmentUser\View.cshtml" />
     <Content Include="Views\Shared\_TitleView.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -331,7 +332,6 @@
     <Folder Include="Areas\Contact\Views\Important\" />
     <Folder Include="Areas\Contact\Views\Shared\" />
     <Folder Include="Areas\Dashboard\Models\" />
-    <Folder Include="Areas\Dashboard\Views\Home\" />
     <Folder Include="Areas\Dashboard\Views\Shared\" />
     <Folder Include="Areas\Document\Models\" />
     <Folder Include="Areas\Document\Views\Management\" />

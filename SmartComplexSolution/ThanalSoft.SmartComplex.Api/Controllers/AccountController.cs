@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
+using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -128,6 +130,47 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
 
                 await UserManager.UpdateAsync(user);
                 await UserManager.UpdateSecurityStampAsync(user.Id);
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<GeneralReturnInfo<UserProfileInfo>> GetUserProfileDetails(string id)
+        {
+            var result = new GeneralReturnInfo<UserProfileInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt32(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralReturnInfo> UpdateUserProfile(UserProfileInfo pUserProfileInfo)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                await FlatUserContext.Instance.UpdateUserProfile(pUserProfileInfo);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
             }
             catch (Exception ex)
             {

@@ -150,17 +150,18 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             return View(pModel);
         }
 
-        
+
 
         #endregion
 
         #region Private Methods
 
+        [NonAction]
         private async Task<GeneralReturnInfo<FlatInfo[]>> GetApartmentFlats(int pApartmentId)
         {
             return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", pApartmentId.ToString());
         }
-
+        [NonAction]
         private async Task<List<SelectListItem>> GetFlatTypes()
         {
             var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes");
@@ -180,17 +181,17 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
 
             return ddlItems;
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo<FlatInfo>> GetFlat(int pId)
         {
             return await new ApiConnector<GeneralReturnInfo<FlatInfo>>().SecureGetAsync("Flat", "Get", pId.ToString());
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo> CreateFlatAsync(FlatViewModel pModel)
         {
             return await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Create", pModel.Flat);
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo> UpdateFlat(FlatViewModel pModel)
         {
             return await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Update", pModel.Flat);

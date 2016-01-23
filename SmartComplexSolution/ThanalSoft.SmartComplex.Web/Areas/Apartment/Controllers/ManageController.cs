@@ -254,17 +254,18 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
 
         #region Private Methods
 
+        [NonAction]
         private async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAllApartmentsAsync()
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll");
             return response;
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo<ApartmentInfo>> GetApartment(int pId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", pId.ToString());
         }
-
+        [NonAction]
         private async Task<List<SelectListItem>> GetStates()
         {
             var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates");
@@ -284,34 +285,34 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
 
             return stateDdl;
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo> CreateApartmentAsync(ApartmentInfo pApartmentInfo)
         {
             var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", pApartmentInfo);
             return result;
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo> UpdateApartmentAsync(ApartmentInfo pApartmentInfo)
         {
             var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", pApartmentInfo);
             return result;
         }
-
+        [NonAction]
         private async Task UploadFlatsAsync(List<FlatUploadInfo> pFlatUploadDataInfoList)
         {
             await new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", pFlatUploadDataInfoList);
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(int pApartmentId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers", pApartmentId.ToString());
         }
-
+        [NonAction]
         private async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUserData(int pUserId)
         {
             return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo>>().SecureGetAsync("Apartment", "GetApartmentUser", pUserId.ToString());
         }
-
+        [NonAction]
         private static async Task MarkUserAdmin(int pId)
         {
             await new ApiConnector<GeneralReturnInfo>().SecureGetAsync("Apartment", "MarkUserAdmin", pId.ToString());

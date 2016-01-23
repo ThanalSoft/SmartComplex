@@ -330,16 +330,16 @@ function hideAnimator() {
 
 function invokeAjaxAndFillContainer(url) {
     try {
-            loadAnimator();
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: fillContainer,
-                error: function () {
-                    console.log("An error occured while invoking Ajax!");
-                    hideAnimator();
-                }
-            });
+        loadAnimator();
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: fillContainer,
+            error: function () {
+                console.log("An error occured while invoking Ajax!");
+                hideAnimator();
+            }
+        });
     } catch (e) {
         console.log("An error occured while filling container. Reason: " + e.message);
     }
@@ -347,17 +347,17 @@ function invokeAjaxAndFillContainer(url) {
 
 function invokeAjaxAndFillContainer(url, data) {
     try {
-            loadAnimator();
-            $.ajax({
-                url: url,
-                type: "GET",
-                data: data,
-                success: fillContainer,
-                error: function () {
-                    console.log("An error occured while invoking Ajax!");
-                    hideAnimator();
-                }
-            });
+        loadAnimator();
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: data,
+            success: fillContainer,
+            error: function () {
+                console.log("An error occured while invoking Ajax!");
+                hideAnimator();
+            }
+        });
     } catch (e) {
         console.log("An error occured while filling container. Reason: " + e.message);
     }
@@ -400,11 +400,11 @@ function postAjaxAndFillContainer(url, data) {
 
 function fillContainer(data) {
     try {
-            $("#container").fadeOut(100, function () {
-                $("#container").html(data);
-                $("#container").fadeIn(100);
-                hideAnimator();
-            });
+        $("#container").fadeOut(100, function () {
+            $("#container").html(data);
+            $("#container").fadeIn(100);
+            hideAnimator();
+        });
     } catch (e) {
         console.log("An error occured while filling container. Reason: " + e.message);
     }
@@ -418,3 +418,11 @@ function getResultStatusHtml(type, text) {
 
     return html;
 }
+
+$(
+    $(".tabs-left").find('.active a').append('<i class="fa fa-chevron-right pull-right arrow"></i>')
+);
+$(".tabs-left a").click(function () {
+    $(".tabs-left a").find('i.pull-right').remove();
+    $(this).append('<i class="fa fa-chevron-right pull-right arrow"></i>');
+});

@@ -6,8 +6,10 @@ using System.Web.Script.Serialization;
 using System.Web.Security;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
+using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models.Account;
+using ThanalSoft.SmartComplex.Web.Models.Common;
 using ThanalSoft.SmartComplex.Web.Security;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
@@ -51,9 +53,23 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Profile()
+        public async Task<ActionResult> UserProfile()
         {
-            return View();
+            var response = await GetUserProfileInfo();
+            if(response?.Info != null)
+                return View(new ProfileViewModel
+                {
+                    FirstName = response.Info.FirstName,
+                    LastName = response.Info.LastName,
+                    Mobile = response.Info.Mobile,
+                    Email = response.Info.Email
+                });
+
+            //This should happen only for admin user
+            return View(new ProfileViewModel
+            {
+                Email = User.Email
+            });
         }
 
         #endregion
@@ -124,6 +140,20 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             }
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<PartialViewResult> UpdateProfile(ProfileViewModel pProfileViewModel)
+        {
+            await UpdateUserProfile(new UserProfileInfo
+            {
+                FirstName = pProfileViewModel.FirstName,
+                LastName = pProfileViewModel.LastName,
+                Mobile = pProfileViewModel.Mobile
+            });
+            pProfileViewModel.ActionResultStatus = new ActionResultStatusViewModel("Your profile is updated successfully.",  ActionStatus.Success);
+            return PartialView("_UpdateUserProfile", pProfileViewModel);
+        }
+
         #endregion
 
         #region Private Methods
@@ -138,6 +168,20 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [NonAction]
+        private async Task<GeneralReturnInfo<UserProfileInfo>> GetUserProfileInfo()
+        {
+            return await new ApiConnector<GeneralReturnInfo<UserProfileInfo>>().SecureGetAsync("Account", "GetUserProfileDetails", User.UserId.ToString());
+        }
+
+        [NonAction]
+        private async Task UpdateUserProfile(UserProfileInfo pUserProfileInfo)
+        {
+            pUserProfileInfo.UserId = User.UserId;
+            await new ApiConnector<GeneralReturnInfo<UserProfileInfo>>().SecurePostAsync("Account", "UpdateUserProfile", pUserProfileInfo);
+        }
+
         #endregion
+
     }
 }

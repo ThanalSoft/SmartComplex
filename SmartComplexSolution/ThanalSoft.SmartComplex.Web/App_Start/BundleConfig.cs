@@ -23,6 +23,7 @@ namespace ThanalSoft.SmartComplex.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/jquery.nicescroll.js",
                       "~/Scripts/respond.js",
+                       "~/Scripts/pnotify.custom.js",
                       "~/Scripts/site.js"));
 
             pBundles.Add(new StyleBundle("~/Content/css").Include(

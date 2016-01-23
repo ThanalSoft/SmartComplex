@@ -24,6 +24,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
 
         #region Private Methods
 
+        [NonAction]
         private async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAllApartments()
         {
             var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll");

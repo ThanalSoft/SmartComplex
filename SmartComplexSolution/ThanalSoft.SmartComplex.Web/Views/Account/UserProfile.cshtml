@@ -1,9 +1,10 @@
-﻿@{
+﻿@model ThanalSoft.SmartComplex.Web.Models.Account.ProfileViewModel
+@{
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 
 @section title {
-    <i class="fa fa-user"></i> User Profile
+    <i class="fa fa-user"></i> User Profile <small> of '@Model.Email'</small>
 }
 
 <div class="col-xs-2">
@@ -22,15 +23,18 @@
     </ul>
 </div>
 
-<div class="col-xs-10">
+<div class="col-xs-8">
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="home">
-            <p class="lead">Home tab</p>
-            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
+            @{
+                Html.RenderPartial("_UpdateUserProfile", @Model);
+            }
         </div>
-        <div class="tab-pane" id="profile">Profile Tab.</div>
-        <div class="tab-pane" id="settings">Settings Tab.</div>
+        <div class="tab-pane" id="profile">
+            <p class="lead">Credentials Management</p>
+        </div>
+        <div class="tab-pane" id="settings"><p class="lead">Settings</p></div>
     </div>
 </div>
 <div class="clearfix"></div>

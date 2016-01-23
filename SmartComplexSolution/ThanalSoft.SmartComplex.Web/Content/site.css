@@ -4704,7 +4704,7 @@ ul.project_files li {
         top: 15px;
         width: 120px;
         line-height: 20px;
-        background-color: #2A3F54;
+        background-color: #039FC6;
         box-shadow: 0 0 3px rgba(0, 0, 0, .3);
     }
 
@@ -4727,7 +4727,7 @@ ul.project_files li {
         position: absolute;
         content: " ";
         line-height: 0;
-        border-top: 2px solid #555;
+        border-top: 2px solid #5BC0DE;
         border-left: 2px solid transparent;
         border-right: 2px solid transparent;
     }
@@ -4857,6 +4857,12 @@ ul.project_files li {
 .view-first:hover p {
     transition-delay: 0.1s;
 }
+
+.tab-content {
+    margin-top: 2px;
+    padding: 5px;
+}
+
 /* *********  /media gallery  **************************** */
 /* *********  verticle tabs  **************************** */
 /*!

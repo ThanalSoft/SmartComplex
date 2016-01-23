@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Common;
+using ThanalSoft.SmartComplex.Common.Models.Account;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
@@ -90,6 +92,45 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 var users = await context.FlatUsers.Where(pX => pX.Id.Equals(pFlatUserId)).FirstAsync();
 
                 return users.UserId;
+            }
+        }
+
+        public async Task<UserProfileInfo> GetUserProfile(int pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var user = await context.FlatUsers
+                    .Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
+
+                if (user == null)
+                    throw new KeyNotFoundException();
+
+                return new UserProfileInfo
+                {
+                    LastName = user.LastName,
+                    FirstName = user.FirstName,
+                    Mobile = user.Mobile,
+                    BloodGroupId = user.BloodGroupId,
+                    Email = user.Email
+                };
+            }
+        }
+
+        public async Task UpdateUserProfile(UserProfileInfo pUserProfileInfo)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var user = await context.FlatUsers
+                    .Where(pX => pX.UserId.Equals(pUserProfileInfo.UserId)).FirstOrDefaultAsync();
+
+                if (user == null)
+                    throw new KeyNotFoundException();
+
+                user.FirstName = pUserProfileInfo.FirstName;
+                user.LastName = pUserProfileInfo.LastName;
+                user.Mobile = pUserProfileInfo.Mobile;
+
+                await context.SaveChangesAsync();
             }
         }
     }

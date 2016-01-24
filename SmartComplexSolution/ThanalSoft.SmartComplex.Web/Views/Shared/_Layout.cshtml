@@ -93,9 +93,9 @@
 
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
-@*<script>
+<script>
 
-        $(document).ready(function () {
+        @*$(document).ready(function () {
             setInterval(setNotificationCount, 100000);
             setNotificationCount();
         });
@@ -132,9 +132,9 @@
                     $("#notificationcount").fadeIn(100);
                 });
             }
-        };
+        };*@
 
         NProgress.done();
-    </script>*@
+    </script>
 
 </html>

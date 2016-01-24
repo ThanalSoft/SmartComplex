@@ -6,7 +6,6 @@ using System.Web.Script.Serialization;
 using System.Web.Security;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
-using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models.Account;
 using ThanalSoft.SmartComplex.Web.Models.Common;
@@ -56,20 +55,37 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         public async Task<ActionResult> UserProfile()
         {
             var response = await GetUserProfileInfo();
-            if(response?.Info != null)
-                return View(new ProfileViewModel
+            if (response?.Info != null)
+            {
+                var profile = new ProfileViewModel
                 {
                     FirstName = response.Info.FirstName,
                     LastName = response.Info.LastName,
-                    Mobile = response.Info.Mobile,
-                    Email = response.Info.Email
-                });
+                    Mobile = response.Info.Mobile
+                };
 
-            //This should happen only for admin user
-            return View(new ProfileViewModel
+                return View(new ProfileUpdateViewModel
+                {
+                    Email = response.Info.Email,
+                    ProfileViewModel = profile,
+                    CredentialViewModel = new CredentialViewModel(),
+                });
+            }
+
+            ////This should happen only for admin user
+            return View(new ProfileUpdateViewModel
             {
-                Email = User.Email
+                Email = User.Email,
+                ProfileViewModel = new ProfileViewModel(),
+                CredentialViewModel = new CredentialViewModel()
             });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult PasswordUpdated()
+        {
+            return View();
         }
 
         #endregion
@@ -144,16 +160,53 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpPost]
         public async Task<PartialViewResult> UpdateProfile(ProfileViewModel pProfileViewModel)
         {
-            await UpdateUserProfile(new UserProfileInfo
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_UpdateUserProfile", pProfileViewModel);
+            }
+
+            var result = await UpdateUserProfile(new UserProfileInfo
             {
                 FirstName = pProfileViewModel.FirstName,
                 LastName = pProfileViewModel.LastName,
                 Mobile = pProfileViewModel.Mobile
             });
-            pProfileViewModel.ActionResultStatus = new ActionResultStatusViewModel("Your profile is updated successfully.",  ActionStatus.Success);
+
+            pProfileViewModel.ActionResultStatus = result.Result == ApiResponseResult.Error 
+                ? new ActionResultStatusViewModel(result.Reason, ActionStatus.Error) 
+                : new ActionResultStatusViewModel("Your profile is updated successfully.", ActionStatus.Success);
+
             return PartialView("_UpdateUserProfile", pProfileViewModel);
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<ActionResult> UpdateCredentails(CredentialViewModel pCredentialsViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_UpdateCredentials", pCredentialsViewModel);
+            }
+
+            var result = await UpdateUserCredentials(new UserProfileInfo
+            {
+                Password = pCredentialsViewModel.Password,
+                NewPassword = pCredentialsViewModel.NewPassword
+            });
+
+            pCredentialsViewModel.ActionResultStatus = result.Result == ApiResponseResult.Error
+               ? new ActionResultStatusViewModel(result.Reason, ActionStatus.Error)
+               : new ActionResultStatusViewModel("Your Credentials updated successfully.", ActionStatus.Success);
+
+            if (pCredentialsViewModel.ActionResultStatus.ActionStatus == ActionStatus.Success)
+            {
+                FormsAuthentication.SignOut();
+                return JavaScript("document.location.replace('" + Url.Action("PasswordUpdated") + "');");
+            }
+
+            return PartialView("_UpdateCredentials", pCredentialsViewModel);
+        }
+        
         #endregion
 
         #region Private Methods
@@ -175,10 +228,19 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         }
 
         [NonAction]
-        private async Task UpdateUserProfile(UserProfileInfo pUserProfileInfo)
+        private async Task<GeneralReturnInfo> UpdateUserProfile(UserProfileInfo pUserProfileInfo)
         {
             pUserProfileInfo.UserId = User.UserId;
-            await new ApiConnector<GeneralReturnInfo<UserProfileInfo>>().SecurePostAsync("Account", "UpdateUserProfile", pUserProfileInfo);
+            var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Account", "UpdateUserProfile", pUserProfileInfo);
+            return result;
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo> UpdateUserCredentials(UserProfileInfo pUserProfileInfo)
+        {
+            pUserProfileInfo.UserId = User.UserId;
+            var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Account", "UpdateCredentials", pUserProfileInfo);
+            return result;
         }
 
         #endregion

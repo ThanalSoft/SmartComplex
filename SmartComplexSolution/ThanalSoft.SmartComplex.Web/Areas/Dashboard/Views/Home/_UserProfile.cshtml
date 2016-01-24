@@ -1,0 +1,46 @@
+﻿@model ThanalSoft.SmartComplex.Web.Areas.Dashboard.Models.DashboardProfileViewModel
+<div class="x_panel ui-ribbon-container fixed_height_390">
+    <div class="ui-ribbon-wrapper">
+        <div class="ui-ribbon">
+            Profile
+        </div>
+    </div>
+    <div class="x_content">
+        <div style="text-align: center;">
+            <i class="fa fa-user" style="font-size: 300%;"></i>
+            <div class="clear"></div>
+            <h4 style="text-transform: uppercase">@Model.Name</h4>
+        </div>
+        <ul class="list-unstyled user_data_dash">
+            <li>
+                <div>
+                    <i class="fa fa-envelope"></i>@Model.Email
+                </div>
+            </li>
+            <li>
+                <div>
+                    <i class="fa fa-phone"></i>@Model.Phone
+                </div>
+            </li>
+            <li>
+                <div>
+                    <i class="fa fa-key"></i><a href="#">Change Password</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="list-inline user_info_dash">
+            <li class="aero">
+                <h3>11</h3>
+                <span>Discussions</span>
+            </li>
+            <li class="aero">
+                <h3>02</h3>
+                <span>Messages</span>
+            </li>
+            <li class="aero">
+                <h3>43</h3>
+                <span>Reminders</span>
+            </li>
+        </ul>
+    </div>
+</div>

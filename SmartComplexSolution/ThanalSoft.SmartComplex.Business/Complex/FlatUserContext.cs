@@ -99,8 +99,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var user = await context.FlatUsers
-                    .Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
+                var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
 
                 if (user == null)
                     throw new KeyNotFoundException();
@@ -120,8 +119,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var user = await context.FlatUsers
-                    .Where(pX => pX.UserId.Equals(pUserProfileInfo.UserId)).FirstOrDefaultAsync();
+                var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserProfileInfo.UserId)).FirstOrDefaultAsync();
 
                 if (user == null)
                     throw new KeyNotFoundException();

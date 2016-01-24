@@ -363,6 +363,24 @@ function invokeAjaxAndFillContainer(url, data) {
     }
 }
 
+function invokeAjaxAndFill(url, data, fillObject) {
+    try {
+        loadAnimator();
+        $.ajax({
+            url: url,
+            data: data,
+            type: "GET",
+            success: fillObject,
+            error: function () {
+                console.log("An error occured while invoking Ajax!");
+                hideAnimator();
+            }
+        });
+    } catch (e) {
+        console.log("An error occured while filling container. Reason: " + e.message);
+    }
+}
+
 function postAjaxAndFillContainer(url) {
     try {
         loadAnimator();

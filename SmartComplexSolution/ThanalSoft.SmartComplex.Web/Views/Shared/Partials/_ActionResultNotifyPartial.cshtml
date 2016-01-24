@@ -1,0 +1,73 @@
+﻿@using ThanalSoft.SmartComplex.Web.Models.Common
+@model ActionResultStatusViewModel
+
+@switch (Model.ActionStatus)
+{
+    case ActionStatus.Success:
+        <script>
+            var message = '@Model.Message';
+            $(
+                new PNotify({
+                    title: 'Success',
+                    text: message,
+                    type: 'success',
+                    opacity: .8,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    delay: 2000
+                })
+            );
+        </script>
+        break;
+    case ActionStatus.Information:
+        <script>
+            var message = '@Model.Message';
+            $(
+                new PNotify({
+                    title: 'Information',
+                    text: message,
+                    type: 'info',
+                    opacity: .8,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    delay: 2000
+                })
+            );
+        </script>
+        break;
+    case ActionStatus.Error:
+        <script>
+            var message = '@Model.Message';
+            $(
+                new PNotify({
+                    title: 'Error',
+                    text: message,
+                    type: 'error',
+                    opacity: .8,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    delay: 1800
+                })
+            );
+        </script>
+        break;
+    case ActionStatus.Warning:
+        <script>
+            var message = '@Model.Message';
+            $(
+                new PNotify({
+                    title: 'Warning',
+                    text: message,
+                    opacity: .8,
+                    nonblock: {
+                        nonblock: true
+                    },
+                    delay: 1800
+                })
+            );
+        </script>
+        break;
+}

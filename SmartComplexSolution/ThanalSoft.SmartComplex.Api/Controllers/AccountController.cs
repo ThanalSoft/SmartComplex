@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
-using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -160,12 +159,47 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
+        [System.Web.Http.HttpPost]
         public async Task<GeneralReturnInfo> UpdateUserProfile(UserProfileInfo pUserProfileInfo)
         {
             var result = new GeneralReturnInfo();
             try
             {
                 await FlatUserContext.Instance.UpdateUserProfile(pUserProfileInfo);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpPost]
+        public async Task<GeneralReturnInfo> UpdateCredentials(UserProfileInfo pUserProfileInfo)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                var user = await UserManager.FindByIdAsync(pUserProfileInfo.UserId);
+                if (user == null)
+                    throw  new KeyNotFoundException();
+
+                var passwordChecked = await UserManager.CheckPasswordAsync(user, pUserProfileInfo.Password);
+                if(!passwordChecked)
+                    throw new Exception("Invalid password provided.");
+
+                var changeResult = await UserManager.ChangePasswordAsync(pUserProfileInfo.UserId, pUserProfileInfo.Password, pUserProfileInfo.NewPassword);
+                if (!changeResult.Succeeded)
+                {
+                    result.Result = ApiResponseResult.Error;
+                    result.Reason = changeResult.Errors.First();
+                }
             }
             catch (KeyNotFoundException ex)
             {

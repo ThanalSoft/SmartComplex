@@ -8,7 +8,8 @@ namespace ThanalSoft.SmartComplex.Web
         {
             pBundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/nprogress.js"));
+                        "~/Scripts/nprogress.js",
+                        "~/Scripts/site.js"));
 
             pBundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                          "~/Scripts/jquery.validate*"));
@@ -23,8 +24,7 @@ namespace ThanalSoft.SmartComplex.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/jquery.nicescroll.js",
                       "~/Scripts/respond.js",
-                       "~/Scripts/pnotify.custom.js",
-                      "~/Scripts/site.js"));
+                       "~/Scripts/pnotify.custom.js"));
 
             pBundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

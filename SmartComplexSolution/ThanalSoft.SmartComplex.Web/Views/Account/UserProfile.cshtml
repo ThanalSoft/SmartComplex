@@ -1,4 +1,4 @@
-﻿@model ThanalSoft.SmartComplex.Web.Models.Account.ProfileViewModel
+﻿@model ThanalSoft.SmartComplex.Web.Models.Account.ProfileUpdateViewModel
 @{
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
@@ -28,13 +28,19 @@
     <div class="tab-content">
         <div class="tab-pane active" id="home">
             @{
-                Html.RenderPartial("_UpdateUserProfile", @Model);
+                Html.RenderPartial("_UpdateUserProfile", @Model.ProfileViewModel);
             }
         </div>
         <div class="tab-pane" id="profile">
-            <p class="lead">Credentials Management</p>
+            @{
+                Html.RenderPartial("_UpdateCredentials", @Model.CredentialViewModel);
+            }
         </div>
         <div class="tab-pane" id="settings"><p class="lead">Settings</p></div>
     </div>
 </div>
 <div class="clearfix"></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

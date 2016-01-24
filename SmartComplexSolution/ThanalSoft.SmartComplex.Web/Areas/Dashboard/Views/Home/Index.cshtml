@@ -1,51 +1,27 @@
-﻿@model ThanalSoft.SmartComplex.Web.Models.Home.DashboardViewModel
+﻿@model ThanalSoft.SmartComplex.Web.Areas.Dashboard.Models.DashboardViewModel
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @if (Model?.AdminDashboardInfo != null)
 {
     Html.RenderPartial("_AdminDashboard", Model.AdminDashboardInfo);
 }
-<div class="col-md-5 col-xs-12 widget widget_tally_box">
-    <div class="x_panel ui-ribbon-container fixed_height_390">
-        <div class="ui-ribbon-wrapper">
-            <div class="ui-ribbon">
-                Profile
-            </div>
-        </div>
-        <div class="x_content">
-            <div style="text-align: center; margin-bottom: 17px">
-                <i class="fa fa-user" style="font-size: 350%;"></i>
-                <div class="clear"></div>
-                <h2 style="text-transform: uppercase">Harikrishnan. R</h2>
-            </div>
-            <ul class="list-unstyled user_data_dash">
-                <li>
-                    <div><i class="fa fa-envelope"></i>harisuru@gmail.com
-                    </div></li>
-                <li>
-                    <div><i class="fa fa-phone"></i>9742170983
-                    </div></li>
-                <li>
-                    <div><i class="fa fa-key"></i><a href="#">Change Password</a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list-inline user_info_dash">
-                <li>
-                    <h3>1</h3>
-                    <span>Flat(s)</span>
-                </li>
-                <li>
-                    <h3>0</h3>
-                    <span>Messages</span>
-                </li>
-                <li>
-                    <h3>4</h3>
-                    <span>Reminders</span>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="col-md-5 col-xs-12 widget widget_tally_box" id="userProfileWidget">
+
 </div>
+<script>
+    $(
+        invokeAjaxAndFill('@Url.Action("GetProfileData", "Home")', null, fillUserWidget)
+    );
+
+    function fillUserWidget(data) {
+        try {
+            $("#userProfileWidget").fadeOut(10, function () {
+                $("#userProfileWidget").html(data);
+                $("#userProfileWidget").fadeIn(1000);
+            });
+        } catch (e) {
+            console.log("An error occured while filling container. Reason: " + e.message);
+        }
+    }
+</script>

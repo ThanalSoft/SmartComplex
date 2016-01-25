@@ -19,12 +19,12 @@
             </li>
             <li>
                 <div>
-                    <i class="fa fa-phone-square"></i>+91 9742170983
+                    <i class="fa fa-phone-square"></i>+91 @Model.Phone
                 </div>
             </li>
             <li>
                 <div>
-                    <i class="fa fa-medkit"></i>Blood group not updated!
+                    <i class="fa fa-medkit"></i>@Model.BloodGroup
                 </div>
             </li>
             <li>
@@ -35,15 +35,15 @@
         </ul>
         <ul class="list-inline user_info_dash">
             <li class="blue">
-                <h3>11</h3>
+                <h3>@Model.DiscussionCount</h3>
                 <span>Discussions</span>
             </li>
             <li class="blue">
-                <h3>02</h3>
+                <h3>@Model.MessageCount</h3>
                 <span>Messages</span>
             </li>
             <li class="blue">
-                <h3>43</h3>
+                <h3>@Model.ReminderCount</h3>
                 <span>Reminders</span>
             </li>
         </ul>

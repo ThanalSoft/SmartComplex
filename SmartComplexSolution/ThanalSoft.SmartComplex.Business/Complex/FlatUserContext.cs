@@ -95,7 +95,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
-        public async Task<UserProfileInfo> GetUserProfile(int pUserId)
+        public async Task<UserProfileInfo> GetUserProfile(Int64 pUserId)
         {
             using (var context = new SmartComplexDataObjectContext())
             {
@@ -129,6 +129,27 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 user.Mobile = pUserProfileInfo.Mobile;
 
                 await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<UserProfileWidgetInfo> GetUserProfileWidgetInfo(Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var user = await context.FlatUsers.
+                    Include(pX => pX.BloodGroup).
+                    Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
+
+                if (user == null)
+                    throw new KeyNotFoundException();
+
+                return new UserProfileWidgetInfo
+                {
+                    Email = user.Email,
+                    Name = user.FirstName + " " + user.LastName,
+                    BloodGroup = user.BloodGroup?.Group,
+                    Mobile = user.Mobile
+                };
             }
         }
     }

@@ -11,7 +11,7 @@
 </div>
 <script>
     $(
-        invokeAjaxAndFill('@Url.Action("GetProfileData", "Home")', null, fillUserWidget)
+        invokeAjaxAndFill('@Url.Action("GetUserProfileWidget", "Home")', null, fillUserWidget)
     );
 
     function fillUserWidget(data) {

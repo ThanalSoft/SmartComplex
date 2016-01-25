@@ -64,6 +64,7 @@
     <Compile Include="Models\Account\LoginResultInfo.cs" />
     <Compile Include="Models\Account\LoginUserInfo.cs" />
     <Compile Include="Models\Account\UserProfileInfo.cs" />
+    <Compile Include="Models\Account\UserProfileWidgetInfo.cs" />
     <Compile Include="Models\Common\GeneralInfo.cs" />
     <Compile Include="Models\Common\NotificationInfo.cs" />
     <Compile Include="Models\Complex\ApartmentUserInfo.cs" />

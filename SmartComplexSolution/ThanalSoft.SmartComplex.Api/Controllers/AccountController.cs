@@ -144,7 +144,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<UserProfileInfo>();
             try
             {
-                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt32(id));
+                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt64(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -200,6 +200,27 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     result.Result = ApiResponseResult.Error;
                     result.Reason = changeResult.Errors.First();
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<GeneralReturnInfo<UserProfileWidgetInfo>> GetUserProfileWidgetInfo(string id)
+        {
+            var result = new GeneralReturnInfo<UserProfileWidgetInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.GetUserProfileWidgetInfo(Convert.ToInt64(id));
             }
             catch (KeyNotFoundException ex)
             {

@@ -33,7 +33,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Dashboard.Controllers
                 Name = result.Info.Name,
                 Email = result.Info.Email,
                 Phone = result.Info.Mobile,
-                BloodGroup = string.IsNullOrEmpty(result.Info.BloodGroup) ? "Please update your blood group" : result.Info.BloodGroup,
+                BloodGroup = string.IsNullOrEmpty(result.Info.BloodGroup) ? "Not Specified" : result.Info.BloodGroup,
                 DiscussionCount = result.Info.DiscussionCount,
                 MessageCount = result.Info.MessageCount,
                 ReminderCount = result.Info.ReminderCount

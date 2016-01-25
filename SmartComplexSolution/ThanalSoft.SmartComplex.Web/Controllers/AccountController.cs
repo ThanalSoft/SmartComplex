@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -6,6 +8,7 @@ using System.Web.Script.Serialization;
 using System.Web.Security;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
+using ThanalSoft.SmartComplex.Common.Models.Common;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Models.Account;
 using ThanalSoft.SmartComplex.Web.Models.Common;
@@ -54,19 +57,24 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> UserProfile()
         {
-            var response = await GetUserProfileInfo();
-            if (response?.Info != null)
+            var response = GetUserProfileInfo();
+            var bloodGroups = GetBloodGroups();
+            await Task.WhenAll(response, bloodGroups);
+
+            if (response.Result?.Info != null)
             {
                 var profile = new ProfileViewModel
                 {
-                    FirstName = response.Info.FirstName,
-                    LastName = response.Info.LastName,
-                    Mobile = response.Info.Mobile
+                    FirstName = response.Result.Info.FirstName,
+                    LastName = response.Result.Info.LastName,
+                    Mobile = response.Result.Info.Mobile,
+                    BloodGroupId = response.Result.Info.BloodGroupId,
+                    BloodGroups = bloodGroups.Result.ToArray()
                 };
 
                 return View(new ProfileUpdateViewModel
                 {
-                    Email = response.Info.Email,
+                    Email = response.Result.Info.Email,
                     ProfileViewModel = profile,
                     CredentialViewModel = new CredentialViewModel(),
                 });
@@ -76,7 +84,10 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             return View(new ProfileUpdateViewModel
             {
                 Email = User.Email,
-                ProfileViewModel = new ProfileViewModel(),
+                ProfileViewModel = new ProfileViewModel
+                {
+                    BloodGroups = bloodGroups.Result.ToArray()
+                },
                 CredentialViewModel = new CredentialViewModel()
             });
         }
@@ -160,6 +171,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
         [HttpPost]
         public async Task<PartialViewResult> UpdateProfile(ProfileViewModel pProfileViewModel)
         {
+            var bloodGroups = await GetBloodGroups();
+            pProfileViewModel.BloodGroups = bloodGroups.ToArray();
+
             if (!ModelState.IsValid)
             {
                 return PartialView("_UpdateUserProfile", pProfileViewModel);
@@ -169,7 +183,8 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             {
                 FirstName = pProfileViewModel.FirstName,
                 LastName = pProfileViewModel.LastName,
-                Mobile = pProfileViewModel.Mobile
+                Mobile = pProfileViewModel.Mobile,
+                BloodGroupId = pProfileViewModel.BloodGroupId
             });
 
             pProfileViewModel.ActionResultStatus = result.Result == ApiResponseResult.Error 
@@ -241,6 +256,27 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
             pUserProfileInfo.UserId = User.UserId;
             var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Account", "UpdateCredentials", pUserProfileInfo);
             return result;
+        }
+
+        [NonAction]
+        private async Task<List<SelectListItem>> GetBloodGroups()
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetBloodGroups");
+            var ddlItems = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "0",
+                    Text = "-- Select --"
+                }
+            };
+            ddlItems.AddRange(response.Info.Select((pX => new SelectListItem
+            {
+                Text = pX.Name,
+                Value = Convert.ToString(pX.Id)
+            })));
+
+            return ddlItems;
         }
 
         #endregion

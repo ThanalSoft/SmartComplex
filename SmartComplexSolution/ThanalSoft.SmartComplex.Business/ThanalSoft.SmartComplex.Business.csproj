@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseBusiness.cs" />
+    <Compile Include="Common\BloodGroupContext.cs" />
     <Compile Include="Common\DashboardContext.cs" />
     <Compile Include="Common\FlatTypeContext.cs" />
     <Compile Include="Common\NotificationContext.cs" />

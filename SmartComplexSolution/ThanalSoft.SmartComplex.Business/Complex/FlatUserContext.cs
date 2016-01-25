@@ -110,7 +110,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                     FirstName = user.FirstName,
                     Mobile = user.Mobile,
                     BloodGroupId = user.BloodGroupId,
-                    Email = user.Email
+                    Email = user.Email,
+                    UserId = user.UserId
                 };
             }
         }
@@ -127,6 +128,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 user.FirstName = pUserProfileInfo.FirstName;
                 user.LastName = pUserProfileInfo.LastName;
                 user.Mobile = pUserProfileInfo.Mobile;
+                user.BloodGroupId = pUserProfileInfo.BloodGroupId;
 
                 await context.SaveChangesAsync();
             }

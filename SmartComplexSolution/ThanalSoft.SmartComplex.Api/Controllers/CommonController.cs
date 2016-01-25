@@ -11,6 +11,22 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     public class CommonController : BaseSecureController
     {
         [HttpGet]
+        public async Task<GeneralReturnInfo<GeneralInfo[]>> GetBloodGroups()
+        {
+            var result = new GeneralReturnInfo<GeneralInfo[]>();
+            try
+            {
+                result.Info = await BloodGroupContext.Instance.GetBloodGroupsAsync();
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
         public async Task<GeneralReturnInfo<GeneralInfo[]>> GetStates()
         {
             var result = new GeneralReturnInfo<GeneralInfo[]>();

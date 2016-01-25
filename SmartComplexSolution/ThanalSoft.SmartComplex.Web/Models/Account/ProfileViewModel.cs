@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ThanalSoft.SmartComplex.Web.Models.Account
 {
@@ -23,6 +25,10 @@ namespace ThanalSoft.SmartComplex.Web.Models.Account
         [Required]
         [Display(Name = "Mobile")]
         public string Mobile { get; set; }
+        [Display(Name = "Blood Group")]
+        public int? BloodGroupId { get; set; }
+
+        public SelectListItem[] BloodGroups { get; set; }
     }
 
     public class CredentialViewModel : BaseViewModel
@@ -35,7 +41,7 @@ namespace ThanalSoft.SmartComplex.Web.Models.Account
         public string NewPassword { get; set; }
         [Required]
         [Display(Name = "Confirm Password")]
-        [Compare("NewPassword", ErrorMessage = "Password mismatch.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Password mismatch.")]
         public string ConfirmNewPassword { get; set; }
         
     }

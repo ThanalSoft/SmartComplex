@@ -4429,7 +4429,7 @@ ul.user_info_dash {
     margin-left: auto;
     margin-right: auto;
     padding: 10px 0;
-    margin-top: 35px;
+    margin-top: 70px;
 }
 
     ul.user_info_dash li {
@@ -4508,7 +4508,7 @@ ul.messages {
             }
 
 ul.user_data_dash li {
-    border-bottom: 1px dashed #D4D7DB;
+    border-bottom: 1px dashed #eee;
 }
 
     ul.user_data_dash li:hover {
@@ -4516,13 +4516,15 @@ ul.user_data_dash li {
     }
 
     ul.user_data_dash li div {
-        padding-bottom: 15px;
-        padding-top: 15px;
-        padding-left: 3px;
+        padding-bottom: 11px;
+        padding-top: 11px;
+        padding-left: 2px;
     }
 
         ul.user_data_dash li div i {
-            padding-right: 5px;
+            padding-right: 8px;
+            color: #9CC2CB;
+            font-weight: bold;
         }
 
     ul.user_data_dash li p {
@@ -4533,6 +4535,15 @@ ul.user_data li {
     margin-bottom: 6px;
 }
 
+ul.user_data_dash li:last-child {
+    border-bottom: 0px;
+    float: right;
+    margin-right: 1px;
+    text-decoration: underline;
+}
+ul.user_data_dash li:last-child i {
+    margin-left: 5px;
+}
     ul.user_data li p {
         margin-bottom: 0;
     }

@@ -22,10 +22,19 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         public async Task<ActionResult> Index()
         {
             var response = await GetUserApartments();
-            return View(new ApartmentListViewModel
+            if(response.Info.Length > 1)
+                return View(new ApartmentListViewModel
+                {
+                    Apartments = response.Info,
+                    IsAsyncRequest = IsAjaxRequest
+                });
+
+            return View("Get", new ApartmentViewModel
             {
-                Apartments = response.Info,
-                IsAsyncRequest = IsAjaxRequest
+                IsAsyncRequest = IsAjaxRequest,
+                Apartment = response.Info[0],
+                ActionResultStatus = ViewResultStatus,
+                HideBack = true
             });
         }
 

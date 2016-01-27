@@ -27,6 +27,21 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
+        public async Task<ApartmentInfo[]> GetUserApartments(Int64 pUserId)
+        {
+            using (var context = new SmartComplexDataObjectContext())
+            {
+                var data = await context.Apartments
+                    .Include(pX => pX.Flats)
+                    .Include(pX => pX.Flats.Select(pY => pY.MemberFlats))
+                    .Include(pX => pX.Flats.Select(pY => pY.MemberFlats.Select(pZ => pZ.FlatUser)))
+                    .Where(pX => pX.Flats.Any(pY => pY.MemberFlats.Any(pZ => pZ.FlatUser.UserId == pUserId)))
+                    .OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
+
+                return data.Select(MapToApartmentInfo).ToArray();
+            }
+        }
+
         public async Task<ApartmentInfo> GetAsync(int pApartmentId)
         {
             using (var context = new SmartComplexDataObjectContext())

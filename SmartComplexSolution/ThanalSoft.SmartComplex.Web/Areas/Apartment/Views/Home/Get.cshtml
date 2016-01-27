@@ -1,0 +1,73 @@
+﻿@using Microsoft.Ajax.Utilities
+@model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.ApartmentViewModel
+@{
+    Layout = "~/Views/Shared/_TitleView.cshtml";
+}
+
+@section title {
+    <i class="fa fa-building"></i> Apartment Details <small>'@Model.Apartment.Name'</small>
+}
+
+<div class="form-horizontal form-label-left">
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Name)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Address, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Address)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.City, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.City)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.StateId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.State)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.PinCode, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.PinCode.ToString())
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apartment.Phone, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12 display-label">
+            @Html.LabelForModel(Model.Apartment.Phone.IsNullOrWhiteSpace() ? "" : Model.Apartment.Phone)
+        </div>
+    </div>
+    <div class="divider-dashed"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <a class="btn btn-app pull-left" id="closeApartment">
+                <i class="fa fa-backward"></i>Back
+            </a>
+            @if (User.IsInRole("ApartmentAdmin"))
+            {
+                <a class="btn btn-app pull-left" id="editApartment">
+                    <i class="fa fa-edit"></i>Edit
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+$(
+    $("#closeApartment").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("Index", "Home", new {area = "Apartment"})');
+    }),
+    $("#editApartment").click(function () {
+        invokeAjaxAndFillContainer('@Url.Action("Update", "Home", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
+    })
+);
+</script>

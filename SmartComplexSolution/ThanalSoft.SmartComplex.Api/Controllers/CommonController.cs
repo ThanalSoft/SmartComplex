@@ -10,6 +10,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Common")]
     public class CommonController : BaseSecureController
     {
+        #region Get Methods
+
         [HttpGet]
         public async Task<GeneralReturnInfo<GeneralInfo[]>> GetBloodGroups()
         {
@@ -121,5 +123,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
+
+        #endregion
+        
     }
 }

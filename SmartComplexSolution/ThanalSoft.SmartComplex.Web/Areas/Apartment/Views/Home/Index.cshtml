@@ -4,8 +4,17 @@
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 
-@section titleicon {
-    <i class="fa fa-building"></i>
+@section title {
+    <i class="fa fa-building"></i> Your Apartments
 }
 
-@Html.DisplayTableFor(Model.Apartments, new { onclick = "viewApartment(this.id)" })
+@Html.DisplayTableFor(Model.Apartments)
+
+<script>
+    $(
+        $("[data-rowid]").click(function () {
+            var id = $(this).data("rowid");
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Home", new {area = "Apartment" })', { pApartmentId: id });
+        })
+    );
+</script>

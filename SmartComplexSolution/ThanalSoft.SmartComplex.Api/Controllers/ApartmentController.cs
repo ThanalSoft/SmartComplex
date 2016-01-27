@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -15,6 +14,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureController
     {
+        #region Get Methods
+
         [HttpGet]
         public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAll()
         {
@@ -46,6 +47,82 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
+                foreach (var apartmentUserInfo in result.Info)
+                {
+                    var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
+                    apartmentUserInfo.UserRoles = string.Join(", ", roles);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentUserInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
+                if (await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
+                    await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
+                else
+                    await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetUserApartments(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentInfo[]>();
+            try
+            {
+                result.Info = await ApartmentContext.Instance.GetUserApartments(Convert.ToInt64(id));
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region Post Methods
 
         [HttpPost]
         public async Task<GeneralReturnInfo> Create([FromBody]ApartmentInfo pApartmentInfo)
@@ -147,63 +224,11 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentUserInfo[]>>  GetApartmentUsers(string id)
-        {
-            var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
-                foreach (var apartmentUserInfo in result.Info)
-                {
-                    var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
-                    apartmentUserInfo.UserRoles = string.Join(", ", roles);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        #endregion
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
-        {
-            var result = new GeneralReturnInfo<ApartmentUserInfo>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        #region Private Methods
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
-        {
-            var result = new GeneralReturnInfo();
-            try
-            {
-                var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
-                if(await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
-                    await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
-                else
-                    await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
-
+        [NonAction]
         private void ConfigureUser(FlatUploadInfo pUser, string pPassword, string pActivationCode)
         {
             if (string.IsNullOrEmpty(pUser.OwnerEmail))
@@ -211,26 +236,32 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
 
             var user = UserManager.FindByEmail(pUser.OwnerEmail);
             AddOwnerRole(user);
-            
+
             if (!string.IsNullOrEmpty(user.ActivationCode) && !user.IsActivated)
                 SendUserEmail(pUser.OwnerEmail, pPassword, pActivationCode, user);
         }
-        
+
+        [NonAction]
         private void AddOwnerRole(User pUser)
         {
             UserManager.AddToRole(pUser.Id, "Owner");
         }
 
+        [NonAction]
         private void SendUserEmail(string pEmail, string pPassword, string pActivationCode, User pUser)
         {
             var url = $"{ConfigurationManager.AppSettings["WEB_URL"]}/{"Account"}/{"ConfirmEmail"}/{pUser.Id}/?token={pActivationCode}";
             UserManager.SendEmail(pUser.Id, "Welcome to Smart Complex!", GetBody(url, pEmail, pPassword));
         }
 
+        [NonAction]
         private string GetBody(string pUrl, string pEmail, string pPassword)
         {
             string content = $"<div style='color:#666 !important;'>Hi,<div><u><b><font size='3'><br></font></b></u></div><div><u><b><font size='3' face='Lucida Sans'>Thanks for choosing SmartComplex! Now leave in your complex SMARTLY.</font></b></u></div><div><br></div><div>Please click <strong style='font-size:125%;color:#49A6FD !important;'><a href='{ pUrl}'>here</a></strong> to confirm your email. Once the email validation is completed use the following credentials to login to your account.</div><div><br></div><div style='color:#000 !important;'><font face='Arial Black'>Username :&nbsp;{pEmail}</font></div><div><font face='Arial Black'>Password :&nbsp;{pPassword}</font></div><div><br></div><div>Thank You!</div></div>";
             return content;
         }
+
+        #endregion
+
     }
 }

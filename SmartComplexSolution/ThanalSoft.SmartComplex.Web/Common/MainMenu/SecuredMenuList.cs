@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
 {
+//      Administrator
+//      ApartmentAdmin
+//      MaintenanceManager
+//      Owner
+//      Tenant
     public class SecuredMenuList : IEnumerable<SecuredMenuInfo>
     {
         public IEnumerator<SecuredMenuInfo> GetEnumerator()
@@ -25,7 +30,7 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                     IsMainMenu = true,
                     IconCssClass = "fa-building-o",
                     Text = "Apartment",
-                    Roles = new []{ "ApartmentAdmin", "Administrator" },
+                    Roles = new []{ "ApartmentAdmin", "Administrator", "Tenant", "Owner", "MaintenanceManager" },
                     SubMenus = new List<SecuredMenuInfo>
                     {
                         new SecuredMenuInfo
@@ -38,21 +43,22 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                         },
                         new SecuredMenuInfo
                         {
-                            Roles = new []{ "ApartmentAdmin" },
-                            Text = "My Apartment",
+                            Roles = new []{ "ApartmentAdmin", "Tenant", "Owner", "MaintenanceManager"  },
+                            Text = "Apartment",
+                            Action = "Index",
+                            Controller = "Home",
+                            Area = "Apartment"
+                        },
+                        new SecuredMenuInfo
+                        {
+                            Roles = new []{ "Tenant", "Owner" },
+                            Text = "Flat",
                             Action = "Index",
                             Controller = "Apartment",
                         },
                         new SecuredMenuInfo
                         {
-                            Roles = new []{ "ApartmentAdmin" },
-                            Text = "Flats",
-                            Action = "Index",
-                            Controller = "Apartment",
-                        },
-                        new SecuredMenuInfo
-                        {
-                            Roles = new []{ "ApartmentAdmin" },
+                            Roles = new []{ "ApartmentAdmin", "Tenant", "Owner" },
                             Text = "Association",
                             Action = "Index",
                             Controller = "Apartment",

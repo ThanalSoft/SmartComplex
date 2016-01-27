@@ -13,13 +13,68 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [System.Web.Http.RoutePrefix("api/Account")]
     public class AccountController : BaseSecureController
     {
+        #region Get Methods
+
+        [System.Web.Http.HttpGet]
+        public async Task<GeneralReturnInfo<UserProfileInfo>> GetUserProfileDetails(string id)
+        {
+            var result = new GeneralReturnInfo<UserProfileInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt64(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpGet]
+        public async Task<GeneralReturnInfo<UserProfileWidgetInfo>> GetUserProfileWidgetInfo(string id)
+        {
+            var result = new GeneralReturnInfo<UserProfileWidgetInfo>();
+            try
+            {
+                result.Info = await FlatUserContext.Instance.GetUserProfileWidgetInfo(Convert.ToInt64(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpGet]
+        [AllowAnonymous]
+        public string Test()
+        {
+            return "Sucess";
+        }
+
+        #endregion
+
+        #region Post Methods
+
         [System.Web.Http.HttpPost]
         [System.Web.Http.AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<LoginResultInfo> SecureLogin(LoginRequestInfo pLogin)
         {
             var user = await UserManager.FindByEmailAsync(pLogin.Email);
-            if(user == null)
+            if (user == null)
                 return new LoginResultInfo
                 {
                     LoginStatus = LoginStatus.Failure
@@ -44,10 +99,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                         UserName = user.UserName,
                         UserId = user.Id,
                         Roles = (await UserManager.GetRolesAsync(user.Id)).ToArray(),
-                        Name = flatUser == null 
-                                    ? pLogin.Email 
-                                    : flatUser.FirstName + (string.IsNullOrEmpty(flatUser.LastName) 
-                                                ? "" 
+                        Name = flatUser == null
+                                    ? pLogin.Email
+                                    : flatUser.FirstName + (string.IsNullOrEmpty(flatUser.LastName)
+                                                ? ""
                                                 : " " + flatUser.LastName),
                     };
                     return new LoginResultInfo
@@ -78,7 +133,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
         }
 
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         [System.Web.Http.AllowAnonymous]
         public async Task<GeneralReturnInfo> ConfirmUser(ConfirmEmailAccount pConfirmEmailAccount)
         {
@@ -138,27 +193,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<UserProfileInfo>> GetUserProfileDetails(string id)
-        {
-            var result = new GeneralReturnInfo<UserProfileInfo>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt64(id));
-            }
-            catch (KeyNotFoundException ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
-
         [System.Web.Http.HttpPost]
         public async Task<GeneralReturnInfo> UpdateUserProfile(UserProfileInfo pUserProfileInfo)
         {
@@ -188,10 +222,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             {
                 var user = await UserManager.FindByIdAsync(pUserProfileInfo.UserId);
                 if (user == null)
-                    throw  new KeyNotFoundException();
+                    throw new KeyNotFoundException();
 
                 var passwordChecked = await UserManager.CheckPasswordAsync(user, pUserProfileInfo.Password);
-                if(!passwordChecked)
+                if (!passwordChecked)
                     throw new Exception("Invalid password provided.");
 
                 var changeResult = await UserManager.ChangePasswordAsync(pUserProfileInfo.UserId, pUserProfileInfo.Password, pUserProfileInfo.NewPassword);
@@ -214,32 +248,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<UserProfileWidgetInfo>> GetUserProfileWidgetInfo(string id)
-        {
-            var result = new GeneralReturnInfo<UserProfileWidgetInfo>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.GetUserProfileWidgetInfo(Convert.ToInt64(id));
-            }
-            catch (KeyNotFoundException ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        #endregion
 
-        [System.Web.Http.HttpGet]
-        [AllowAnonymous]
-        public string Test()
-        {
-            return "Sucess";
-        }
+        #region Private Methods
+
+
+
+        #endregion
+        
     }
 }

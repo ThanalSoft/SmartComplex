@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
-using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Web.Areas.Dashboard.Models;
 using ThanalSoft.SmartComplex.Web.Common;
 using ThanalSoft.SmartComplex.Web.Controllers;
@@ -52,5 +51,6 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Dashboard.Controllers
         }
 
         #endregion
+        
     }
 }

@@ -184,6 +184,8 @@
     <Content Include="Areas\Apartment\Views\Manage\GetAllApartmentUsers.cshtml" />
     <Content Include="Areas\Apartment\Views\Manage\GetApartmentUser.cshtml" />
     <Content Include="Areas\Dashboard\Views\Home\_UserProfileWidgetInfo.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\Get.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\Update.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />

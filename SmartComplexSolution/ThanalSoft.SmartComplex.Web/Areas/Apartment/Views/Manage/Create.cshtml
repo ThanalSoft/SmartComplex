@@ -62,7 +62,7 @@
 <script>
     $(
         $("#cancelCreate").click(function() {
-            invokeAjaxAndFillContainer('@Url.Action("Index", "Manage")');
+            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage", new { area = "Apartment" })');
         })
     );
 </script>

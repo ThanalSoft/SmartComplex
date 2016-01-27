@@ -97,19 +97,19 @@
 <script>
     $(
         $("#closeApartment").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage")');
+            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Manage", new {area = "Apartment"})');
         }),
         $("#editApartment").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("Update", "Manage")', { pApartmentId : @Model.Apartment.Id});
+            invokeAjaxAndFillContainer('@Url.Action("Update", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         }),
         $("#uploadApartmentFlats").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage")', { pApartmentId : @Model.Apartment.Id});
+            invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         }),
         $("#viewApartmentFlats").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat")', { pApartmentId : @Model.Apartment.Id});
+            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         }),
         $("#viewApartmentUsers").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.Apartment.Id});
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         })
     );
 

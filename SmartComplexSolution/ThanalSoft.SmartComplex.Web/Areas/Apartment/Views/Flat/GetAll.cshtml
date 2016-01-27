@@ -17,14 +17,14 @@
 <script>
 $(
     $("#backToApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage")', { pApartmentId: @Model.ApartmentId });
+        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
     }),
     $("#addNewFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Create", "Flat")', { pApartmentId: @Model.ApartmentId });
+        invokeAjaxAndFillContainer('@Url.Action("Create", "Flat", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
     }),
     $("[data-rowid]").click(function () {
         var id = $(this).data("rowid");
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Flat")', { pFlatId: id });
+        invokeAjaxAndFillContainer('@Url.Action("Get", "Flat", new { area = "Apartment" })', { pFlatId: id });
     })
 );
 </script>

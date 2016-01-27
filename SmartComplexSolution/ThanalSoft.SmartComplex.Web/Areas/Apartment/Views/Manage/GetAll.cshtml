@@ -15,11 +15,11 @@
 <script>
 $(
     $("#addNewApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Create", "Manage")');
+        invokeAjaxAndFillContainer('@Url.Action("Create", "Manage", new { area = "Apartment" })');
     }),
     $("[data-rowid]").click(function () {
         var id = $(this).data("rowid");
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage")', { pApartmentId: id });
+        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: id });
     })
 );
 </script>

@@ -54,10 +54,10 @@
 <script>
 $(
     $("#cancelApartmentUser").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage")', { pApartmentId : @Model.User.ApartmentId});
+        invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId});
     }),
     $("#markApartmentAdmin").click(function () {
-        postAjaxAndFillContainer('@Url.Action("MarkApartmentUserAdmin", "Manage")', { pApartmentId : @Model.User.ApartmentId, pUserId : @Model.User.Id});
+        postAjaxAndFillContainer('@Url.Action("MarkApartmentUserAdmin", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId, pUserId : @Model.User.Id});
     })
 );
 </script>

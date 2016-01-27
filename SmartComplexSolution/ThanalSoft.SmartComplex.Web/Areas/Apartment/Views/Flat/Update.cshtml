@@ -71,7 +71,7 @@
 <script>
     $(
         $("#cancelFlat").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("Get", "Flat")', { pFlatId : @Model.Flat.Id});
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});
         })
     );
 </script>

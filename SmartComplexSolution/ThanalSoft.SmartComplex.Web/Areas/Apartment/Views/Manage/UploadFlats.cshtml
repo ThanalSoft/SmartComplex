@@ -31,7 +31,7 @@
 <script>
 $(
     $("#cancelCreate").click(function() {
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage")', { pApartmentId : @Model.Apartment.Id});
+        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
     })
 );
 </script>

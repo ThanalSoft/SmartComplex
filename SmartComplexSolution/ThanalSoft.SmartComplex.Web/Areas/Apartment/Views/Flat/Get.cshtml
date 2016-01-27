@@ -65,10 +65,10 @@
 <script>
 $(
     $("#closeFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat")', { pApartmentId : @Model.Flat.ApartmentId});
+        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
     }),
     $("#editFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Update", "Flat")', { pFlatId : @Model.Flat.Id});
+        invokeAjaxAndFillContainer('@Url.Action("Update", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});
     })
 );
 </script>

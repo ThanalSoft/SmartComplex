@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Account;
+using WebApi.OutputCache.V2;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
@@ -37,6 +38,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
+        [CacheOutput(ClientTimeSpan = 600, ServerTimeSpan = 600)]
         public async Task<GeneralReturnInfo<UserProfileWidgetInfo>> GetUserProfileWidgetInfo(string id)
         {
             var result = new GeneralReturnInfo<UserProfileWidgetInfo>();

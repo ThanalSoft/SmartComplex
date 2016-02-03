@@ -10,7 +10,5 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Models
         public ApartmentInfo Apartment { get; set; }
 
         public List<SelectListItem> States { get; set; }
-
-        public bool HideBack { get; set; }
     }
 }

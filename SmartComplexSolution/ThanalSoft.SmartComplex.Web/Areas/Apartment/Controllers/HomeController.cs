@@ -26,19 +26,32 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 return View(new ApartmentListViewModel
                 {
                     Apartments = response.Info,
-                    IsAsyncRequest = IsAjaxRequest
+                    IsAsyncRequest = IsAjaxRequest,
                 });
 
             return View("Get", new ApartmentViewModel
             {
                 IsAsyncRequest = IsAjaxRequest,
                 Apartment = response.Info[0],
-                ActionResultStatus = ViewResultStatus,
-                HideBack = true
+                ActionResultStatus = ViewResultStatus
             });
         }
 
-        public async Task<ActionResult> Get(int pApartmentId)
+        [HttpGet]
+        public async Task<ActionResult> Back()
+        {
+            var response = await GetUserApartments();
+            if (response.Info.Length > 1)
+                return View("Index", new ApartmentListViewModel
+                {
+                    Apartments = response.Info,
+                    IsAsyncRequest = IsAjaxRequest,
+                });
+
+            return JavaScript("document.location.replace('" + Url.Action("Index", "Home", new {area = "Dashboard"}) + "');");
+        }
+
+        public async Task<ActionResult> Get(int pApartmentId, bool pShowBack = false)
         {
             var response = await GetApartment(pApartmentId);
 
@@ -46,7 +59,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             {
                 IsAsyncRequest = IsAjaxRequest,
                 Apartment = response.Info,
-                ActionResultStatus = ViewResultStatus
+                ActionResultStatus = ViewResultStatus,
             });
         }
 

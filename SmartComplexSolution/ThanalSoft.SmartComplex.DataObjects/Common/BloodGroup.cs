@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using ThanalSoft.SmartComplex.DataObjects.Complex;
+using ThanalSoft.SmartComplex.DataObjects.Security;
 
 namespace ThanalSoft.SmartComplex.DataObjects.Common
 {
@@ -24,6 +24,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
         [NotMapped]
         public override Int64 LastUpdatedBy { get; set; }
 
-        public virtual ICollection<FlatUser> FlatUsers { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

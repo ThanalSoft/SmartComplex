@@ -24,6 +24,32 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
+        //public async Task<FlatInfo[]> GetUserFlats(Int64 pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        //var a = from m in context.MemberFlats
+        //        //        join f in context.Flats on m.FlatId equals f.Id
+        //        //        join apartment in context.Apartments on f.ApartmentId equals apartment.Id
+        //        //        join flatType in context.FlatTypes on f.FlatTypeId equals flatType.Id
+        //        //        where m.FlatUserId.Equals(pUserId)
+
+
+
+
+
+
+
+        //        var flats = await context.Flats
+        //            //.Include(pX => pX.MemberFlats)
+        //            //.Include(pX => pX.Apartment)
+        //            //.Include(pX => pX.FlatType)
+        //            .Where(pX => pX.MemberFlats.Any(pZ => pZ.FlatUser.UserId == pUserId)).ToListAsync();
+
+        //        return flats.Select(MapToFlatInfo).ToArray();
+        //    }
+        //}
+
         public async Task<FlatInfo> Get(int pFlatId)
         {
             using (var context = new SmartComplexDataObjectContext())
@@ -62,7 +88,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 ExtensionNumber = pFlat.ExtensionNumber,
                 SquareFeet = pFlat.SquareFeet,
                 Id = pFlat.Id,
-                ApartmentName = pFlat.Apartment.Name,
+                ApartmentName = pFlat.Apartment?.Name,
                 FlatType = pFlat.FlatType?.Name,
                 FlatTypeId = pFlat.FlatTypeId
             };
@@ -86,25 +112,25 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             };
         }
 
-        private FlatUserInfo MapToFlatUserInfo(FlatUser pFlatUser)
-        {
-            return new FlatUserInfo
-            {
-                FirstName = pFlatUser.FirstName,
-                LastName = pFlatUser.LastName,
-                IsLocked = pFlatUser.IsLocked,
-                LockReason = pFlatUser.LockReason,
-                IsDeleted = pFlatUser.IsDeleted,
-                Email = pFlatUser.User.Email,
-                EmailConfirmed = pFlatUser.User.EmailConfirmed,
-                IsOwner = pFlatUser.IsOwner,
-                LockedDate = pFlatUser.LockedDate,
-                Mobile = pFlatUser.Mobile,
-                IsActivated = pFlatUser.User.IsActivated,
-                PhoneNumber = pFlatUser.User.PhoneNumber,
+        //private FlatUserInfo MapToFlatUserInfo(FlatUser pFlatUser)
+        //{
+        //    return new FlatUserInfo
+        //    {
+        //        FirstName = pFlatUser.FirstName,
+        //        LastName = pFlatUser.LastName,
+        //        IsLocked = pFlatUser.IsLocked,
+        //        LockReason = pFlatUser.LockReason,
+        //        IsDeleted = pFlatUser.IsDeleted,
+        //        Email = pFlatUser.User.Email,
+        //        EmailConfirmed = pFlatUser.User.EmailConfirmed,
+        //        IsOwner = pFlatUser.IsOwner,
+        //        LockedDate = pFlatUser.LockedDate,
+        //        Mobile = pFlatUser.Mobile,
+        //        IsActivated = pFlatUser.User.IsActivated,
+        //        PhoneNumber = pFlatUser.User.PhoneNumber,
 
-            };
-        }
+        //    };
+        //}
 
         public async Task Update(FlatInfo pApartmentFlatInfo, long pLoggedInUser)
         {

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ThanalSoft.SmartComplex.DataObjects.Common;
@@ -174,7 +173,9 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                     TwoFactorEnabled = false,
                     IsAdminUser = true,
                     UserName = "admin@sc.com",
-                    IsDeleted = false
+                    IsDeleted = false,
+                    FirstName = "Administrator",
+                    IsFreezed = false
                 };
 
                 userManager.Create(user);

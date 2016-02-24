@@ -5,11 +5,14 @@
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 @section topbuttons {
-    <button type="button" id="backToApartment" class="btn btn-dark"><i class="fa fa-backward"></i> Back</button>
-    <button type="button" id="addNewFlat" class="btn btn-success"><i class="fa fa-plus"></i> Add New</button>
+    @if (User.IsInRole("ApartmentAdmin"))
+    {
+        <button type="button" id="backToApartment" class="btn btn-dark"><i class="fa fa-backward"></i> Back</button>
+        <button type="button" id="addNewFlat" class="btn btn-success"><i class="fa fa-plus"></i> Add New</button>
+    }
 }
 @section title {
-    <i class="fa fa-home"></i> Flats <small>in Apartment '@Model.Flats[0].ApartmentName'</small>
+    <i class="fa fa-home"></i> Flats
 }
 
 @Html.DisplayTableFor(Model.Flats)

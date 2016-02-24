@@ -176,7 +176,6 @@
     <Content Include="Areas\Apartment\Views\Manage\Get.cshtml" />
     <Content Include="Areas\Apartment\Views\Manage\Update.cshtml" />
     <Content Include="Areas\Apartment\Views\Manage\UploadFlats.cshtml" />
-    <Content Include="Areas\Apartment\Views\Flat\GetAll.cshtml" />
     <Content Include="Areas\Apartment\Views\Flat\Create.cshtml" />
     <Content Include="Areas\Apartment\Views\Flat\Update.cshtml" />
     <Content Include="Areas\Apartment\Views\Flat\Get.cshtml" />
@@ -185,6 +184,8 @@
     <Content Include="Areas\Dashboard\Views\Home\_UserProfileWidgetInfo.cshtml" />
     <Content Include="Areas\Apartment\Views\Home\Get.cshtml" />
     <Content Include="Areas\Apartment\Views\Home\Update.cshtml" />
+    <Content Include="Areas\Apartment\Views\Flat\Index.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\GetAllApartmentFlats.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />

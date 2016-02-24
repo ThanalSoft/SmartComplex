@@ -13,58 +13,58 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 {
     public class FlatUserContext : BaseBusiness<FlatUserContext>
     {
-        public async Task<ApartmentUserInfo[]> GetAllByApartment(int pApartmentId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var users = await context.FlatUsers
-                    .Include(pX => pX.User)
-                    .Include(pX => pX.BloodGroup)
-                    .Include(pX => pX.MemberFlats)
-                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
-                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
-                    .Where(pX => pX.MemberFlats.Any(pY => pY.Flat.Apartment.Id.Equals(pApartmentId))).ToListAsync();
+        //public async Task<ApartmentUserInfo[]> GetAllByApartment(int pApartmentId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var users = await context.FlatUsers
+        //            .Include(pX => pX.User)
+        //            .Include(pX => pX.BloodGroup)
+        //            .Include(pX => pX.MemberFlats)
+        //            .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
+        //            .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
+        //            .Where(pX => pX.MemberFlats.Any(pY => pY.Flat.Apartment.Id.Equals(pApartmentId))).ToListAsync();
 
-                return users.Select(MapApartmentUserInfo).ToArray();
-            }
-        }
+        //        return users.Select(MapApartmentUserInfo).ToArray();
+        //    }
+        //}
 
-        public async Task<ApartmentUserInfo> Get(int pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var user = await context.FlatUsers
-                    .Include(pX => pX.BloodGroup)
-                    .Include(pX => pX.MemberFlats)
-                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
-                    .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
-                    .Where(pX => pX.Id.Equals(pUserId)).FirstAsync();
+        //public async Task<ApartmentUserInfo> Get(int pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var user = await context.FlatUsers
+        //            .Include(pX => pX.BloodGroup)
+        //            .Include(pX => pX.MemberFlats)
+        //            .Include(pX => pX.MemberFlats.Select(pY => pY.Flat))
+        //            .Include(pX => pX.MemberFlats.Select(pY => pY.Flat.Apartment))
+        //            .Where(pX => pX.Id.Equals(pUserId)).FirstAsync();
 
-                return MapApartmentUserInfo(user);
-            }
-        }
+        //        return MapApartmentUserInfo(user);
+        //    }
+        //}
 
-        private ApartmentUserInfo MapApartmentUserInfo(FlatUser pFlatUser)
-        {
-            return new ApartmentUserInfo
-            {
-                Id = pFlatUser.Id,
-                UserId = pFlatUser.User.Id,
-                IsLocked = pFlatUser.IsLocked,
-                Email = pFlatUser.Email,
-                LockReason = pFlatUser.LockReason,
-                LockedDate = pFlatUser.LockedDate,
-                FirstName = pFlatUser.FirstName,
-                IsOwner = pFlatUser.IsOwner,
-                LastName = pFlatUser.LastName,
-                Mobile = pFlatUser.Mobile,
-                BloodGroup = pFlatUser.BloodGroup?.Group,
-                BloodGroupId = pFlatUser.BloodGroupId,
-                UserFlats = pFlatUser.MemberFlats.Select(pX => MapToFlatInfo(pX.Flat)).ToArray(),
-                ApartmentId = pFlatUser.MemberFlats.First().Flat.ApartmentId,
-                ApartmentName = pFlatUser.MemberFlats.First().Flat.Apartment.Name
-            };
-        }
+        //private ApartmentUserInfo MapApartmentUserInfo(FlatUser pFlatUser)
+        //{
+        //    return new ApartmentUserInfo
+        //    {
+        //        Id = pFlatUser.Id,
+        //        UserId = pFlatUser.User.Id,
+        //        IsLocked = pFlatUser.IsLocked,
+        //        Email = pFlatUser.Email,
+        //        LockReason = pFlatUser.LockReason,
+        //        LockedDate = pFlatUser.LockedDate,
+        //        FirstName = pFlatUser.FirstName,
+        //        IsOwner = pFlatUser.IsOwner,
+        //        LastName = pFlatUser.LastName,
+        //        Mobile = pFlatUser.Mobile,
+        //        BloodGroup = pFlatUser.BloodGroup?.Group,
+        //        BloodGroupId = pFlatUser.BloodGroupId,
+        //        UserFlats = pFlatUser.MemberFlats.Select(pX => MapToFlatInfo(pX.Flat)).ToArray(),
+        //        ApartmentId = pFlatUser.MemberFlats.First().Flat.ApartmentId,
+        //        ApartmentName = pFlatUser.MemberFlats.First().Flat.Apartment.Name
+        //    };
+        //}
 
         private FlatInfo MapToFlatInfo(Flat pFlat)
         {
@@ -85,74 +85,74 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return info;
         }
 
-        public async Task<Int64> GetUserId(int pFlatUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var users = await context.FlatUsers.Where(pX => pX.Id.Equals(pFlatUserId)).FirstAsync();
+        //public async Task<Int64> GetUserId(int pFlatUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var users = await context.FlatUsers.Where(pX => pX.Id.Equals(pFlatUserId)).FirstAsync();
 
-                return users.UserId;
-            }
-        }
+        //        return users.UserId;
+        //    }
+        //}
 
-        public async Task<UserProfileInfo> GetUserProfile(Int64 pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
+        //public async Task<UserProfileInfo> GetUserProfile(Int64 pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
 
-                if (user == null)
-                    throw new KeyNotFoundException();
+        //        if (user == null)
+        //            throw new KeyNotFoundException();
 
-                return new UserProfileInfo
-                {
-                    LastName = user.LastName,
-                    FirstName = user.FirstName,
-                    Mobile = user.Mobile,
-                    BloodGroupId = user.BloodGroupId,
-                    Email = user.Email,
-                    UserId = user.UserId
-                };
-            }
-        }
+        //        return new UserProfileInfo
+        //        {
+        //            LastName = user.LastName,
+        //            FirstName = user.FirstName,
+        //            Mobile = user.Mobile,
+        //            BloodGroupId = user.BloodGroupId,
+        //            Email = user.Email,
+        //            UserId = user.UserId
+        //        };
+        //    }
+        //}
 
-        public async Task UpdateUserProfile(UserProfileInfo pUserProfileInfo)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserProfileInfo.UserId)).FirstOrDefaultAsync();
+        //public async Task UpdateUserProfile(UserProfileInfo pUserProfileInfo)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var user = await context.FlatUsers.Where(pX => pX.UserId.Equals(pUserProfileInfo.UserId)).FirstOrDefaultAsync();
 
-                if (user == null)
-                    throw new KeyNotFoundException();
+        //        if (user == null)
+        //            throw new KeyNotFoundException();
 
-                user.FirstName = pUserProfileInfo.FirstName;
-                user.LastName = pUserProfileInfo.LastName;
-                user.Mobile = pUserProfileInfo.Mobile;
-                user.BloodGroupId = pUserProfileInfo.BloodGroupId;
+        //        user.FirstName = pUserProfileInfo.FirstName;
+        //        user.LastName = pUserProfileInfo.LastName;
+        //        user.Mobile = pUserProfileInfo.Mobile;
+        //        user.BloodGroupId = pUserProfileInfo.BloodGroupId;
 
-                await context.SaveChangesAsync();
-            }
-        }
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
 
-        public async Task<UserProfileWidgetInfo> GetUserProfileWidgetInfo(Int64 pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var user = await context.FlatUsers.
-                    Include(pX => pX.BloodGroup).
-                    Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
+        //public async Task<UserProfileWidgetInfo> GetUserProfileWidgetInfo(Int64 pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var user = await context.FlatUsers.
+        //            Include(pX => pX.BloodGroup).
+        //            Where(pX => pX.UserId.Equals(pUserId)).FirstOrDefaultAsync();
 
-                if (user == null)
-                    throw new KeyNotFoundException();
+        //        if (user == null)
+        //            throw new KeyNotFoundException();
 
-                return new UserProfileWidgetInfo
-                {
-                    Email = user.Email,
-                    Name = user.FirstName + " " + user.LastName,
-                    BloodGroup = user.BloodGroup?.Group,
-                    Mobile = user.Mobile
-                };
-            }
-        }
+        //        return new UserProfileWidgetInfo
+        //        {
+        //            Email = user.Email,
+        //            Name = user.FirstName + " " + user.LastName,
+        //            BloodGroup = user.BloodGroup?.Group,
+        //            Mobile = user.Mobile
+        //        };
+        //    }
+        //}
     }
 }

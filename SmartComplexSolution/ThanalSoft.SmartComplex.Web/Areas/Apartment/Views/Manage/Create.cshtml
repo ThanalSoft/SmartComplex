@@ -15,30 +15,35 @@
         @Html.LabelFor(m => m.Apartment.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(m => m.Apartment.Name, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Apartment.Name, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Apartment.Address, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextAreaFor(m => m.Apartment.Address, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Apartment.Address, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Apartment.City, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(m => m.Apartment.City, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Apartment.City, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Apartment.StateId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.DropDownListFor(m => m.Apartment.StateId, Model.States, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Apartment.StateId, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Apartment.PinCode, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(m => m.Apartment.PinCode, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Apartment.PinCode, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">

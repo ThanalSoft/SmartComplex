@@ -6,8 +6,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
+using ThanalSoft.SmartComplex.Common.Extensions;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 using WebApi.OutputCache.V2;
+using FlatUserContext = ThanalSoft.SmartComplex.Business.User.FlatUserContext;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
@@ -83,17 +85,22 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 };
             if (user.IsDeleted)
             {
-                return new LoginResultInfo
+                return new LoginResultInfo 
                 {
                     LoginStatus = LoginStatus.Deleted
                 };
             }
-
+            if (user.IsFreezed)
+            {
+                return new LoginResultInfo
+                {
+                    LoginStatus = LoginStatus.LockedOut
+                };
+            }
             var status = await SignInManager.PasswordSignInAsync(pLogin.Email, pLogin.Password, true, true);
             switch (status)
             {
                 case SignInStatus.Success:
-                    var flatUser = await ApartmentContext.Instance.GetMember(user.Id);
 
                     var userInfo = new LoginUserInfo
                     {
@@ -101,11 +108,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                         UserName = user.UserName,
                         UserId = user.Id,
                         Roles = (await UserManager.GetRolesAsync(user.Id)).ToArray(),
-                        Name = flatUser == null
-                                    ? pLogin.Email
-                                    : flatUser.FirstName + (string.IsNullOrEmpty(flatUser.LastName)
-                                                ? ""
-                                                : " " + flatUser.LastName),
+                        Name = user.UserFullName()
                     };
                     return new LoginResultInfo
                     {
@@ -201,7 +204,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await FlatUserContext.Instance.UpdateUserProfile(pUserProfileInfo);
+                await FlatUserContext.Instance.UpdateUserProfile(pUserProfileInfo, async () => await ChangePhonenumber(pUserProfileInfo));
             }
             catch (KeyNotFoundException ex)
             {
@@ -215,7 +218,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
-
+        
         [System.Web.Http.HttpPost]
         public async Task<GeneralReturnInfo> UpdateCredentials(UserProfileInfo pUserProfileInfo)
         {
@@ -254,9 +257,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
 
         #region Private Methods
 
-
-
-        #endregion
+        private async Task ChangePhonenumber(UserProfileInfo pUserProfileInfo)
+        {
+            var token = await UserManager.GenerateChangePhoneNumberTokenAsync(pUserProfileInfo.UserId, pUserProfileInfo.Mobile);
+            await UserManager.ChangePhoneNumberAsync(pUserProfileInfo.UserId, pUserProfileInfo.Mobile, token);
+        }
         
+        #endregion
+
     }
 }

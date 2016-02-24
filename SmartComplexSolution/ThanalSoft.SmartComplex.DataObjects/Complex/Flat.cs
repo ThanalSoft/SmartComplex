@@ -39,10 +39,10 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public int? SquareFeet { get; set; }
 
         [ForeignKey("ApartmentId")]
-        public Apartment Apartment { get; set; }
+        public virtual Apartment Apartment { get; set; }
         
         [ForeignKey("FlatTypeId")]
-        public FlatType FlatType { get; set; }
+        public virtual FlatType FlatType { get; set; }
 
         public virtual ICollection<MemberFlat> MemberFlats { get; set; }
 

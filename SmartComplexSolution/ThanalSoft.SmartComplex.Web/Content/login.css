@@ -12,8 +12,8 @@
 }
 
 .input-validation-error {
-    border: 1px solid red !important;
-    background-color: rgb(255, 245, 245) !important;
+        border: 1px solid #FCA3A3 !important;
+    background-color: rgb(255, 249, 249) !important;
 }
 
 input {

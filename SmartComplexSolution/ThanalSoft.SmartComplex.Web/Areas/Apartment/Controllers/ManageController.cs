@@ -105,6 +105,19 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAllApartmentFlats(int pApartmentId)
+        {
+            var response = await GetApartmentFlats(pApartmentId);
+            return View(new FlatListViewModel
+            {
+                IsAsyncRequest = IsAjaxRequest,
+                Flats = response.Info,
+                ApartmentId = pApartmentId,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
         #endregion
 
         #region Post Methods
@@ -318,6 +331,13 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             await new ApiConnector<GeneralReturnInfo>().SecureGetAsync("Apartment", "MarkUserAdmin", pId.ToString());
         }
 
+        [NonAction]
+        private async Task<GeneralReturnInfo<FlatInfo[]>> GetApartmentFlats(int pApartmentId)
+        {
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", pApartmentId.ToString());
+        }
+
         #endregion
+
     }
 }

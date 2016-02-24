@@ -13,7 +13,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
     {
         public State()
         {
-            Apartments = new List<Apartment>();
+            Apartments = new HashSet<Apartment>();
         }
 
         [DataMember]

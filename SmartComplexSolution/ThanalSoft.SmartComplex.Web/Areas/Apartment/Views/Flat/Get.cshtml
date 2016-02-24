@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 @section title {
-    <i class="fa fa-home"></i> Flat Details <small>'@Model.Flat.Name' in Apartment '@Model.Flat.ApartmentName'</small>
+    <i class="fa fa-home"></i> Flat <small>'@Model.Flat.Name' in Apartment '@Model.Flat.ApartmentName'</small>
 }
 
 <div class="x_content form-horizontal form-label-left">
@@ -55,9 +55,12 @@
             <a class="btn btn-app pull-left" id="closeFlat">
                 <i class="fa fa-backward"></i>Back
             </a>
-            <a class="btn btn-app pull-left" id="editFlat">
-                <i class="fa fa-edit"></i>Edit
-            </a>
+            @if (User.IsInRole("Owner") || User.IsInRole("ApartmentAdmin"))
+            {
+                <a class="btn btn-app pull-left" id="editFlat">
+                    <i class="fa fa-edit"></i>Edit
+                </a>
+            }
         </div>
     </div>
 </div>
@@ -65,7 +68,7 @@
 <script>
 $(
     $("#closeFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
+        invokeAjaxAndFillContainer('@Url.Action("Index", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
     }),
     $("#editFlat").click(function () {
         invokeAjaxAndFillContainer('@Url.Action("Update", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});

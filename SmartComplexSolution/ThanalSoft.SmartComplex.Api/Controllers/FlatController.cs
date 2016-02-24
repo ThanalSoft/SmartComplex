@@ -43,6 +43,22 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
+        //[HttpGet]
+        //public async Task<GeneralReturnInfo<FlatInfo[]>> GetUserFlats(string id)
+        //{
+        //    var result = new GeneralReturnInfo<FlatInfo[]>();
+        //    try
+        //    {
+        //        result.Info = await FlatContext.Instance.GetUserFlats(Convert.ToInt64(id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
+
         [HttpPost]
         public async Task<GeneralReturnInfo> Create(FlatInfo pApartmentFlatInfo)
         {
@@ -84,5 +100,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
             return result;
         }
+
     }
 }

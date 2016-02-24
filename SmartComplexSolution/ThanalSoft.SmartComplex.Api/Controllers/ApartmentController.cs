@@ -48,77 +48,77 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(string id)
-        {
-            var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
-                foreach (var apartmentUserInfo in result.Info)
-                {
-                    var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
-                    apartmentUserInfo.UserRoles = string.Join(", ", roles);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        //[HttpGet]
+        //public async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(string id)
+        //{
+        //    var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
+        //    try
+        //    {
+        //        result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
+        //        foreach (var apartmentUserInfo in result.Info)
+        //        {
+        //            var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
+        //            apartmentUserInfo.UserRoles = string.Join(", ", roles);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
-        {
-            var result = new GeneralReturnInfo<ApartmentUserInfo>();
-            try
-            {
-                result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        //[HttpGet]
+        //public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
+        //{
+        //    var result = new GeneralReturnInfo<ApartmentUserInfo>();
+        //    try
+        //    {
+        //        result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
 
-        [HttpGet]
-        public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
-        {
-            var result = new GeneralReturnInfo();
-            try
-            {
-                var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
-                if (await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
-                    await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
-                else
-                    await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        //[HttpGet]
+        //public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
+        //{
+        //    var result = new GeneralReturnInfo();
+        //    try
+        //    {
+        //        var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
+        //        if (await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
+        //            await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
+        //        else
+        //            await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
 
-        public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetUserApartments(string id)
-        {
-            var result = new GeneralReturnInfo<ApartmentInfo[]>();
-            try
-            {
-                result.Info = await ApartmentContext.Instance.GetUserApartments(Convert.ToInt64(id));
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        //public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetUserApartments(string id)
+        //{
+        //    var result = new GeneralReturnInfo<ApartmentInfo[]>();
+        //    try
+        //    {
+        //        result.Info = await ApartmentContext.Instance.GetUserApartments(Convert.ToInt64(id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
 
         #endregion
 
@@ -208,21 +208,21 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        [HttpPost]
-        public async Task<GeneralReturnInfo> UploadFlats(FlatUploadInfo[] pApartmentFlatInfoList)
-        {
-            var result = new GeneralReturnInfo();
-            try
-            {
-                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, ConfigureUser);
-            }
-            catch (Exception ex)
-            {
-                result.Result = ApiResponseResult.Error;
-                result.Reason = ex.Message;
-            }
-            return result;
-        }
+        //[HttpPost]
+        //public async Task<GeneralReturnInfo> UploadFlats(FlatUploadInfo[] pApartmentFlatInfoList)
+        //{
+        //    var result = new GeneralReturnInfo();
+        //    try
+        //    {
+        //        await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, ConfigureUser);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Result = ApiResponseResult.Error;
+        //        result.Reason = ex.Message;
+        //    }
+        //    return result;
+        //}
 
         #endregion
 

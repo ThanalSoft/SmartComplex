@@ -190,8 +190,8 @@ body.nav-sm .menu_section {
 }
 
 .input-validation-error {
-    border: 1px solid red !important;
-    background-color: rgb(255, 245, 245) !important;
+    border: 1px solid #FCA3A3 !important;
+    background-color: rgb(255, 249, 249) !important;
 }
 
 body.nav-sm span.fa,
@@ -1131,7 +1131,7 @@ h2 {
         }
 
     .x_title span {
-        color: #BDBDBD;
+        
     }
 
 .x_content {
@@ -6527,4 +6527,9 @@ ul.notifications {
 
 .clickable {
     cursor: pointer;
+}
+
+.text-errormessage {
+    color: #B73535 !important;
+    font-size: smaller;
 }

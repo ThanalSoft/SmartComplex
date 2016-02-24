@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using ThanalSoft.SmartComplex.DataObjects.Security;
 
 namespace ThanalSoft.SmartComplex.DataObjects.Complex
 {
@@ -14,10 +16,14 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
 
         [DataMember]
         [Required]
-        public int FlatUserId { get; set; }
+        public Int64 UserId { get; set; }
 
-        [ForeignKey("FlatUserId")]
-        public virtual FlatUser FlatUser { get; set; }
+        [DataMember]
+        [Required]
+        public bool IsOwner { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
         [ForeignKey("FlatId")]
         public virtual Flat Flat { get; set; }

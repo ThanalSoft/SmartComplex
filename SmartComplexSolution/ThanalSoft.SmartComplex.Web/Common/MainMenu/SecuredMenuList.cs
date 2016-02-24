@@ -54,7 +54,8 @@ namespace ThanalSoft.SmartComplex.Web.Common.MainMenu
                             Roles = new []{ "Tenant", "Owner" },
                             Text = "Flat",
                             Action = "Index",
-                            Controller = "Apartment",
+                            Controller = "Flat",
+                            Area = "Apartment"
                         },
                         new SecuredMenuInfo
                         {

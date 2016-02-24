@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using ThanalSoft.SmartComplex.DataObjects.Common;
 using ThanalSoft.SmartComplex.DataObjects.Complex;
 using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
 
@@ -14,6 +16,10 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
     [DataContract]
     public class User : IdentityUser<Int64, UserLogin, UserRole, UserClaim>
     {
+        [DataMember]
+        [Required]
+        public bool IsAdminUser { get; set; }
+
         [DataMember]
         [StringLength(100)]
         public string ActivationCode { get; set; }
@@ -27,13 +33,32 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
 
         [DataMember]
         [Required]
-        public bool IsAdminUser { get; set; }
+        [StringLength(250)]
+        public string FirstName { get; set; }
 
+        [DataMember]
+        [StringLength(250)]
+        public string LastName { get; set; }
+
+        [DataMember]
+        public int? BloodGroupId { get; set; }
+
+        [DataMember]
+        [Required]
+        public bool IsFreezed { get; set; }
+
+        [DataMember]
+        public DateTime? FreezedDate { get; set; }
+
+        [DataMember]
+        public string ReasonForFreeze { get; set; }
+        
         [DataMember]
         [Required]
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<FlatUser> FlatUsers { get; set; }
+        [ForeignKey("BloodGroupId")]
+        public virtual BloodGroup BloodGroup { get; set; }
 
         public virtual ICollection<Broadcast> Broadcasts { get; set; }
 

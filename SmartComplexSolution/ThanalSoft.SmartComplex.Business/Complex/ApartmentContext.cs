@@ -27,33 +27,30 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
-        public async Task<ApartmentInfo[]> GetUserApartments(Int64 pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var data = await context.Apartments
-                    .Include(pX => pX.Flats)
-                    .Include(pX => pX.Flats.Select(pY => pY.MemberFlats))
-                    .Include(pX => pX.Flats.Select(pY => pY.MemberFlats.Select(pZ => pZ.FlatUser)))
-                    .Where(pX => pX.Flats.Any(pY => pY.MemberFlats.Any(pZ => pZ.FlatUser.UserId == pUserId)))
-                    .OrderByDescending(pX => pX.CreatedDate).ToArrayAsync();
+        //public async Task<ApartmentInfo[]> GetUserApartments(Int64 pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var data = await context.Apartments
+        //            .Include(pX => pX.Flats)
+        //            .Include(pX => pX.Flats.Select(pY => pY.MemberFlats))
+        //            .Include(pX => pX.Flats.Select(pY => pY.MemberFlats.Select(pZ => pZ.FlatUser)))
+        //            .Where(pX => pX.Flats.Any(pY => pY.MemberFlats.Any(pZ => pZ.FlatUser.UserId == pUserId)))
+        //            .OrderBy(pX => pX.Name).ToArrayAsync();
 
-                return data.Select(MapToApartmentInfo).ToArray();
-            }
-        }
+        //        return data.Select(MapToApartmentInfo).ToArray();
+        //    }
+        //}
 
         public async Task<ApartmentInfo> GetAsync(int pApartmentId)
         {
             using (var context = new SmartComplexDataObjectContext())
             {
-                var apartment = await context.Apartments
-                    .Include(pX => pX.State)
-                    .Where(pX => pX.Id.Equals(pApartmentId)).FirstAsync();
+                var apartment = await context.Apartments.Where(pX => pX.Id.Equals(pApartmentId)).FirstAsync();
 
-                var flats = await context.Flats.Where(pX => pX.ApartmentId.Equals(pApartmentId)).ToListAsync();
-                
+                var flats = apartment.Flats;
                 var flatIds = flats.Select(pX => pX.Id);
-                var flatUsers = await context.MemberFlats.Where(pX => flatIds.Contains(pX.FlatId)).Select(pX => pX.FlatUserId).Distinct().ToArrayAsync();
+                var flatUsers = await context.MemberFlats.Where(pX => flatIds.Contains(pX.FlatId)).Select(pX => pX.UserId).Distinct().ToArrayAsync();
 
                 var apartmentInfo = MapToApartmentInfo(apartment);
                 apartmentInfo.FlatCount = flats.Count;
@@ -141,161 +138,161 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             }
         }
 
-        public async Task UploadFlatsAsync(FlatUploadInfo[] pFlatUploadInfoList, Int64 pUserId, Action<FlatUploadInfo, string, string> pConfigure)
-        {
-            if (pFlatUploadInfoList == null || !pFlatUploadInfoList.Any())
-                return;
+        //public async Task UploadFlatsAsync(FlatUploadInfo[] pFlatUploadInfoList, Int64 pUserId, Action<FlatUploadInfo, string, string> pConfigure)
+        //{
+        //    if (pFlatUploadInfoList == null || !pFlatUploadInfoList.Any())
+        //        return;
 
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                var apartment = await context.Apartments.FindAsync(pFlatUploadInfoList[0].ApartmentId);
-                if (apartment == null)
-                    throw new Exception("Apartment id doesnt exists!");
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        var apartment = await context.Apartments.FindAsync(pFlatUploadInfoList[0].ApartmentId);
+        //        if (apartment == null)
+        //            throw new Exception("Apartment id doesnt exists!");
 
-                context.Notifications.Add(new Notification
-                {
-                    CreatedDate = DateTime.Now,
-                    HasUserRead = false,
-                    LastUpdated = DateTime.Now,
-                    LastUpdatedBy = pUserId,
-                    Message = $"Request for uploading & configuring '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
-                    TargetUserId = pUserId,
-                    UserReadDate = null
-                });
-                await context.SaveChangesAsync();
+        //        context.Notifications.Add(new Notification
+        //        {
+        //            CreatedDate = DateTime.Now,
+        //            HasUserRead = false,
+        //            LastUpdated = DateTime.Now,
+        //            LastUpdatedBy = pUserId,
+        //            Message = $"Request for uploading & configuring '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
+        //            TargetUserId = pUserId,
+        //            UserReadDate = null
+        //        });
+        //        await context.SaveChangesAsync();
 
-                foreach (var apartmentFlatInfo in pFlatUploadInfoList)
-                {
-                    var userAlreadyConfigured = true;
-                    var activationCode = Guid.NewGuid().ToString();
-                    var password = KeyGenerator.GetUniqueKey(8);
+        //        foreach (var apartmentFlatInfo in pFlatUploadInfoList)
+        //        {
+        //            var userAlreadyConfigured = true;
+        //            var activationCode = Guid.NewGuid().ToString();
+        //            var password = KeyGenerator.GetUniqueKey(8);
 
-                    var flat = AddFlat(apartmentFlatInfo, pUserId);
+        //            var flat = AddFlat(apartmentFlatInfo, pUserId);
                     
-                    if (flat.MemberFlats == null)
-                        flat.MemberFlats = new List<MemberFlat>();
+        //            if (flat.MemberFlats == null)
+        //                flat.MemberFlats = new List<MemberFlat>();
 
-                    var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.ToLower().Equals(apartmentFlatInfo.OwnerEmail.ToLower()));
-                    if (existingUser != null)
-                    {
-                        var flatUser = await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(existingUser.Id));
-                        flat.MemberFlats.Add(new MemberFlat
-                        {
-                            FlatUser = flatUser,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = pUserId
-                        });
-                    }
-                    else
-                    {
-                        var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
-                        var user = CreateUserLoginForOwner(apartmentFlatInfo);
-                        user.PasswordHash = _passwordHasher.HashPassword(password);
-                        user.ActivationCode = activationCode;
-                        flatUser.User = user;
-                        userAlreadyConfigured = false;
-                        context.Notifications.Add(new Notification
-                        {
-                            CreatedDate = DateTime.Now,
-                            HasUserRead = false,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = pUserId,
-                            Message = "Welcome to Smart Complex.",
-                            TargetUserId = user.Id
-                        });
+        //            var existingUser = await context.Users.FirstOrDefaultAsync(pX => pX.Email.ToLower().Equals(apartmentFlatInfo.OwnerEmail.ToLower()));
+        //            if (existingUser != null)
+        //            {
+        //                var flatUser = await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(existingUser.Id));
+        //                flat.MemberFlats.Add(new MemberFlat
+        //                {
+        //                    FlatUser = flatUser,
+        //                    LastUpdated = DateTime.Now,
+        //                    LastUpdatedBy = pUserId
+        //                });
+        //            }
+        //            else
+        //            {
+        //                var flatUser = AddFlatOwner(apartmentFlatInfo, pUserId);
+        //                var user = CreateUserLoginForOwner(apartmentFlatInfo);
+        //                user.PasswordHash = _passwordHasher.HashPassword(password);
+        //                user.ActivationCode = activationCode;
+        //                flatUser.User = user;
+        //                userAlreadyConfigured = false;
+        //                context.Notifications.Add(new Notification
+        //                {
+        //                    CreatedDate = DateTime.Now,
+        //                    HasUserRead = false,
+        //                    LastUpdated = DateTime.Now,
+        //                    LastUpdatedBy = pUserId,
+        //                    Message = "Welcome to Smart Complex.",
+        //                    TargetUserId = user.Id
+        //                });
 
-                        flat.MemberFlats.Add(new MemberFlat
-                        {
-                            FlatUser = flatUser,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = pUserId
-                        });
-                    }
+        //                flat.MemberFlats.Add(new MemberFlat
+        //                {
+        //                    FlatUser = flatUser,
+        //                    LastUpdated = DateTime.Now,
+        //                    LastUpdatedBy = pUserId
+        //                });
+        //            }
 
-                    context.Flats.Add(flat);
+        //            context.Flats.Add(flat);
 
-                    await context.SaveChangesAsync();
-                    if(!userAlreadyConfigured)
-                        pConfigure(apartmentFlatInfo, password, activationCode);
-                }
+        //            await context.SaveChangesAsync();
+        //            if(!userAlreadyConfigured)
+        //                pConfigure(apartmentFlatInfo, password, activationCode);
+        //        }
 
-                context.Notifications.Add(new Notification
-                {
-                    CreatedDate = DateTime.Now,
-                    HasUserRead = false,
-                    LastUpdated = DateTime.Now,
-                    LastUpdatedBy = pUserId,
-                    Message = $"All the '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
-                    TargetUserId = pUserId
-                });
-                await context.SaveChangesAsync();
-            }
-        }
+        //        context.Notifications.Add(new Notification
+        //        {
+        //            CreatedDate = DateTime.Now,
+        //            HasUserRead = false,
+        //            LastUpdated = DateTime.Now,
+        //            LastUpdatedBy = pUserId,
+        //            Message = $"All the '{pFlatUploadInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
+        //            TargetUserId = pUserId
+        //        });
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
 
-        public async Task<FlatUser> GetMember(Int64 pUserId)
-        {
-            using (var context = new SmartComplexDataObjectContext())
-            {
-                return await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(pUserId));
-            }
-        }
+        //public async Task<FlatUser> GetMember(Int64 pUserId)
+        //{
+        //    using (var context = new SmartComplexDataObjectContext())
+        //    {
+        //        return await context.FlatUsers.FirstOrDefaultAsync(pX => pX.UserId.Equals(pUserId));
+        //    }
+        //}
 
-        private User CreateUserLoginForOwner(FlatUploadInfo pApartmentFlatInfo)
-        {
-            return new User
-            {
-                AccessFailedCount = 0,
-                ActivationCode = "",
-                Email = pApartmentFlatInfo.OwnerEmail,
-                EmailConfirmed = false,
-                IsActivated = false,
-                IsAdminUser = true,
-                IsDeleted = false,
-                LockoutEnabled = true,
-                PasswordHash = "",
-                PhoneNumber = pApartmentFlatInfo.OwnerMobile,
-                PhoneNumberConfirmed = false,
-                SecurityStamp = "",
-                TwoFactorEnabled = false,
-                UserName = pApartmentFlatInfo.OwnerEmail
-            };
-        }
+        //private User CreateUserLoginForOwner(FlatUploadInfo pApartmentFlatInfo)
+        //{
+        //    return new User
+        //    {
+        //        AccessFailedCount = 0,
+        //        ActivationCode = "",
+        //        Email = pApartmentFlatInfo.OwnerEmail,
+        //        EmailConfirmed = false,
+        //        IsActivated = false,
+        //        IsAdminUser = true,
+        //        IsDeleted = false,
+        //        LockoutEnabled = true,
+        //        PasswordHash = "",
+        //        PhoneNumber = pApartmentFlatInfo.OwnerMobile,
+        //        PhoneNumberConfirmed = false,
+        //        SecurityStamp = "",
+        //        TwoFactorEnabled = false,
+        //        UserName = pApartmentFlatInfo.OwnerEmail
+        //    };
+        //}
 
-        private FlatUser AddFlatOwner(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
-        {
-            return new FlatUser
-            {
-                FirstName = pApartmentFlatInfo.OwnerName,
-                BloodGroupId = null,
-                IsDeleted = false,
-                IsLocked = false,
-                IsOwner = true,
-                LockReason = null,
-                Mobile = pApartmentFlatInfo.OwnerMobile,
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = pUserId,
-                LastName = "",
-                LockedDate = null,
-                Email = pApartmentFlatInfo.OwnerEmail
-            };
-        }
+        //private FlatUser AddFlatOwner(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
+        //{
+        //    return new FlatUser
+        //    {
+        //        FirstName = pApartmentFlatInfo.OwnerName,
+        //        BloodGroupId = null,
+        //        IsDeleted = false,
+        //        IsLocked = false,
+        //        IsOwner = true,
+        //        LockReason = null,
+        //        Mobile = pApartmentFlatInfo.OwnerMobile,
+        //        LastUpdated = DateTime.Now,
+        //        LastUpdatedBy = pUserId,
+        //        LastName = "",
+        //        LockedDate = null,
+        //        Email = pApartmentFlatInfo.OwnerEmail
+        //    };
+        //}
 
-        private Flat AddFlat(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
-        {
-            return new Flat
-            {
-                ApartmentId = pApartmentFlatInfo.ApartmentId,
-                Block = string.IsNullOrEmpty(pApartmentFlatInfo.Block) ? null : pApartmentFlatInfo.Block,
-                ExtensionNumber = null,
-                Floor = pApartmentFlatInfo.Floor,
-                Name = pApartmentFlatInfo.Name,
-                Phase = string.IsNullOrEmpty(pApartmentFlatInfo.Phase) ? null : pApartmentFlatInfo.Phase,
-                SquareFeet = null,
-                FlatTypeId = null,
-                LastUpdated = DateTime.Now,
-                LastUpdatedBy = pUserId
-            };
-        }
+        //private Flat AddFlat(FlatUploadInfo pApartmentFlatInfo, Int64 pUserId)
+        //{
+        //    return new Flat
+        //    {
+        //        ApartmentId = pApartmentFlatInfo.ApartmentId,
+        //        Block = string.IsNullOrEmpty(pApartmentFlatInfo.Block) ? null : pApartmentFlatInfo.Block,
+        //        ExtensionNumber = null,
+        //        Floor = pApartmentFlatInfo.Floor,
+        //        Name = pApartmentFlatInfo.Name,
+        //        Phase = string.IsNullOrEmpty(pApartmentFlatInfo.Phase) ? null : pApartmentFlatInfo.Phase,
+        //        SquareFeet = null,
+        //        FlatTypeId = null,
+        //        LastUpdated = DateTime.Now,
+        //        LastUpdatedBy = pUserId
+        //    };
+        //}
 
         private static ApartmentInfo MapToApartmentInfo(Apartment pApartment)
         {
@@ -313,7 +310,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PinCode = pApartment.PinCode,
                 StateId = pApartment.StateId,
                 CreatedDate = pApartment.CreatedDate,
-                State = pApartment.State?.Name,
+                State = pApartment.State?.Name
             };
         }
     }

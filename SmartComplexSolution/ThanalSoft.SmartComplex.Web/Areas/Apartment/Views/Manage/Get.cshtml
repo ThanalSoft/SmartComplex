@@ -106,7 +106,7 @@
             invokeAjaxAndFillContainer('@Url.Action("UploadFlats", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         }),
         $("#viewApartmentFlats").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentFlats", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
         }),
         $("#viewApartmentUsers").click(function () {
             invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});

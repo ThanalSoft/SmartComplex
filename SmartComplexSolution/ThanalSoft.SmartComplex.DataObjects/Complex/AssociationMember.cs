@@ -41,6 +41,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public virtual User User { get; set; }
 
         [ForeignKey("AssociationMemberRankId")]
-        public AssociationMemberRank AssociationMemberRank { get; set; }
+        public virtual AssociationMemberRank AssociationMemberRank { get; set; }
     }
 }

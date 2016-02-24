@@ -12,7 +12,8 @@ namespace ThanalSoft.SmartComplex.DataAccess
     {
         public BaseDataAccessContext() : base("name=SmartComplexDB")
         {
-            
+            Configuration.LazyLoadingEnabled = true;
+            Configuration.ProxyCreationEnabled = true;
         }
 
         public virtual DbSet<BloodGroup> BloodGroups { get; set; }
@@ -32,8 +33,6 @@ namespace ThanalSoft.SmartComplex.DataAccess
         public virtual DbSet<ApartmentAmenity> ApartmentAmenities { get; set; }
         
         public virtual DbSet<Flat> Flats { get; set; }
-
-        public virtual DbSet<FlatUser> FlatUsers { get; set; }
 
         public virtual DbSet<FlatType> FlatTypes { get; set; }
 

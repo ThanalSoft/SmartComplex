@@ -16,12 +16,14 @@
         @Html.LabelFor(m => m.Flat.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(m => m.Flat.Name, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Flat.Name, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Flat.Floor, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(m => m.Flat.Floor, new { @class = "form-control col-md-7 col-xs-12" })
+            @Html.ValidationMessageFor(m => m.Flat.Floor, "", new { @class = "text-errormessage" })
         </div><span class="required">*</span>
     </div>
     <div class="form-group">

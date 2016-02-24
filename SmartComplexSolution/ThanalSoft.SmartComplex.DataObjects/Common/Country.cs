@@ -12,7 +12,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
     {
         public Country()
         {
-            States = new List<State>();
+            States = new HashSet<State>();
         }
 
         [DataMember]

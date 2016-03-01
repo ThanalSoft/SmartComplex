@@ -118,6 +118,46 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> CreateFlat(int pApartmentId)
+        {
+            return View(new FlatViewModel
+            {
+                Flat = new FlatInfo
+                {
+                    ApartmentId = pApartmentId
+                },
+                FlatTypes = await GetFlatTypes(),
+                IsAsyncRequest = IsAjaxRequest,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetFlat(int pFlatId)
+        {
+            var response = await GetFlatAsync(pFlatId);
+            return View(new FlatViewModel
+            {
+                Flat = response.Info,
+                ActionResultStatus = ViewResultStatus,
+                IsAsyncRequest = IsAjaxRequest,
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> UpdateFlat(int pFlatId)
+        {
+            var response = await GetFlatAsync(pFlatId);
+            return View(new FlatViewModel
+            {
+                Flat = response.Info,
+                FlatTypes = await GetFlatTypes(),
+                IsAsyncRequest = IsAjaxRequest,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
         #endregion
 
         #region Post Methods
@@ -289,6 +329,79 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             return ApiResponseResult.Error.ToString();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateFlat(FlatViewModel pModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(new FlatViewModel
+                {
+                    Flat = new FlatInfo
+                    {
+                        ApartmentId = pModel.Flat.ApartmentId
+                    },
+                    FlatTypes = await GetFlatTypes(),
+                    IsAsyncRequest = IsAjaxRequest,
+                    ActionResultStatus = ViewResultStatus
+                });
+            }
+            try
+            {
+                var result = await CreateFlatAsync(pModel);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!",
+                        ActionStatus.Success);
+                    return RedirectToAction("GetAllApartmentFlats", new { pApartmentId = pModel.Flat.ApartmentId });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason,
+                    ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus =
+                    new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message,
+                        ActionStatus.Error);
+            }
+            pModel.FlatTypes = await GetFlatTypes();
+            return View(pModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateFlat(FlatViewModel pModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var response = await GetFlatAsync(pModel.Flat.Id);
+                return View(new FlatViewModel
+                {
+                    Flat = response.Info,
+                    FlatTypes = await GetFlatTypes(),
+                    IsAsyncRequest = IsAjaxRequest,
+                    ActionResultStatus = ViewResultStatus
+                });
+            }
+            try
+            {
+                var result = await UpdateFlatAsync(pModel);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    ViewResultStatus = new ActionResultStatusViewModel("Flat updated successfully!", ActionStatus.Success);
+                    return RedirectToAction("GetFlat", "Manage", new { pFlatId = pModel.Flat.Id });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.FlatTypes = await GetFlatTypes();
+            return View(pModel);
+        }
+
+
         #endregion
 
         #region Private Methods
@@ -429,119 +542,6 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         }
 
         #endregion
-
-        [HttpGet]
-        public async Task<ActionResult> CreateFlat(int pApartmentId)
-        {
-            return View(new FlatViewModel
-            {
-                Flat = new FlatInfo
-                {
-                    ApartmentId = pApartmentId
-                },
-                FlatTypes = await GetFlatTypes(),
-                IsAsyncRequest = IsAjaxRequest,
-                ActionResultStatus = ViewResultStatus
-            });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateFlat(FlatViewModel pModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(new FlatViewModel
-                {
-                    Flat = new FlatInfo
-                    {
-                        ApartmentId = pModel.Flat.ApartmentId
-                    },
-                    FlatTypes = await GetFlatTypes(),
-                    IsAsyncRequest = IsAjaxRequest,
-                    ActionResultStatus = ViewResultStatus
-                });
-            }
-            try
-            {
-                var result = await CreateFlatAsync(pModel);
-                if (result.Result == ApiResponseResult.Success)
-                {
-                    ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!",
-                        ActionStatus.Success);
-                    return RedirectToAction("GetAllApartmentFlats", new {pApartmentId = pModel.Flat.ApartmentId});
-                }
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason,
-                    ActionStatus.Error);
-            }
-            catch (Exception ex)
-            {
-                pModel.ActionResultStatus =
-                    new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message,
-                        ActionStatus.Error);
-            }
-            pModel.FlatTypes = await GetFlatTypes();
-            return View(pModel);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GetFlat(int pFlatId)
-        {
-            var response = await GetFlatAsync(pFlatId);
-            return View(new FlatViewModel
-            {
-                Flat = response.Info,
-                ActionResultStatus = ViewResultStatus,
-                IsAsyncRequest = IsAjaxRequest,
-            });
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> UpdateFlat(int pFlatId)
-        {
-            var response = await GetFlatAsync(pFlatId);
-            return View(new FlatViewModel
-            {
-                Flat = response.Info,
-                FlatTypes = await GetFlatTypes(),
-                IsAsyncRequest = IsAjaxRequest,
-                ActionResultStatus = ViewResultStatus
-            });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateFlat(FlatViewModel pModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                var response = await GetFlatAsync(pModel.Flat.Id);
-                return View(new FlatViewModel
-                {
-                    Flat = response.Info,
-                    FlatTypes = await GetFlatTypes(),
-                    IsAsyncRequest = IsAjaxRequest,
-                    ActionResultStatus = ViewResultStatus
-                });
-            }
-            try
-            {
-                var result = await UpdateFlatAsync(pModel);
-                if (result.Result == ApiResponseResult.Success)
-                {
-                    ViewResultStatus = new ActionResultStatusViewModel("Flat updated successfully!",
-                        ActionStatus.Success);
-                    return RedirectToAction("GetFlat", "Manage", new {pFlatId = pModel.Flat.Id});
-                }
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
-            }
-            catch (Exception ex)
-            {
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
-            }
-            pModel.FlatTypes = await GetFlatTypes();
-            return View(pModel);
-        }
 
     }
 }

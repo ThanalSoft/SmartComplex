@@ -186,6 +186,9 @@
     <Content Include="Areas\Apartment\Views\Home\Update.cshtml" />
     <Content Include="Areas\Apartment\Views\Flat\Index.cshtml" />
     <Content Include="Areas\Apartment\Views\Manage\GetAllApartmentFlats.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\CreateFlat.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\GetFlat.cshtml" />
+    <Content Include="Areas\Apartment\Views\Manage\UpdateFlat.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />

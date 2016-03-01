@@ -40,7 +40,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public bool IsDeleted { get; set; }
 
         [ForeignKey("CreatorId")]
-        public virtual User CreatorUser { get; set; }
+        public virtual LoginUser CreatorUser { get; set; }
 
         public virtual ICollection<EventUser> EventUsers { get; set; }
     }

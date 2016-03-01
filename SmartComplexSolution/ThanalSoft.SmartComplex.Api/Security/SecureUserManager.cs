@@ -26,12 +26,12 @@ namespace ThanalSoft.SmartComplex.Api.Security
         }
     }
 
-    public class SecureUserManager : UserManager<User, Int64>
+    public class SecureUserManager : UserManager<LoginUser, Int64>
     {
         public SecureUserManager() : base(new SecureUserStore(new SmartComplexDataObjectContext()))
         {
 
-            UserValidator = new UserValidator<User, Int64>(this)
+            UserValidator = new UserValidator<LoginUser, Int64>(this)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -42,7 +42,7 @@ namespace ThanalSoft.SmartComplex.Api.Security
         {
             var manager = new SecureUserManager();
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<User, Int64>(manager)
+            manager.UserValidator = new UserValidator<LoginUser, Int64>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -65,11 +65,11 @@ namespace ThanalSoft.SmartComplex.Api.Security
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<User, Int64>
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<LoginUser, Int64>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<User, Int64>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<LoginUser, Int64>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -79,7 +79,7 @@ namespace ThanalSoft.SmartComplex.Api.Security
             var dataProtectionProvider = pOptions.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<User, Int64>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<LoginUser, Int64>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }

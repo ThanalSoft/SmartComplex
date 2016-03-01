@@ -5,7 +5,7 @@ using ThanalSoft.SmartComplex.DataObjects.Security;
 
 namespace ThanalSoft.SmartComplex.Api.Security
 {
-    public class SecureUserStore : UserStore<User, Role, Int64, UserLogin, UserRole, UserClaim>
+    public class SecureUserStore : UserStore<LoginUser, Role, Int64, UserLogin, UserRole, UserClaim>
     {
         public SecureUserStore(SmartComplexDataObjectContext pContext) : base(pContext)
         {

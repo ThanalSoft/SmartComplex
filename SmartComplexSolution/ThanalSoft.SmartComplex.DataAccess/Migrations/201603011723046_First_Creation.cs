@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class First_Creation : DbMigration
     {
         public override void Up()
         {
@@ -155,6 +155,15 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 .ForeignKey("sc.tblBloodGroup", t => t.BloodGroupId)
                 .Index(t => t.BloodGroupId)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
+            
+            CreateTable(
+                "sc.tblBloodGroup",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Group = c.String(nullable: false, maxLength: 5),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "sc.tblBroadcast",
@@ -375,15 +384,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "sc.tblBloodGroup",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Group = c.String(nullable: false, maxLength: 5),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
                 "secure.tblRole",
                 c => new
                     {
@@ -398,7 +398,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
         public override void Down()
         {
             DropForeignKey("secure.tblUserRole", "RoleId", "secure.tblRole");
-            DropForeignKey("secure.tblUser", "BloodGroupId", "sc.tblBloodGroup");
             DropForeignKey("sc.tblState", "CountryId", "sc.tblCountry");
             DropForeignKey("sc.tblApartment", "StateId", "sc.tblState");
             DropForeignKey("sc.tblMemberFlat", "UserId", "secure.tblUser");
@@ -416,6 +415,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropForeignKey("sc.tblBroadcastUser", "ReceiverUserId", "secure.tblUser");
             DropForeignKey("sc.tblBroadcastUser", "BroadcastId", "sc.tblBroadcast");
             DropForeignKey("sc.tblBroadcast", "CreatorId", "secure.tblUser");
+            DropForeignKey("secure.tblUser", "BloodGroupId", "sc.tblBloodGroup");
             DropForeignKey("sc.tblAssociationMember", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblAmenityCalendar", "BookedUserId", "secure.tblUser");
             DropForeignKey("sc.tblAssociationMember", "AssociationMemberRankId", "sc.tblAssociationMemberRank");
@@ -454,7 +454,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropIndex("sc.tblAmenityCalendar", new[] { "BookedUserId" });
             DropIndex("sc.tblAmenityCalendar", new[] { "AminityTypeId" });
             DropTable("secure.tblRole");
-            DropTable("sc.tblBloodGroup");
             DropTable("sc.tblCountry");
             DropTable("sc.tblState");
             DropTable("sc.tblMemberFlat");
@@ -469,6 +468,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropTable("secure.tblUserClaim");
             DropTable("sc.tblBroadcastUser");
             DropTable("sc.tblBroadcast");
+            DropTable("sc.tblBloodGroup");
             DropTable("secure.tblUser");
             DropTable("sc.tblAssociationMemberRank");
             DropTable("sc.tblAssociationMember");

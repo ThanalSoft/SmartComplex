@@ -23,10 +23,10 @@ namespace ThanalSoft.SmartComplex.DataAccess
             pModelBuilder.Entity<UserClaim>().ToTable("tblUserClaim", "secure");
             pModelBuilder.Entity<UserLogin>().ToTable("tblUserLogin", "secure");
             pModelBuilder.Entity<UserRole>().ToTable("tblUserRole", "secure");
-            pModelBuilder.Entity<User>().ToTable("tblUser", "secure")
+            pModelBuilder.Entity<LoginUser>().ToTable("tblUser", "secure")
                 .Property(pX => pX.Email)
                 .IsRequired();
-            pModelBuilder.Entity<User>()
+            pModelBuilder.Entity<LoginUser>()
                 .Property(pX => pX.PhoneNumber)
                 .IsRequired();
         }

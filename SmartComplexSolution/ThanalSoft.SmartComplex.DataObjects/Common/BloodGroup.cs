@@ -24,6 +24,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.Common
         [NotMapped]
         public override Int64 LastUpdatedBy { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<LoginUser> Users { get; set; }
     }
 }

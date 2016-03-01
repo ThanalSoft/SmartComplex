@@ -14,7 +14,7 @@ using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
 namespace ThanalSoft.SmartComplex.DataObjects.Security
 {
     [DataContract]
-    public class User : IdentityUser<Int64, UserLogin, UserRole, UserClaim>
+    public class LoginUser : IdentityUser<Int64, UserLogin, UserRole, UserClaim>
     {
         [DataMember]
         [Required]
@@ -76,7 +76,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Security
 
         public virtual ICollection<Notification> Notifications { get; set; }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User, long> pUserManager, string pAuthenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<LoginUser, long> pUserManager, string pAuthenticationType)
         {
             // Note the authenticationType must match the one defined in
             // CookieAuthenticationOptions.AuthenticationType 

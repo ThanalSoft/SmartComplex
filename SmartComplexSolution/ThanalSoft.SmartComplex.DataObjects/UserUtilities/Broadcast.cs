@@ -36,7 +36,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public bool IsDeleted { get; set; }
 
         [ForeignKey("CreatorId")]
-        public virtual User Creator { get; set; }
+        public virtual LoginUser Creator { get; set; }
 
         //public virtual ICollection<BroadcastUser> BroadcastUsers { get; set; }
     }

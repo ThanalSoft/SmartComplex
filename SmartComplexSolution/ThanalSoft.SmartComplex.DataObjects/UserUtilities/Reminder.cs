@@ -44,6 +44,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public bool IsActive { get; set; }
 
         [ForeignKey("CreatorId")]
-        public virtual User User { get; set; }
+        public virtual LoginUser User { get; set; }
     }
 }

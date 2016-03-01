@@ -26,6 +26,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public virtual Event Event { get; set; }
 
         [ForeignKey("EventUserId")]
-        public virtual User User { get; set; }
+        public virtual LoginUser User { get; set; }
     }
 }

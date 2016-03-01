@@ -23,7 +23,7 @@ namespace ThanalSoft.SmartComplex.DataObjects.Complex
         public bool IsOwner { get; set; }
 
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual LoginUser User { get; set; }
 
         [ForeignKey("FlatId")]
         public virtual Flat Flat { get; set; }

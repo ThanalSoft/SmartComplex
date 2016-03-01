@@ -121,7 +121,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
         private void CreateAdministratorUserAndLogin(SmartComplexDataObjectContext pContext)
         {
             var roleManager = new RoleManager<Role, long>(new RoleStore<Role, Int64, UserRole>(new SmartComplexDataObjectContext()));
-            var userManager = new UserManager<User, long>(new UserStore<User, Role, Int64, UserLogin, UserRole, UserClaim>(new SmartComplexDataObjectContext()));
+            var userManager = new UserManager<LoginUser, long>(new UserStore<LoginUser, Role, Int64, UserLogin, UserRole, UserClaim>(new SmartComplexDataObjectContext()));
 
             var role = roleManager.FindByName("Administrator");
             if (role == null)
@@ -157,7 +157,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             if (user == null)
             {
                 var hasher = new PasswordHasher();
-                user = new User
+                user = new LoginUser
                 {
                     Email = "admin@sc.com",
                     PhoneNumber = "9742170983",

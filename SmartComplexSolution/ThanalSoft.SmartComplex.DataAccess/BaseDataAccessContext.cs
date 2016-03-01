@@ -8,7 +8,7 @@ using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.DataAccess
 {
-    public class BaseDataAccessContext : IdentityDbContext<User, Role, Int64, UserLogin, UserRole, UserClaim>
+    public class BaseDataAccessContext : IdentityDbContext<LoginUser, Role, Int64, UserLogin, UserRole, UserClaim>
     {
         public BaseDataAccessContext() : base("name=SmartComplexDB")
         {

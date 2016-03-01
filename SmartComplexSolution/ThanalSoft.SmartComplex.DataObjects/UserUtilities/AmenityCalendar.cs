@@ -35,6 +35,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public virtual AmenityType AmenityType { get; set; }
 
         [ForeignKey("BookedUserId")]
-        public virtual User User { get; set; }
+        public virtual LoginUser User { get; set; }
     }
 }

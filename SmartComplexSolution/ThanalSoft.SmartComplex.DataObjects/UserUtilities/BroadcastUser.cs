@@ -26,6 +26,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public virtual Broadcast Broadcast { get; set; }
 
         [ForeignKey("ReceiverUserId")]
-        public virtual User ReceiverUser { get; set; }
+        public virtual LoginUser ReceiverUser { get; set; }
     }
 }

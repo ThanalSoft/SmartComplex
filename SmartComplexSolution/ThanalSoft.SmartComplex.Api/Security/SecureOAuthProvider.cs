@@ -28,7 +28,7 @@ namespace ThanalSoft.SmartComplex.Api.Security
         {
             var userManager = pContext.OwinContext.GetUserManager<SecureUserManager>();
 
-            User user = await userManager.FindAsync(pContext.UserName, pContext.Password);
+            LoginUser user = await userManager.FindAsync(pContext.UserName, pContext.Password);
 
             if (user == null)
             {

@@ -31,6 +31,6 @@ namespace ThanalSoft.SmartComplex.DataObjects.UserUtilities
         public DateTime? UserReadDate { get; set; }
         
         [ForeignKey("TargetUserId")]
-        public virtual User User { get; set; }
+        public virtual LoginUser User { get; set; }
     }
 }

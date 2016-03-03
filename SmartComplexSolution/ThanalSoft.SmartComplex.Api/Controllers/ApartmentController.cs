@@ -7,7 +7,7 @@ using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
-using ThanalSoft.SmartComplex.DataObjects.Security;
+using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {

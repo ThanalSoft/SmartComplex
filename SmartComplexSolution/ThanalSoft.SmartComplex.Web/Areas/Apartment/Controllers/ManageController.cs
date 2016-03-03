@@ -319,10 +319,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [ValidateAntiForgeryToken]
         public async Task<string> DeleteUndelete(int pApartmentId)
         {
-            var response =
-                await
-                    new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete",
-                        pApartmentId);
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecurePostAsync("Apartment", "DeleteUndelete", pApartmentId);
             if (response.Result == ApiResponseResult.Success)
                 return ApiResponseResult.Success.ToString();
 
@@ -472,10 +469,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [NonAction]
         private async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(int pApartmentId)
         {
-            return
-                await
-                    new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment",
-                        "GetApartmentUsers", pApartmentId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers", pApartmentId.ToString());
         }
 
         [NonAction]

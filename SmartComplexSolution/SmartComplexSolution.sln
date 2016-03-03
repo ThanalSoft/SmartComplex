@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{9A2DD527-E26E-4A81-999F-E0A7CCBE9DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThanalSoft.SmartComplex.DataObjects", "ThanalSoft.SmartComplex.DataObjects\ThanalSoft.SmartComplex.DataObjects.csproj", "{3A778BB9-BD3A-4B30-A120-A50F3AA2AC32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThanalSoft.SmartComplex.Entities", "ThanalSoft.SmartComplex.Entities\ThanalSoft.SmartComplex.Entities.csproj", "{3A778BB9-BD3A-4B30-A120-A50F3AA2AC32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThanalSoft.SmartComplex.DataAccess", "ThanalSoft.SmartComplex.DataAccess\ThanalSoft.SmartComplex.DataAccess.csproj", "{57860420-53F1-4029-9E51-F7C2DC0262FB}"
 EndProject

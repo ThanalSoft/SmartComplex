@@ -76,9 +76,9 @@
       <Project>{57860420-53f1-4029-9e51-f7c2dc0262fb}</Project>
       <Name>ThanalSoft.SmartComplex.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ThanalSoft.SmartComplex.DataObjects\ThanalSoft.SmartComplex.DataObjects.csproj">
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.Entities\ThanalSoft.SmartComplex.Entities.csproj">
       <Project>{3a778bb9-bd3a-4b30-a120-a50f3aa2ac32}</Project>
-      <Name>ThanalSoft.SmartComplex.DataObjects</Name>
+      <Name>ThanalSoft.SmartComplex.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

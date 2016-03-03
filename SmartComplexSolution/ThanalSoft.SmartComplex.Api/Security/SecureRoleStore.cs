@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.Security;
+using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.Api.Security
 {

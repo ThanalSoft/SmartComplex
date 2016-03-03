@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Common.Models.Common;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
+using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Business.Common
 {

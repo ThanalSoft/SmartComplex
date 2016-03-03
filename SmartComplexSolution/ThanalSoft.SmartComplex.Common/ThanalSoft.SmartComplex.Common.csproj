@@ -98,9 +98,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThanalSoft.SmartComplex.DataObjects\ThanalSoft.SmartComplex.DataObjects.csproj">
+    <ProjectReference Include="..\ThanalSoft.SmartComplex.Entities\ThanalSoft.SmartComplex.Entities.csproj">
       <Project>{3A778BB9-BD3A-4B30-A120-A50F3AA2AC32}</Project>
-      <Name>ThanalSoft.SmartComplex.DataObjects</Name>
+      <Name>ThanalSoft.SmartComplex.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿using ThanalSoft.SmartComplex.DataObjects.Security;
+﻿using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.Common.Extensions
 {

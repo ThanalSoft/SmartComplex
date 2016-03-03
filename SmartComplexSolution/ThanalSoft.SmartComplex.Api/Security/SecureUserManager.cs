@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using ThanalSoft.SmartComplex.Api.Services;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.Security;
+using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.Api.Security
 {

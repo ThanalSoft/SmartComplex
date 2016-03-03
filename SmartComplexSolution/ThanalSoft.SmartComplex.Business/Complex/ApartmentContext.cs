@@ -8,9 +8,9 @@ using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.Common.String;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.Complex;
-using ThanalSoft.SmartComplex.DataObjects.Security;
-using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
+using ThanalSoft.SmartComplex.Entities.Complex;
+using ThanalSoft.SmartComplex.Entities.Security;
+using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Business.Complex
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
-using ThanalSoft.SmartComplex.DataObjects.Complex;
+using ThanalSoft.SmartComplex.Entities.Complex;
 
 namespace ThanalSoft.SmartComplex.Business.Complex
 {

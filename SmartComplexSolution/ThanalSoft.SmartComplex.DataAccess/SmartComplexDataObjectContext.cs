@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using ThanalSoft.SmartComplex.DataObjects.Security;
+using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.DataAccess
 {

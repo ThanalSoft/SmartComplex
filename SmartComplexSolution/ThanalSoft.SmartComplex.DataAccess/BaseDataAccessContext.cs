@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using ThanalSoft.SmartComplex.DataObjects.Common;
-using ThanalSoft.SmartComplex.DataObjects.Complex;
-using ThanalSoft.SmartComplex.DataObjects.Security;
-using ThanalSoft.SmartComplex.DataObjects.UserUtilities;
+using ThanalSoft.SmartComplex.Entities.Common;
+using ThanalSoft.SmartComplex.Entities.Complex;
+using ThanalSoft.SmartComplex.Entities.Security;
+using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.DataAccess
 {

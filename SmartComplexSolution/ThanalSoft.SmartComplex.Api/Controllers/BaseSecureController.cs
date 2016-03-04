@@ -4,12 +4,20 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Api.Security;
+using ThanalSoft.SmartComplex.Api.UnitOfWork;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [Authorize]
     public class BaseSecureController : ApiController
     {
+        protected IUnitOfWork UnitOfWork { get; private set; }
+
+        public BaseSecureController(IUnitOfWork pUnitOfWork)
+        {
+            UnitOfWork = pUnitOfWork;
+        }
+
         private SecureUserManager _userManager;
         private SecureSignInManager _signInManager;
 

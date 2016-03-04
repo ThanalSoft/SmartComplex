@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using ThanalSoft.SmartComplex.Api.UnitOfWork;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
@@ -14,6 +15,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureController
     {
+        public ApartmentController(IUnitOfWork pUnitOfWork) : base(pUnitOfWork)
+        {
+        }
+
         #region Get Methods
 
         [HttpGet]
@@ -263,6 +268,6 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         #endregion
-
+        
     }
 }

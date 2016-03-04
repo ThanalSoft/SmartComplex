@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ThanalSoft.SmartComplex.Api.UnitOfWork;
 using ThanalSoft.SmartComplex.Business.Common;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Common;
@@ -11,6 +12,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [System.Web.Http.RoutePrefix("api/Common")]
     public class CommonController : BaseSecureController
     {
+        public CommonController(IUnitOfWork pUnitOfWork) : base(pUnitOfWork)
+        {
+        }
+
         #region Get Methods
 
         [System.Web.Http.HttpGet]

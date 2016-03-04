@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ThanalSoft.SmartComplex.Api.UnitOfWork;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
@@ -11,6 +12,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [RoutePrefix("api/Flat")]
     public class FlatController : BaseSecureController
     {
+        public FlatController(IUnitOfWork pUnitOfWork) : base(pUnitOfWork)
+        {
+        }
+
         [HttpGet]
         public async Task<GeneralReturnInfo<FlatInfo>> Get(int id)
         {

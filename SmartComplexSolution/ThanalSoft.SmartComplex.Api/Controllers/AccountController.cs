@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
+using ThanalSoft.SmartComplex.Api.UnitOfWork;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Extensions;
@@ -16,6 +17,11 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
     [System.Web.Http.RoutePrefix("api/Account")]
     public class AccountController : BaseSecureController
     {
+        public AccountController(IUnitOfWork pUnitOfWork) : base(pUnitOfWork)
+        {
+            
+        }
+
         #region Get Methods
 
         [System.Web.Http.HttpGet]

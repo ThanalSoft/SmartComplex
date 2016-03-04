@@ -62,9 +62,13 @@
     <Compile Include="Common\NotificationContext.cs" />
     <Compile Include="Common\StateContext.cs" />
     <Compile Include="Complex\ApartmentContext.cs" />
+    <Compile Include="Complex\ApartmentRepository.cs" />
     <Compile Include="Complex\FlatContext.cs" />
     <Compile Include="Complex\FlatUserContext.cs" />
+    <Compile Include="IRepositoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IApartmentRepository.cs" />
+    <Compile Include="RepositoryService.cs" />
     <Compile Include="User\FlatUserContext.cs" />
   </ItemGroup>
   <ItemGroup>

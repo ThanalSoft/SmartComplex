@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -10,6 +11,10 @@ namespace ThanalSoft.SmartComplex.Entities.Complex
     [Table("tblMemberFlat")]
     public class MemberFlat : BaseModel
     {
+        [DataMember]
+        [Required]
+        public int ApartmentId { get; set; }
+
         [DataMember]
         [Required]
         public int FlatId { get; set; }
@@ -27,5 +32,9 @@ namespace ThanalSoft.SmartComplex.Entities.Complex
 
         [ForeignKey("FlatId")]
         public virtual Flat Flat { get; set; }
+
+        [ForeignKey("ApartmentId")]
+        public virtual Apartment Apartment { get; set; }
+
     }
 }

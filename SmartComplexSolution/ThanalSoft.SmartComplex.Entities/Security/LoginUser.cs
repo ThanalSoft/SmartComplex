@@ -76,6 +76,8 @@ namespace ThanalSoft.SmartComplex.Entities.Security
 
         public virtual ICollection<Notification> Notifications { get; set; }
 
+        public virtual ICollection<MemberFlat> MemberFlats { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<LoginUser, long> pUserManager, string pAuthenticationType)
         {
             // Note the authenticationType must match the one defined in

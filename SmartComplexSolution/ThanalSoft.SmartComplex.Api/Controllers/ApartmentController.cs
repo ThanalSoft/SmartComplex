@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
@@ -8,13 +10,18 @@ using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
+using ThanalSoft.SmartComplex.Common.String;
+using ThanalSoft.SmartComplex.Entities.Complex;
 using ThanalSoft.SmartComplex.Entities.Security;
+using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
     [RoutePrefix("api/Apartment")]
     public class ApartmentController : BaseSecureController
     {
+        private readonly PasswordHasher _passwordHasher = new PasswordHasher();
+
         public ApartmentController(IUnitOfWork pUnitOfWork) : base(pUnitOfWork)
         {
         }
@@ -27,7 +34,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<ApartmentInfo[]>();
             try
             {
-                result.Info = await ApartmentContext.Instance.GetAllAsync();
+                var apartments = await UnitOfWork.Apartments.AllAsync();
+                result.Info = apartments.Select(MapToApartmentInfo).ToArray();
             }
             catch (Exception ex)
             {
@@ -43,7 +51,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<ApartmentInfo>();
             try
             {
-                result.Info = await ApartmentContext.Instance.GetAsync(Convert.ToInt32(id));
+                var apartment = await UnitOfWork.Apartments.FindAsync(Convert.ToInt32(id));
+                result.Info = MapToApartmentInfo(apartment);
             }
             catch (Exception ex)
             {
@@ -53,77 +62,83 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return result;
         }
 
-        //[HttpGet]
-        //public async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(string id)
-        //{
-        //    var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
-        //    try
-        //    {
-        //        result.Info = await FlatUserContext.Instance.GetAllByApartment(Convert.ToInt32(id));
-        //        foreach (var apartmentUserInfo in result.Info)
-        //        {
-        //            var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
-        //            apartmentUserInfo.UserRoles = string.Join(", ", roles);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Result = ApiResponseResult.Error;
-        //        result.Reason = ex.Message;
-        //    }
-        //    return result;
-        //}
+        [HttpGet]
+        public async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentUserInfo[]>();
+            try
+            {
+                var users = (await UnitOfWork.Apartments.GetAllApartmentUsersAsync(Convert.ToInt32(id))).ToArray();
+                users = users.GroupBy(pX => pX.UserId).Select(pX => pX.First()).ToArray();
+                foreach (var apartmentUserInfo in users)
+                {
+                    var roles = await UserManager.GetRolesAsync(apartmentUserInfo.UserId);
+                    apartmentUserInfo.UserRoles = string.Join(", ", roles);
+                }
 
-        //[HttpGet]
-        //public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
-        //{
-        //    var result = new GeneralReturnInfo<ApartmentUserInfo>();
-        //    try
-        //    {
-        //        result.Info = await FlatUserContext.Instance.Get(Convert.ToInt32(id));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Result = ApiResponseResult.Error;
-        //        result.Reason = ex.Message;
-        //    }
-        //    return result;
-        //}
+                result.Info = users;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
 
-        //[HttpGet]
-        //public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
-        //{
-        //    var result = new GeneralReturnInfo();
-        //    try
-        //    {
-        //        var userid = await FlatUserContext.Instance.GetUserId(Convert.ToInt32(id));
-        //        if (await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
-        //            await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
-        //        else
-        //            await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Result = ApiResponseResult.Error;
-        //        result.Reason = ex.Message;
-        //    }
-        //    return result;
-        //}
+        [HttpGet]
+        public async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUser(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentUserInfo>();
+            try
+            {
+                var user = await UnitOfWork.Apartments.GetApartmentUserAsync(Convert.ToInt32(id));
+                var roles = await UserManager.GetRolesAsync(Convert.ToInt64(id));
+                user.UserRoles = string.Join(", ", roles);
+                result.Info = user;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
 
-        //public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetUserApartments(string id)
-        //{
-        //    var result = new GeneralReturnInfo<ApartmentInfo[]>();
-        //    try
-        //    {
-        //        result.Info = await ApartmentContext.Instance.GetUserApartments(Convert.ToInt64(id));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Result = ApiResponseResult.Error;
-        //        result.Reason = ex.Message;
-        //    }
-        //    return result;
-        //}
+        [HttpGet]
+        public async Task<GeneralReturnInfo> MarkUserAdmin(string id)
+        {
+            var result = new GeneralReturnInfo();
+            try
+            {
+                var userid = Convert.ToInt64(id);
+                if (await UserManager.IsInRoleAsync(userid, "ApartmentAdmin"))
+                    await UserManager.RemoveFromRoleAsync(userid, "ApartmentAdmin");
+                else
+                    await UserManager.AddToRoleAsync(userid, "ApartmentAdmin");
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralReturnInfo<ApartmentInfo[]>> GetUserApartments(string id)
+        {
+            var result = new GeneralReturnInfo<ApartmentInfo[]>();
+            try
+            {
+                result.Info = await UnitOfWork.Apartments.GetUserApartmentsAsync(Convert.ToInt64(id));
+            }
+            catch (Exception ex)
+            {
+                result.Result = ApiResponseResult.Error;
+                result.Reason = ex.Message;
+            }
+            return result;
+        }
 
         #endregion
 
@@ -135,7 +150,26 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.CreateAsync(pApartmentInfo, LoggedInUser);
+                var apartment = await UnitOfWork.Apartments.FindAsync(pX => pX.Name.Equals(pApartmentInfo.Name));
+                if (apartment != null)
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name, "Apartment");
+
+                UnitOfWork.Apartments.Add(new Apartment
+                {
+                    Phone = pApartmentInfo.Phone,
+                    StateId = pApartmentInfo.StateId,
+                    Name = pApartmentInfo.Name,
+                    Address = pApartmentInfo.Address,
+                    City = pApartmentInfo.City,
+                    IsDeleted = false,
+                    IsLocked = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = LoggedInUser,
+                    PinCode = pApartmentInfo.PinCode,
+                    CreatedDate = DateTime.Now,
+                });
+
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (ItemAlreadyExistsException ex)
             {
@@ -156,7 +190,24 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.UpdateAsync(pApartmentInfo, LoggedInUser);
+                var original = await UnitOfWork.Apartments.FindAsync(pApartmentInfo.Id);
+                if(original == null)
+                    throw new KeyNotFoundException(pApartmentInfo.Id.ToString());
+
+                var apartment = await UnitOfWork.Apartments.FindAsync(pX => pX.Name.Equals(pApartmentInfo.Name) && pX.Id != pApartmentInfo.Id);
+                if (apartment != null)
+                    throw new ItemAlreadyExistsException(pApartmentInfo.Name, "Apartment");
+                
+                original.Phone = pApartmentInfo.Phone;
+                original.StateId = pApartmentInfo.StateId;
+                original.Name = pApartmentInfo.Name;
+                original.Address = pApartmentInfo.Address;
+                original.City = pApartmentInfo.City;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = LoggedInUser;
+                original.PinCode = pApartmentInfo.PinCode;
+
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (ItemAlreadyExistsException ex)
             {
@@ -177,7 +228,15 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.DeleteUndeleteAsync(id, LoggedInUser);
+                var original = await UnitOfWork.Apartments.FindAsync(id);
+                if (original == null)
+                    throw new KeyNotFoundException(id.ToString());
+
+                original.IsDeleted = !original.IsDeleted;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = LoggedInUser;
+
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (ItemAlreadyExistsException ex)
             {
@@ -198,7 +257,17 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.LockUnlockAsync(pApartmentInfo, LoggedInUser);
+                var original = await UnitOfWork.Apartments.FindAsync(pApartmentInfo.Id);
+                if (original == null)
+                    throw new KeyNotFoundException(pApartmentInfo.Id.ToString());
+                
+                original.IsLocked = !original.IsLocked;
+                original.LockedDate = !original.IsLocked ? (DateTime?)null : DateTime.Now;
+                original.LockReason = !original.IsLocked ? null : pApartmentInfo.LockReason;
+                original.LastUpdated = DateTime.Now;
+                original.LastUpdatedBy = LoggedInUser;
+
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (ItemAlreadyExistsException ex)
             {
@@ -219,12 +288,134 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await ApartmentContext.Instance.UploadFlatsAsync(pApartmentFlatInfoList, LoggedInUser, ConfigureUser);
+                if (pApartmentFlatInfoList == null || !pApartmentFlatInfoList.Any())
+                    return result;
+
+                var apartment = await UnitOfWork.Apartments.FindAsync(pApartmentFlatInfoList[0].ApartmentId);
+                if (apartment == null)
+                    throw new Exception("Apartment id doesnt exists!");
+
+                UnitOfWork.Notifications.Add(new Notification
+                {
+                    CreatedDate = DateTime.Now,
+                    HasUserRead = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = LoggedInUser,
+                    Message = $"Request for uploading & configuring '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
+                    TargetUserId = LoggedInUser,
+                    UserReadDate = null
+                });
+
+                await UnitOfWork.WorkCompleteAsync();
+
+                foreach (var apartmentFlatInfo in pApartmentFlatInfoList)
+                {
+                    var userAlreadyConfigured = true;
+                    var activationCode = Guid.NewGuid().ToString();
+                    var password = KeyGenerator.GetUniqueKey(8);
+
+                    var flat = AddFlat(apartmentFlatInfo);
+                    if (flat.MemberFlats == null)
+                        flat.MemberFlats = new List<MemberFlat>();
+
+                    var existingUser = await UnitOfWork.Users.FindAsync(pX => pX.Email.Equals(apartmentFlatInfo.OwnerEmail));
+                    if (existingUser != null)
+                    {
+                        var flatUser = await UnitOfWork.Users.FindAsync(pX => pX.Id.Equals(existingUser.Id));
+                        flat.MemberFlats.Add(new MemberFlat
+                        {
+                            User = flatUser,
+                            Flat = flat,
+                            Apartment = apartment,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = LoggedInUser,
+                            IsOwner = true
+                        });
+
+                        UnitOfWork.Notifications.Add(new Notification
+                        {
+                            CreatedDate = DateTime.Now,
+                            HasUserRead = false,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = LoggedInUser,
+                            Message = $"You can now start managing Flat '{flat.Name}'.",
+                            TargetUserId = existingUser.Id
+                        });
+                    }
+                    else
+                    {
+                        userAlreadyConfigured = false;
+
+                        var flatUser = AddFlatOwner(apartmentFlatInfo);
+                        flatUser.PasswordHash = _passwordHasher.HashPassword(password);
+                        flatUser.ActivationCode = activationCode;
+
+                        UnitOfWork.Notifications.Add(new Notification
+                        {
+                            CreatedDate = DateTime.Now,
+                            HasUserRead = false,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = LoggedInUser,
+                            Message = "Welcome to Smart Complex.",
+                            TargetUserId = flatUser.Id
+                        });
+                        UnitOfWork.Notifications.Add(new Notification
+                        {
+                            CreatedDate = DateTime.Now,
+                            HasUserRead = false,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = LoggedInUser,
+                            Message = $"You can now start managing Flat '{flat.Name}'.",
+                            TargetUserId = flatUser.Id
+                        });
+
+                        flat.MemberFlats.Add(new MemberFlat
+                        {
+                            User = flatUser,
+                            Flat = flat,
+                            Apartment = apartment,
+                            LastUpdated = DateTime.Now,
+                            LastUpdatedBy = LoggedInUser,
+                            IsOwner = true
+                        });
+                    }
+
+                    UnitOfWork.Flats.Add(flat);
+
+                    await UnitOfWork.WorkCompleteAsync();
+                    
+                    if(!userAlreadyConfigured)
+                        ConfigureUser(apartmentFlatInfo, password, activationCode);
+                }
+
+                UnitOfWork.Notifications.Add(new Notification
+                {
+                    CreatedDate = DateTime.Now,
+                    HasUserRead = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = LoggedInUser,
+                    Message = $"All the '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
+                    TargetUserId = LoggedInUser
+                });
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (Exception ex)
             {
                 result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
+
+                UnitOfWork.Notifications.Add(new Notification
+                {
+                    CreatedDate = DateTime.Now,
+                    HasUserRead = false,
+                    LastUpdated = DateTime.Now,
+                    LastUpdatedBy = LoggedInUser,
+                    Message = $"Request for uploading & configuring flats failed for some reason. Please review and try again.",
+                    TargetUserId = LoggedInUser,
+                    UserReadDate = null
+                });
+
+                await UnitOfWork.WorkCompleteAsync();
             }
             return result;
         }
@@ -267,7 +458,78 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             return content;
         }
 
-        #endregion
-        
+        [NonAction]
+        private static ApartmentInfo MapToApartmentInfo(Apartment pApartment)
+        {
+            return new ApartmentInfo
+            {
+                Name = pApartment.Name,
+                Id = pApartment.Id,
+                Address = pApartment.Address,
+                City = pApartment.City,
+                IsDeleted = pApartment.IsDeleted,
+                IsLocked = pApartment.IsLocked,
+                LockReason = pApartment.LockReason,
+                LockedDate = pApartment.LockedDate,
+                Phone = pApartment.Phone,
+                PinCode = pApartment.PinCode,
+                StateId = pApartment.StateId,
+                CreatedDate = pApartment.CreatedDate,
+                State = pApartment.State?.Name,
+                UserCount = pApartment.MemberFlats.Select(pX => pX.UserId).Distinct().Count(),
+                FlatCount = pApartment.Flats.Count
+            };
+        }
+
+        [NonAction]
+        private Flat AddFlat(FlatUploadInfo pApartmentFlatInfo)
+        {
+            return new Flat
+            {
+                ApartmentId = pApartmentFlatInfo.ApartmentId,
+                Block = string.IsNullOrEmpty(pApartmentFlatInfo.Block) ? null : pApartmentFlatInfo.Block,
+                ExtensionNumber = null,
+                Floor = pApartmentFlatInfo.Floor,
+                Name = pApartmentFlatInfo.Name,
+                Phase = string.IsNullOrEmpty(pApartmentFlatInfo.Phase) ? null : pApartmentFlatInfo.Phase,
+                SquareFeet = null,
+                FlatTypeId = null,
+                LastUpdated = DateTime.Now,
+                LastUpdatedBy = LoggedInUser
+            };
+        }
+
+        [NonAction]
+        private LoginUser AddFlatOwner(FlatUploadInfo pApartmentFlatInfo)
+        {
+            return new LoginUser
+            {
+                FirstName = pApartmentFlatInfo.OwnerName,
+                LastName = "",
+                BloodGroupId = null,
+                Email = pApartmentFlatInfo.OwnerEmail,
+                UserName = pApartmentFlatInfo.OwnerEmail,
+                AccessFailedCount = 0,
+                ActivationCode = "",
+                EmailConfirmed = false,
+                IsActivated = false,
+                IsAdminUser = true,
+                IsDeleted = false,
+                LockoutEnabled = true,
+                PasswordHash = "",
+                PhoneNumber = pApartmentFlatInfo.OwnerMobile,
+                PhoneNumberConfirmed = false,
+                SecurityStamp = null,
+                TwoFactorEnabled = false,
+                IsFreezed = false,
+                FreezedDate = null,
+                ReasonForFreeze = null,
+                ActivatedDate = null,
+                LockoutEndDateUtc = null
+            };
+        }
     }
+
+    #endregion
+
 }

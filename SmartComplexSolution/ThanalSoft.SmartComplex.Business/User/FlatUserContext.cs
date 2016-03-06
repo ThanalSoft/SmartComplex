@@ -18,12 +18,7 @@ namespace ThanalSoft.SmartComplex.Business.User
                 var user = (await context.Users
                     .Select(pX => new
                     {
-                        Email = pX.Email,
-                        PhoneNumber = pX.PhoneNumber,
-                        BloodGroupId = pX.BloodGroupId,
-                        FirstName = pX.FirstName,
-                        LastName = pX.LastName,
-                        Id = pX.Id
+                        pX.Email, pX.PhoneNumber, pX.BloodGroupId, pX.FirstName, pX.LastName, pX.Id
                     })
                     .Where(pX => pX.Id.Equals(pUserId)).ToListAsync()).FirstOrDefault();
 

@@ -181,6 +181,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                         {
                             User = flatUser,
                             Flat = flat,
+                            Apartment = apartment,
                             LastUpdated = DateTime.Now,
                             LastUpdatedBy = pLoginUser,
                             IsOwner = true
@@ -226,6 +227,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                         {
                             User = flatUser,
                             Flat = flat,
+                            Apartment = apartment,
                             LastUpdated = DateTime.Now,
                             LastUpdatedBy = pLoginUser,
                             IsOwner = true

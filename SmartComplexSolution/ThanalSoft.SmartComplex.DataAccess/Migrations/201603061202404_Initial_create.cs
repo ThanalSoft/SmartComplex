@@ -3,7 +3,7 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class First_Creation : DbMigration
+    public partial class Initial_create : DbMigration
     {
         public override void Up()
         {
@@ -262,6 +262,59 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "sc.tblMemberFlat",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ApartmentId = c.Int(nullable: false),
+                        FlatId = c.Int(nullable: false),
+                        UserId = c.Long(nullable: false),
+                        IsOwner = c.Boolean(nullable: false),
+                        LastUpdated = c.DateTime(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("sc.tblApartment", t => t.ApartmentId)
+                .ForeignKey("sc.tblFlat", t => t.FlatId)
+                .ForeignKey("secure.tblUser", t => t.UserId)
+                .Index(t => t.ApartmentId)
+                .Index(t => t.FlatId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "sc.tblFlat",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ApartmentId = c.Int(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 50),
+                        FlatTypeId = c.Int(),
+                        Floor = c.Int(nullable: false),
+                        Block = c.String(maxLength: 10),
+                        Phase = c.String(maxLength: 10),
+                        ExtensionNumber = c.Int(),
+                        SquareFeet = c.Int(),
+                        LastUpdated = c.DateTime(nullable: false),
+                        LastUpdatedBy = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("sc.tblApartment", t => t.ApartmentId)
+                .ForeignKey("sc.tblFlatType", t => t.FlatTypeId)
+                .Index(t => t.ApartmentId)
+                .Index(t => t.FlatTypeId);
+            
+            CreateTable(
+                "sc.tblFlatType",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 50),
+                        Description = c.String(nullable: false, maxLength: 200),
+                        IsActive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "sc.tblNotification",
                 c => new
                     {
@@ -312,56 +365,6 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "sc.tblFlat",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ApartmentId = c.Int(nullable: false),
-                        Name = c.String(nullable: false, maxLength: 50),
-                        FlatTypeId = c.Int(),
-                        Floor = c.Int(nullable: false),
-                        Block = c.String(maxLength: 10),
-                        Phase = c.String(maxLength: 10),
-                        ExtensionNumber = c.Int(),
-                        SquareFeet = c.Int(),
-                        LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Long(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("sc.tblApartment", t => t.ApartmentId)
-                .ForeignKey("sc.tblFlatType", t => t.FlatTypeId)
-                .Index(t => t.ApartmentId)
-                .Index(t => t.FlatTypeId);
-            
-            CreateTable(
-                "sc.tblFlatType",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
-                        Description = c.String(nullable: false, maxLength: 200),
-                        IsActive = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "sc.tblMemberFlat",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        FlatId = c.Int(nullable: false),
-                        UserId = c.Long(nullable: false),
-                        IsOwner = c.Boolean(nullable: false),
-                        LastUpdated = c.DateTime(nullable: false),
-                        LastUpdatedBy = c.Long(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("sc.tblFlat", t => t.FlatId)
-                .ForeignKey("secure.tblUser", t => t.UserId)
-                .Index(t => t.FlatId)
-                .Index(t => t.UserId);
-            
-            CreateTable(
                 "sc.tblState",
                 c => new
                     {
@@ -400,13 +403,14 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropForeignKey("secure.tblUserRole", "RoleId", "secure.tblRole");
             DropForeignKey("sc.tblState", "CountryId", "sc.tblCountry");
             DropForeignKey("sc.tblApartment", "StateId", "sc.tblState");
+            DropForeignKey("secure.tblUserRole", "UserId", "secure.tblUser");
+            DropForeignKey("sc.tblReminder", "CreatorId", "secure.tblUser");
+            DropForeignKey("sc.tblNotification", "TargetUserId", "secure.tblUser");
             DropForeignKey("sc.tblMemberFlat", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblMemberFlat", "FlatId", "sc.tblFlat");
             DropForeignKey("sc.tblFlat", "FlatTypeId", "sc.tblFlatType");
             DropForeignKey("sc.tblFlat", "ApartmentId", "sc.tblApartment");
-            DropForeignKey("secure.tblUserRole", "UserId", "secure.tblUser");
-            DropForeignKey("sc.tblReminder", "CreatorId", "secure.tblUser");
-            DropForeignKey("sc.tblNotification", "TargetUserId", "secure.tblUser");
+            DropForeignKey("sc.tblMemberFlat", "ApartmentId", "sc.tblApartment");
             DropForeignKey("secure.tblUserLogin", "UserId", "secure.tblUser");
             DropForeignKey("sc.tblEventUser", "EventUserId", "secure.tblUser");
             DropForeignKey("sc.tblEventUser", "EventId", "sc.tblEvent");
@@ -426,14 +430,15 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropForeignKey("sc.tblAmenityCalendar", "AminityTypeId", "sc.tblAmenityType");
             DropIndex("secure.tblRole", "RoleNameIndex");
             DropIndex("sc.tblState", new[] { "CountryId" });
-            DropIndex("sc.tblMemberFlat", new[] { "UserId" });
-            DropIndex("sc.tblMemberFlat", new[] { "FlatId" });
-            DropIndex("sc.tblFlat", new[] { "FlatTypeId" });
-            DropIndex("sc.tblFlat", new[] { "ApartmentId" });
             DropIndex("secure.tblUserRole", new[] { "RoleId" });
             DropIndex("secure.tblUserRole", new[] { "UserId" });
             DropIndex("sc.tblReminder", new[] { "CreatorId" });
             DropIndex("sc.tblNotification", new[] { "TargetUserId" });
+            DropIndex("sc.tblFlat", new[] { "FlatTypeId" });
+            DropIndex("sc.tblFlat", new[] { "ApartmentId" });
+            DropIndex("sc.tblMemberFlat", new[] { "UserId" });
+            DropIndex("sc.tblMemberFlat", new[] { "FlatId" });
+            DropIndex("sc.tblMemberFlat", new[] { "ApartmentId" });
             DropIndex("secure.tblUserLogin", new[] { "UserId" });
             DropIndex("sc.tblEventUser", new[] { "EventUserId" });
             DropIndex("sc.tblEventUser", new[] { "EventId" });
@@ -456,12 +461,12 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
             DropTable("secure.tblRole");
             DropTable("sc.tblCountry");
             DropTable("sc.tblState");
-            DropTable("sc.tblMemberFlat");
-            DropTable("sc.tblFlatType");
-            DropTable("sc.tblFlat");
             DropTable("secure.tblUserRole");
             DropTable("sc.tblReminder");
             DropTable("sc.tblNotification");
+            DropTable("sc.tblFlatType");
+            DropTable("sc.tblFlat");
+            DropTable("sc.tblMemberFlat");
             DropTable("secure.tblUserLogin");
             DropTable("sc.tblEventUser");
             DropTable("sc.tblEvent");

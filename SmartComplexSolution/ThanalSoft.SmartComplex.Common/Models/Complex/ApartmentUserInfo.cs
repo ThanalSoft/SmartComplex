@@ -11,7 +11,7 @@ namespace ThanalSoft.SmartComplex.Common.Models.Complex
     {
         [DataMember]
         [TableColumn("Id", HiddenColumn = true, IDColumn = true)]
-        public int Id { get; set; }
+        public Int64 Id { get; set; }
         
         [DataMember]
         [Required]

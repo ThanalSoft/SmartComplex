@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
-using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Extensions;
 using ThanalSoft.SmartComplex.Common.Models.Account;
 using WebApi.OutputCache.V2;
-using FlatUserContext = ThanalSoft.SmartComplex.Business.User.FlatUserContext;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
 {
@@ -30,7 +28,19 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<UserProfileInfo>();
             try
             {
-                result.Info = await FlatUserContext.Instance.GetUserProfile(Convert.ToInt64(id));
+                var user = await UnitOfWork.Users.FindAsync(Convert.ToInt64(id));
+                if(user == null)
+                    throw new KeyNotFoundException();
+
+                result.Info = new UserProfileInfo
+                {
+                    LastName = user.LastName,
+                    FirstName = user.FirstName,
+                    Mobile = user.PhoneNumber,
+                    BloodGroupId = user.BloodGroupId,
+                    Email = user.Email,
+                    UserId = user.Id
+                };
             }
             catch (KeyNotFoundException ex)
             {
@@ -52,7 +62,24 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<UserProfileWidgetInfo>();
             try
             {
-                result.Info = await FlatUserContext.Instance.GetUserProfileWidgetInfo(Convert.ToInt64(id));
+                var user = await UnitOfWork.Users.FindAsync(Convert.ToInt64(id));
+                if (user == null)
+                    throw new KeyNotFoundException();
+
+                string bloodGroup = null;
+                if (user.BloodGroupId != null)
+                    bloodGroup = (await UnitOfWork.BloodGroups.FindAsync(user.BloodGroupId)).Group;
+
+                result.Info = new UserProfileWidgetInfo
+                {
+                    Email = user.Email,
+                    Name = user.FirstName + (string.IsNullOrEmpty(user.LastName)
+                                                    ? ""
+                                                    : " " + user.LastName),
+                    BloodGroup = bloodGroup,
+                    Mobile = user.PhoneNumber
+
+                };
             }
             catch (KeyNotFoundException ex)
             {
@@ -210,7 +237,20 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
-                await FlatUserContext.Instance.UpdateUserProfile(pUserProfileInfo, async () => await ChangePhonenumber(pUserProfileInfo));
+                var user = await UnitOfWork.Users.FindAsync(pUserProfileInfo.UserId);
+                if(user == null)
+                    throw new KeyNotFoundException();
+
+                user.FirstName = pUserProfileInfo.FirstName;
+                user.LastName = pUserProfileInfo.LastName;
+                user.BloodGroupId = pUserProfileInfo.BloodGroupId;
+
+                if (!user.PhoneNumber.Equals(pUserProfileInfo.Mobile))
+                    await ChangePhonenumber(pUserProfileInfo);
+
+                user.PhoneNumber = pUserProfileInfo.Mobile;
+                
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (KeyNotFoundException ex)
             {

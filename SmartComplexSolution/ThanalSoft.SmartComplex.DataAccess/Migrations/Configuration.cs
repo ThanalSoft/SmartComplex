@@ -428,6 +428,5 @@ namespace ThanalSoft.SmartComplex.DataAccess.Migrations
                 });
             pContext.SaveChanges();
         }
-
     }
 }

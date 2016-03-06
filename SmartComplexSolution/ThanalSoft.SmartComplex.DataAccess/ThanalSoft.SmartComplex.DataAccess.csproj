@@ -57,9 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDataAccessContext.cs" />
-    <Compile Include="Migrations\201603011723046_First_Creation.cs" />
-    <Compile Include="Migrations\201603011723046_First_Creation.Designer.cs">
-      <DependentUpon>201603011723046_First_Creation.cs</DependentUpon>
+    <Compile Include="Migrations\201603061202404_Initial_create.cs" />
+    <Compile Include="Migrations\201603061202404_Initial_create.Designer.cs">
+      <DependentUpon>201603061202404_Initial_create.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,12 +77,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603011723046_First_Creation.resx">
-      <DependentUpon>201603011723046_First_Creation.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <EmbeddedResource Include="Migrations\201603061202404_Initial_create.resx">
+      <DependentUpon>201603061202404_Initial_create.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

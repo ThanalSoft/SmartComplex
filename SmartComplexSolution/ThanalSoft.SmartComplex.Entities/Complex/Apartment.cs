@@ -63,6 +63,6 @@ namespace ThanalSoft.SmartComplex.Entities.Complex
 
         public virtual ICollection<Association> Associations { get; set; }
 
-
+        public virtual ICollection<MemberFlat> MemberFlats { get; set; }
     }
 }

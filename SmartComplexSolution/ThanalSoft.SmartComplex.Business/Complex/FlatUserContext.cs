@@ -66,24 +66,24 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         //    };
         //}
 
-        private FlatInfo MapToFlatInfo(Flat pFlat)
-        {
-            var info = new FlatInfo
-            {
-                Name = pFlat.Name,
-                ApartmentId = pFlat.ApartmentId,
-                Phase = pFlat.Phase,
-                Floor = pFlat.Floor,
-                Block = pFlat.Block,
-                ExtensionNumber = pFlat.ExtensionNumber,
-                SquareFeet = pFlat.SquareFeet,
-                Id = pFlat.Id,
-                ApartmentName = pFlat.Apartment.Name,
-                FlatType = pFlat.FlatType?.Name,
-                FlatTypeId = pFlat.FlatTypeId
-            };
-            return info;
-        }
+        //private FlatInfo MapToFlatInfo(Flat pFlat)
+        //{
+        //    var info = new FlatInfo
+        //    {
+        //        Name = pFlat.Name,
+        //        ApartmentId = pFlat.ApartmentId,
+        //        Phase = pFlat.Phase,
+        //        Floor = pFlat.Floor,
+        //        Block = pFlat.Block,
+        //        ExtensionNumber = pFlat.ExtensionNumber,
+        //        SquareFeet = pFlat.SquareFeet,
+        //        Id = pFlat.Id,
+        //        ApartmentName = pFlat.Apartment.Name,
+        //        FlatType = pFlat.FlatType?.Name,
+        //        FlatTypeId = pFlat.FlatTypeId
+        //    };
+        //    return info;
+        //}
 
         //public async Task<Int64> GetUserId(int pFlatUserId)
         //{

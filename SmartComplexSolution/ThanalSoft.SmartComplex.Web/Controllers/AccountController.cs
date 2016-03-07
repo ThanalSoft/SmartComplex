@@ -48,8 +48,9 @@ namespace ThanalSoft.SmartComplex.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Logout()
+        public async Task<ActionResult> Logout()
         {
+            await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Account", "UserLogout", User.Email);
             FormsAuthentication.SignOut();
             return View();
         }

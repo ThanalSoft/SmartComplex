@@ -60,7 +60,7 @@ namespace ThanalSoft.SmartComplex.Web.Common
                 return new TResponse();
             }
         }
-
+        
         public async Task<TResponse> SecureGetAsync(string pController, string pAction, params string[] pParameters)
         {
             if (Thread.CurrentPrincipal == null)

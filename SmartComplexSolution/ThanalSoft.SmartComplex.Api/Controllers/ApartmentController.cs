@@ -294,10 +294,9 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
 
                 var apartment = await UnitOfWork.Apartments.FindAsync(pApartmentFlatInfoList[0].ApartmentId);
                 if (apartment == null)
-                    throw new Exception("Apartment id doesnt exists!");
+                    throw new Exception("Apartment doesnt exists with ID: " + pApartmentFlatInfoList[0].ApartmentId);
 
-                UnitOfWork.Notifications.Add(
-                    UserNotificationsHelper.GetNotification(LoggedInUser,
+                UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(LoggedInUser,
                     $"Request for uploading & configuring '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
                     LoggedInUser));
 

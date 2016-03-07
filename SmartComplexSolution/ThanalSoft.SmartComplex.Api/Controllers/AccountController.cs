@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
@@ -95,7 +96,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [AllowAnonymous]
+        [System.Web.Mvc.AllowAnonymous]
         public string Test()
         {
             return "Sucess";
@@ -171,7 +172,18 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [System.Web.Http.HttpPost]
+        [ValidateAntiForgeryToken]
+        public GeneralReturnInfo UserLogout([FromBody]string pEmail)
+        {
+            var result = new GeneralReturnInfo();
+            AuthenticationManager.SignOut();
+
+            result.Result = ApiResponseResult.Success;
+            return result;
+        }
+
+        [System.Web.Mvc.HttpPost]
         [System.Web.Http.AllowAnonymous]
         public async Task<GeneralReturnInfo> ConfirmUser(ConfirmEmailAccount pConfirmEmailAccount)
         {

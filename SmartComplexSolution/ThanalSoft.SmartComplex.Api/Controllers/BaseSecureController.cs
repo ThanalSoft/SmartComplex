@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using ThanalSoft.SmartComplex.Api.Security;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
 
@@ -32,6 +33,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 _userManager = value;
             }
         }
+
+        protected IAuthenticationManager AuthenticationManager => HttpContext.Current.GetOwinContext().Authentication;
 
         protected SecureSignInManager SignInManager
         {

@@ -20,5 +20,11 @@ namespace ThanalSoft.SmartComplex.Business
 
         void Remove(TEntity pEntity);
         void RemoveRange(IEnumerable<TEntity> pEntities);
+
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> pPredicate);
+        Task<int> CountAsync();
+
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> pPredicate);
+        Task<bool> AnyAsync();
     }
 }

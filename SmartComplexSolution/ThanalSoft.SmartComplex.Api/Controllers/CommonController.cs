@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
-using ThanalSoft.SmartComplex.Business.Common;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Common;
+using ThanalSoft.SmartComplex.Entities.UserUtilities;
 using WebApi.OutputCache.V2;
 
 namespace ThanalSoft.SmartComplex.Api.Controllers
@@ -25,7 +25,12 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<GeneralInfo[]>();
             try
             {
-                result.Info = await BloodGroupContext.Instance.GetBloodGroupsAsync();
+                var groups = await UnitOfWork.BloodGroups.AllAsync();
+                result.Info = groups.Select(pX => new GeneralInfo
+                {
+                    Name = pX.Group,
+                    Id = pX.Id
+                }).ToArray();
             }
             catch (Exception ex)
             {
@@ -42,7 +47,12 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<GeneralInfo[]>();
             try
             {
-                result.Info = await StateContext.Instance.GetStatesAsync();
+                var states = await UnitOfWork.States.AllAsync();
+                result.Info = states.Select(pX => new GeneralInfo
+                {
+                    Name = pX.Name,
+                    Id = pX.Id
+                }).ToArray();
             }
             catch (Exception ex)
             {
@@ -59,7 +69,12 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<GeneralInfo[]>();
             try
             {
-                result.Info = await FlatTypeContext.Instance.GetFlatTypesAsync();
+                var flatTypes = await UnitOfWork.FlatTypes.AllAsync();
+                result.Info = flatTypes.Select(pX => new GeneralInfo
+                {
+                    Name = pX.Name,
+                    Id = pX.Id
+                }).ToArray();
             }
             catch (Exception ex)
             {
@@ -70,12 +85,12 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<int>> GetUserNotificationCount(int id)
+        public async Task<GeneralReturnInfo<int>> GetUserNotificationCount(Int64 id)
         {
             var result = new GeneralReturnInfo<int>();
             try
             {
-                result.Info = await NotificationContext.Instance.GetCount(id);
+                result.Info = await UnitOfWork.Notifications.CountAsync(pX => pX.TargetUserId == id && !pX.HasUserRead);
             }
             catch (Exception ex)
             {
@@ -86,12 +101,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetUserNotifications(int id)
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetUserNotifications(Int64 id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();
             try
             {
-                result.Info = await NotificationContext.Instance.GetAll(id);
+                var notifications = await UnitOfWork.Notifications.AllAsync(pX => pX.TargetUserId == id);
+                result.Info = notifications.OrderByDescending(pX => pX.CreatedDate).Select(MapToInfo).ToArray();
             }
             catch (Exception ex)
             {
@@ -102,12 +118,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetLatestUserNotifications(int id)
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> GetLatestUserNotifications(Int64 id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();
             try
             {
-                result.Info = await NotificationContext.Instance.GetLatest(id);
+                var notifications = await UnitOfWork.Notifications.AllAsync(pX => pX.TargetUserId == id);
+                result.Info = notifications.OrderByDescending(pX => pX.CreatedDate).Take(5).Select(MapToInfo).ToArray();
             }
             catch (Exception ex)
             {
@@ -118,12 +135,20 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadUserNotifications(int id)
+        public async Task<GeneralReturnInfo<NotificationInfo[]>> ReadUserNotifications(Int64 id)
         {
             var result = new GeneralReturnInfo<NotificationInfo[]>();
             try
             {
-                result.Info = await NotificationContext.Instance.Read(id);
+                var notifications = await UnitOfWork.Notifications.AllAsync(pX => !pX.HasUserRead && pX.TargetUserId == id);
+                foreach (var notification in notifications)
+                {
+                    notification.HasUserRead = true;
+                    notification.UserReadDate = DateTime.Now;
+                    notification.LastUpdatedBy = LoggedInUser;
+                    notification.LastUpdated = DateTime.Now;
+                }
+                await UnitOfWork.WorkCompleteAsync();
             }
             catch (Exception ex)
             {
@@ -134,6 +159,19 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
         }
 
         #endregion
-        
+
+        [System.Web.Http.NonAction]
+        private NotificationInfo MapToInfo(Notification pNotification)
+        {
+            return new NotificationInfo
+            {
+                Id = pNotification.Id,
+                CreatedDate = pNotification.CreatedDate,
+                Message = pNotification.Message,
+                UserReadDate = pNotification.UserReadDate,
+                HasUserRead = pNotification.HasUserRead,
+                TargetUserId = pNotification.TargetUserId
+            };
+        }
     }
 }

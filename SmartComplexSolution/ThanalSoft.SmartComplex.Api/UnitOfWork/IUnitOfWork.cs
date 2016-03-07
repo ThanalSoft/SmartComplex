@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Business.Repositories;
 using ThanalSoft.SmartComplex.Entities.Common;
+using ThanalSoft.SmartComplex.Entities.Complex;
 using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Api.UnitOfWork
@@ -13,6 +14,12 @@ namespace ThanalSoft.SmartComplex.Api.UnitOfWork
         IFlatRepository Flats { get; }
 
         IUserRepository Users { get; }
+
+        IGenericRepository<State> States { get; }
+
+        IGenericRepository<Country> Countries { get; }
+
+        IGenericRepository<FlatType> FlatTypes { get; }
 
         IGenericRepository<BloodGroup> BloodGroups { get; }
 

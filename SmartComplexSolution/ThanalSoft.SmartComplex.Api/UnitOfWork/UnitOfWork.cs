@@ -5,6 +5,7 @@ using ThanalSoft.SmartComplex.Business.Repositories;
 using ThanalSoft.SmartComplex.Business.User;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.Entities.Common;
+using ThanalSoft.SmartComplex.Entities.Complex;
 using ThanalSoft.SmartComplex.Entities.UserUtilities;
 
 namespace ThanalSoft.SmartComplex.Api.UnitOfWork
@@ -19,6 +20,10 @@ namespace ThanalSoft.SmartComplex.Api.UnitOfWork
             Users = new UserRepository(Context);
             Apartments = new ApartmentRepository(Context);
             Flats = new FlatRepository(Context);
+
+            FlatTypes = new GenericRepository<FlatType>(Context);
+            Countries = new GenericRepository<Country>(Context);
+            States = new GenericRepository<State>(Context);
             BloodGroups = new GenericRepository<BloodGroup>(Context);
             Notifications = new GenericRepository<Notification>(Context);
         }
@@ -32,6 +37,8 @@ namespace ThanalSoft.SmartComplex.Api.UnitOfWork
         public IUserRepository Users { get; private set; }
 
         #region Generic Repositories
+
+        public IGenericRepository<FlatType> FlatTypes { get; private set; }
 
         public IGenericRepository<BloodGroup> BloodGroups { get; private set; }
 

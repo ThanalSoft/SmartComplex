@@ -61,5 +61,25 @@ namespace ThanalSoft.SmartComplex.Business
         {
             Context.Set<TEntity>().RemoveRange(pEntities);
         }
+
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> pPredicate)
+        {
+            return await Context.Set<TEntity>().CountAsync(pPredicate);
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await Context.Set<TEntity>().CountAsync();
+        }
+
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> pPredicate)
+        {
+            return await Context.Set<TEntity>().AnyAsync(pPredicate);
+        }
+
+        public async Task<bool> AnyAsync()
+        {
+            return await Context.Set<TEntity>().AnyAsync();
+        }
     }
 }

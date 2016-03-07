@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
+using ThanalSoft.SmartComplex.Business.Common;
 using ThanalSoft.SmartComplex.Business.Complex;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Exceptions;
@@ -295,16 +296,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 if (apartment == null)
                     throw new Exception("Apartment id doesnt exists!");
 
-                UnitOfWork.Notifications.Add(new Notification
-                {
-                    CreatedDate = DateTime.Now,
-                    HasUserRead = false,
-                    LastUpdated = DateTime.Now,
-                    LastUpdatedBy = LoggedInUser,
-                    Message = $"Request for uploading & configuring '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
-                    TargetUserId = LoggedInUser,
-                    UserReadDate = null
-                });
+                UnitOfWork.Notifications.Add(
+                    UserNotificationsHelper.GetNotification(LoggedInUser,
+                    $"Request for uploading & configuring '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' has received. System started processing the same.",
+                    LoggedInUser));
 
                 await UnitOfWork.WorkCompleteAsync();
 
@@ -332,15 +327,9 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                             IsOwner = true
                         });
 
-                        UnitOfWork.Notifications.Add(new Notification
-                        {
-                            CreatedDate = DateTime.Now,
-                            HasUserRead = false,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = LoggedInUser,
-                            Message = $"You can now start managing Flat '{flat.Name}'.",
-                            TargetUserId = existingUser.Id
-                        });
+                        UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(existingUser.Id,
+                            $"You can now start managing Flat '{flat.Name}' in Apartment '{apartment.Name}'.",
+                            LoggedInUser));
                     }
                     else
                     {
@@ -350,24 +339,13 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                         flatUser.PasswordHash = _passwordHasher.HashPassword(password);
                         flatUser.ActivationCode = activationCode;
 
-                        UnitOfWork.Notifications.Add(new Notification
-                        {
-                            CreatedDate = DateTime.Now,
-                            HasUserRead = false,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = LoggedInUser,
-                            Message = "Welcome to Smart Complex.",
-                            TargetUserId = flatUser.Id
-                        });
-                        UnitOfWork.Notifications.Add(new Notification
-                        {
-                            CreatedDate = DateTime.Now,
-                            HasUserRead = false,
-                            LastUpdated = DateTime.Now,
-                            LastUpdatedBy = LoggedInUser,
-                            Message = $"You can now start managing Flat '{flat.Name}'.",
-                            TargetUserId = flatUser.Id
-                        });
+                        UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(flatUser.Id,
+                            "Welcome to Smart Complex.",
+                            LoggedInUser));
+
+                        UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(flatUser.Id,
+                            $"You can now start managing Flat '{flat.Name}' in Apartment '{apartment.Name}'.",
+                            LoggedInUser));
 
                         flat.MemberFlats.Add(new MemberFlat
                         {
@@ -388,15 +366,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                         ConfigureUser(apartmentFlatInfo, password, activationCode);
                 }
 
-                UnitOfWork.Notifications.Add(new Notification
-                {
-                    CreatedDate = DateTime.Now,
-                    HasUserRead = false,
-                    LastUpdated = DateTime.Now,
-                    LastUpdatedBy = LoggedInUser,
-                    Message = $"All the '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
-                    TargetUserId = LoggedInUser
-                });
+                UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(LoggedInUser,
+                            $"All the '{pApartmentFlatInfoList.Length}' flats in apartment '{apartment.Name}' are uploaded and configured succesfully.",
+                            LoggedInUser));
+
                 await UnitOfWork.WorkCompleteAsync();
             }
             catch (Exception ex)
@@ -404,16 +377,9 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 result.Result = ApiResponseResult.Error;
                 result.Reason = ex.Message;
 
-                UnitOfWork.Notifications.Add(new Notification
-                {
-                    CreatedDate = DateTime.Now,
-                    HasUserRead = false,
-                    LastUpdated = DateTime.Now,
-                    LastUpdatedBy = LoggedInUser,
-                    Message = $"Request for uploading & configuring flats failed for some reason. Please review and try again.",
-                    TargetUserId = LoggedInUser,
-                    UserReadDate = null
-                });
+                UnitOfWork.Notifications.Add(UserNotificationsHelper.GetNotification(LoggedInUser,
+                            $"Request for uploading & configuring flats failed for some reason. Please review and try again.",
+                            LoggedInUser));
 
                 await UnitOfWork.WorkCompleteAsync();
             }

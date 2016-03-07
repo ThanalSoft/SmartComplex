@@ -76,9 +76,7 @@
       <Name>ThanalSoft.SmartComplex.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201603061202404_Initial_create.resx">
       <DependentUpon>201603061202404_Initial_create.cs</DependentUpon>

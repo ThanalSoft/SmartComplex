@@ -59,6 +59,7 @@
     <Compile Include="Common\BloodGroupContext.cs" />
     <Compile Include="Common\DashboardContext.cs" />
     <Compile Include="Common\FlatTypeContext.cs" />
+    <Compile Include="Common\UserNotificationsHelper.cs" />
     <Compile Include="Complex\FlatRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\IFlatRepository.cs" />

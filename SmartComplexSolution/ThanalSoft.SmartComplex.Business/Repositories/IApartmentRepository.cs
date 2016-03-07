@@ -10,7 +10,7 @@ namespace ThanalSoft.SmartComplex.Business.Repositories
     {
         Task<IEnumerable<ApartmentUserInfo>> GetAllApartmentUsersAsync(int pApartmentId);
 
-        Task<ApartmentUserInfo> GetApartmentUserAsync(int pApartmentId);
+        Task<ApartmentUserInfo> GetApartmentUserAsync(Int64 pUserId);
 
         Task<ApartmentInfo[]> GetUserApartmentsAsync(Int64 pUserId);
     }

@@ -7,7 +7,6 @@ using ThanalSoft.SmartComplex.Business.Repositories;
 using ThanalSoft.SmartComplex.Common.Models.Complex;
 using ThanalSoft.SmartComplex.DataAccess;
 using ThanalSoft.SmartComplex.Entities.Complex;
-using ThanalSoft.SmartComplex.Entities.Security;
 
 namespace ThanalSoft.SmartComplex.Business.Complex
 {
@@ -28,9 +27,9 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             return result.Select(MapApartmentUserInfo);
         }
 
-        public async Task<ApartmentUserInfo> GetApartmentUserAsync(int pApartmentId)
+        public async Task<ApartmentUserInfo> GetApartmentUserAsync(Int64 pUserId)
         {
-            var result = await Context.MemberFlats.FirstOrDefaultAsync(pX => pX.ApartmentId.Equals(pApartmentId));
+            var result = await Context.MemberFlats.FirstOrDefaultAsync(pX => pX.UserId.Equals(pUserId));
 
             return MapApartmentUserInfo(result);
         }
@@ -45,7 +44,7 @@ namespace ThanalSoft.SmartComplex.Business.Complex
         {
             return new ApartmentUserInfo
             {
-                Id = pMemberFlat.Id,
+                Id = pMemberFlat.UserId,
                 UserId = pMemberFlat.UserId,
                 IsLocked = pMemberFlat.User.IsFreezed,
                 Email = pMemberFlat.User.Email,
@@ -62,24 +61,24 @@ namespace ThanalSoft.SmartComplex.Business.Complex
             };
         }
 
-        private FlatInfo MapToFlatInfo(Flat pFlat)
-        {
-            var info = new FlatInfo
-            {
-                Name = pFlat.Name,
-                ApartmentId = pFlat.ApartmentId,
-                Phase = pFlat.Phase,
-                Floor = pFlat.Floor,
-                Block = pFlat.Block,
-                ExtensionNumber = pFlat.ExtensionNumber,
-                SquareFeet = pFlat.SquareFeet,
-                Id = pFlat.Id,
-                ApartmentName = pFlat.Apartment.Name,
-                FlatType = pFlat.FlatType?.Name,
-                FlatTypeId = pFlat.FlatTypeId
-            };
-            return info;
-        }
+        //private FlatInfo MapToFlatInfo(Flat pFlat)
+        //{
+        //    var info = new FlatInfo
+        //    {
+        //        Name = pFlat.Name,
+        //        ApartmentId = pFlat.ApartmentId,
+        //        Phase = pFlat.Phase,
+        //        Floor = pFlat.Floor,
+        //        Block = pFlat.Block,
+        //        ExtensionNumber = pFlat.ExtensionNumber,
+        //        SquareFeet = pFlat.SquareFeet,
+        //        Id = pFlat.Id,
+        //        ApartmentName = pFlat.Apartment.Name,
+        //        FlatType = pFlat.FlatType?.Name,
+        //        FlatTypeId = pFlat.FlatTypeId
+        //    };
+        //    return info;
+        //}
 
         private ApartmentInfo MapToApartmentInfo(Apartment pApartment)
         {

@@ -93,7 +93,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo<ApartmentUserInfo>();
             try
             {
-                var user = await UnitOfWork.Apartments.GetApartmentUserAsync(Convert.ToInt32(id));
+                var user = await UnitOfWork.Apartments.GetApartmentUserAsync(Convert.ToInt64(id));
                 var roles = await UserManager.GetRolesAsync(Convert.ToInt64(id));
                 user.UserRoles = string.Join(", ", roles);
                 result.Info = user;

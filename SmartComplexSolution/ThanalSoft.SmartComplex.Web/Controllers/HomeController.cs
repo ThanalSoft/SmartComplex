@@ -3,25 +3,21 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common;
 using ThanalSoft.SmartComplex.Common.Models.Common;
-using ThanalSoft.SmartComplex.Common.Models.Dashboard;
 using ThanalSoft.SmartComplex.Web.Common;
-using ThanalSoft.SmartComplex.Web.Models.Home;
 
 namespace ThanalSoft.SmartComplex.Web.Controllers
 {
     [Authorize(Roles = "Administrator,Owner,Tenant,MaintenanceAdmin,ApartmentAdmin")]
     public class HomeController : BaseSecuredController
     {
-        public async Task<ActionResult> Index()
-        {
-            var viewModel = new DashboardViewModel();
-            
-                var dahboard = await new ApiConnector<GeneralReturnInfo<AdminDashboardInfo>>().SecureGetAsync("Dashboard", "GetAdministratorDashboard");
-                viewModel.AdminDashboardInfo = dahboard.Info;
-            
+        //public async Task<ActionResult> Index()
+        //{
+        //    var viewModel = new DashboardViewModel();
 
-            return View(viewModel);
-        }
+        //    var dahboard = await new ApiConnector<GeneralReturnInfo<AdminDashboardInfo>>().SecureGetAsync("Dashboard", "GetAdministratorDashboard");
+        //    viewModel.AdminDashboardInfo = dahboard.Info;
+        //    return View(viewModel);
+        //}
 
         [HttpGet]
         public async Task<int> GetUserNotificationCount()

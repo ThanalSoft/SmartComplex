@@ -149,6 +149,8 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                     notification.LastUpdated = DateTime.Now;
                 }
                 await UnitOfWork.WorkCompleteAsync();
+
+                result.Info = (await UnitOfWork.Notifications.AllAsync(pX => pX.TargetUserId == id)).OrderByDescending(pX => pX.CreatedDate).Take(5).Select(MapToInfo).ToArray();
             }
             catch (Exception ex)
             {

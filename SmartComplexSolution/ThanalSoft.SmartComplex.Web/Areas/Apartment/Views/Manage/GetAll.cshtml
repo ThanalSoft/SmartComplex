@@ -5,7 +5,7 @@
 }
 
 @section topbuttons {
-    <button type="button" id="addNewApartment" class="btn btn-success"><i class="fa fa-plus"></i> Add New</button>
+    @Html.RoleButtonNormalFor("Add New", "addNewApartment", "fa-plus", null, "Administrator")
 }
 @section title {
     <i class="fa fa-building"></i> Apartments <small>in the system!</small>
@@ -13,13 +13,13 @@
 @Html.DisplayTableFor(Model.Apartments)
 
 <script>
-$(
-    $("#addNewApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Create", "Manage", new { area = "Apartment" })');
-    }),
-    $("[data-rowid]").click(function () {
-        var id = $(this).data("rowid");
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: id });
-    })
-);
+    $(
+        $("#addNewApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Create", "Manage", new { area = "Apartment" })');
+        }),
+        $("[data-rowid]").click(function () {
+            var id = $(this).data("rowid");
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: id });
+        })
+    );
 </script>

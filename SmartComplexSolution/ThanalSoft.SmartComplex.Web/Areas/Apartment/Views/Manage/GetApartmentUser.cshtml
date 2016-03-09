@@ -52,12 +52,12 @@
 </div>
 
 <script>
-$(
-    $("#cancelApartmentUser").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId});
-    }),
-    $("#markApartmentAdmin").click(function () {
-        postAjaxAndFillContainer('@Url.Action("MarkApartmentUserAdmin", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId, pUserId : @Model.User.Id});
-    })
-);
+    $(
+        $("#cancelApartmentUser").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId});
+        }),
+        $("#markApartmentAdmin").click(function () {
+            postAjaxAndFillContainer('@Url.Action("MarkApartmentUserAdmin", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.User.ApartmentId, pUserId : @Model.User.Id});
+        })
+    );
 </script>

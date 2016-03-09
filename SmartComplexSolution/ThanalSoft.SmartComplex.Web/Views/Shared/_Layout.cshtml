@@ -95,46 +95,46 @@
 @RenderSection("scripts", required: false)
 <script>
 
-        @*$(document).ready(function () {
-            setInterval(setNotificationCount, 100000);
-            setNotificationCount();
-        });
+    $(document).ready(function () {
+        setInterval(setNotificationCount, 100000);
+        setNotificationCount();
+    });
 
-        function setNotificationCount() {
-            $.ajax({
-                url: '@Url.Action("GetUserNotificationCount", "Home")',
-                type: 'GET',
-                success: fillNotificationCount,
-                error: function () {
-                    alert("error");
-                }
-            });
-        };
+    function setNotificationCount() {
+        $.ajax({
+            url: '@Url.Action("GetUserNotificationCount", "Home", new { area = "" })',
+            type: 'GET',
+            success: fillNotificationCount,
+            error: function () {
 
-        $("#userNotification").click(function () {
-            $.ajax({
-                url: '@Url.Action("ReadNotifications", "Home")',
-                type: 'GET',
-                success: function (result) {
-                    $("#userNotification").find("a").after(result);
-                    $("#notificationcount").fadeOut("slow");
-                },
-                error: function () {
-                    alert("error");
-                }
-            });
-        });
-
-        function fillNotificationCount(data) {
-            if (parseInt(data) !== 0) {
-                $("#notificationcount").fadeOut(100, function () {
-                    $("#notificationcount").html(data);
-                    $("#notificationcount").fadeIn(100);
-                });
             }
-        };*@
+        });
+    };
 
-        NProgress.done();
-    </script>
+    $("#userNotification").click(function () {
+        $.ajax({
+            url: '@Url.Action("ReadNotifications", "Home", new { area = "" })',
+            type: 'GET',
+            success: function (result) {
+                $("#userNotification").find("a").after(result);
+                $("#notificationcount").fadeOut("slow");
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    function fillNotificationCount(data) {
+        if (parseInt(data) !== 0) {
+            $("#notificationcount").fadeOut(100, function () {
+                $("#notificationcount").html(data);
+                $("#notificationcount").fadeIn(100);
+            });
+        }
+    };
+
+    NProgress.done();
+</script>
 
 </html>

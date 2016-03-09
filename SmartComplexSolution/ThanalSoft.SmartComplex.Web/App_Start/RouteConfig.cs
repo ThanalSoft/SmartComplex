@@ -10,9 +10,10 @@ namespace ThanalSoft.SmartComplex.Web
             pRoutes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             pRoutes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
+                "Default",
+                "{controller}/{action}/{id}",
+                new { controller = "Account", action = "Index", id = UrlParameter.Optional },
+                new[] { "ThanalSoft.SmartComplex.Web.Controllers" }
             );
         }
     }

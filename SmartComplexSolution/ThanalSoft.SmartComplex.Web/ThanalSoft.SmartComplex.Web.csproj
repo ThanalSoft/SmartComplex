@@ -263,11 +263,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseSecuredController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HTMLHelpers\MainMenuHelper.cs" />
+    <Compile Include="HTMLHelpers\RoleButtonBiggerHelper.cs" />
+    <Compile Include="HTMLHelpers\RoleButtonDarkHelper.cs" />
+    <Compile Include="HTMLHelpers\RoleSubmitButtonNormalHelper.cs" />
+    <Compile Include="HTMLHelpers\RoleButtonNormalHelper.cs" />
     <Compile Include="HTMLHelpers\TableHelper.cs" />
     <Compile Include="HTMLHelpers\test.cs" />
     <Compile Include="HTMLHelpers\UrlGenerationHelper.cs" />
@@ -306,6 +311,8 @@
     <Content Include="Views\Account\_UpdateCredentials.cshtml" />
     <Content Include="Views\Shared\Partials\_ActionResultNotifyPartial.cshtml" />
     <Content Include="Views\Account\PasswordUpdated.cshtml" />
+    <Content Include="Views\Home\Notifications.cshtml" />
+    <Content Include="Views\Home\_AdminDashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

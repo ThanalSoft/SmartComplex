@@ -5,11 +5,8 @@
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 @section topbuttons {
-    @if (User.IsInRole("ApartmentAdmin"))
-    {
-        <button type="button" id="backToApartment" class="btn btn-dark"><i class="fa fa-backward"></i> Back</button>
-        <button type="button" id="addNewFlat" class="btn btn-success"><i class="fa fa-plus"></i> Add New</button>
-    }
+    @Html.RoleButtonDarkFor("Back", "backToApartment", "fa-backward", null, "ApartmentAdmin")
+    @Html.RoleButtonNormalFor("Add New", "addNewFlat", "fa-plus", null, "ApartmentAdmin")
 }
 @section title {
     <i class="fa fa-home"></i> Flats
@@ -18,16 +15,16 @@
 @Html.DisplayTableFor(Model.Flats)
 
 <script>
-$(
-    $("#backToApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
-    }),
-    $("#addNewFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Create", "Flat", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
-    }),
-    $("[data-rowid]").click(function () {
-        var id = $(this).data("rowid");
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Flat", new { area = "Apartment" })', { pFlatId: id });
-    })
-);
+    $(
+        $("#backToApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
+        }),
+        $("#addNewFlat").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Create", "Flat", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
+        }),
+        $("[data-rowid]").click(function () {
+            var id = $(this).data("rowid");
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Flat", new { area = "Apartment" })', { pFlatId: id });
+        })
+    );
 </script>

@@ -7,18 +7,18 @@
     <i class="fa fa-users"></i> Apartment Users
 }
 @section topbuttons {
-    <button type="button" id="backToApartment" class="btn btn-dark"><i class="fa fa-backward"></i> Back</button>
+    @Html.RoleButtonDarkFor("Back", "backToApartment", "fa-backward", null, "Administrator")
 }
 
 @Html.DisplayTableFor(Model.Users)
 <script>
-$(
-    $("#backToApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
-    }),
-    $("[data-rowid]").click(function () {
-        var id = $(this).data("rowid");
-        invokeAjaxAndFillContainer('@Url.Action("GetApartmentUser", "Manage", new { area = "Apartment" })', { pUserId: id });
-    })
-);
+    $(
+        $("#backToApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Manage", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
+        }),
+        $("[data-rowid]").click(function () {
+            var id = $(this).data("rowid");
+            invokeAjaxAndFillContainer('@Url.Action("GetApartmentUser", "Manage", new { area = "Apartment" })', { pUserId: id });
+        })
+    );
 </script>

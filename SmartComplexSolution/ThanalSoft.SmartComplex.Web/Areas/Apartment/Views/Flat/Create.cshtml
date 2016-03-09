@@ -72,7 +72,7 @@
 <script>
     $(
         $("#cancelFlat").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("GetAll", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
+            invokeAjaxAndFillContainer('@Url.Action("Index", "Flat", new { area = "Apartment" })');
         })
     );
 </script>

@@ -36,8 +36,8 @@ namespace ThanalSoft.SmartComplex.Business.Complex
 
         public async Task<ApartmentInfo[]> GetUserApartmentsAsync(Int64 pUserId)
         {
-            var result = await Context.MemberFlats.Where(pX => pX.UserId.Equals(pUserId)).ToListAsync();
-            return result.Select(pX => MapToApartmentInfo(pX.Apartment)).ToArray();
+            var result = await Context.MemberFlats.Where(pX => pX.UserId.Equals(pUserId)).GroupBy(pX => pX.UserId).ToListAsync();
+            return result.Select(pX => MapToApartmentInfo(pX.First().Apartment)).ToArray();
         }
 
         private ApartmentUserInfo MapApartmentUserInfo(MemberFlat pMemberFlat)
@@ -96,7 +96,9 @@ namespace ThanalSoft.SmartComplex.Business.Complex
                 PinCode = pApartment.PinCode,
                 StateId = pApartment.StateId,
                 CreatedDate = pApartment.CreatedDate,
-                State = pApartment.State?.Name
+                State = pApartment.State?.Name,
+                UserCount = pApartment.MemberFlats.Select(pX => pX.UserId).Distinct().Count(),
+                FlatCount = pApartment.Flats.Count
             };
         }
     }

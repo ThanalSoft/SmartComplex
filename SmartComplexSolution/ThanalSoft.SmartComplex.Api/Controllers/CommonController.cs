@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ThanalSoft.SmartComplex.Api.UnitOfWork;
@@ -141,12 +142,17 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             try
             {
                 var notifications = await UnitOfWork.Notifications.AllAsync(pX => !pX.HasUserRead && pX.TargetUserId == id);
-                foreach (var notification in notifications)
+                var enumerable = notifications as Notification[] ?? notifications.ToArray();
+
+                if (enumerable.Any())
                 {
-                    notification.HasUserRead = true;
-                    notification.UserReadDate = DateTime.Now;
-                    notification.LastUpdatedBy = LoggedInUser;
-                    notification.LastUpdated = DateTime.Now;
+                    foreach (var notification in enumerable)
+                    {
+                        notification.HasUserRead = true;
+                        notification.UserReadDate = DateTime.Now;
+                        notification.LastUpdatedBy = LoggedInUser;
+                        notification.LastUpdated = DateTime.Now;
+                    }
                 }
                 await UnitOfWork.WorkCompleteAsync();
 

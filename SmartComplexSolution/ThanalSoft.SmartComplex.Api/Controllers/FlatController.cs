@@ -77,6 +77,10 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
             var result = new GeneralReturnInfo();
             try
             {
+                var flat = await UnitOfWork.Flats.FindAsync(pX => pX.Name.Equals(pApartmentFlatInfo.Name) && pX.ApartmentId == pApartmentFlatInfo.ApartmentId);
+                if (flat != null)
+                    throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name, "Flat");
+
                 UnitOfWork.Flats.Add(AddFlat(pApartmentFlatInfo));
                 await UnitOfWork.WorkCompleteAsync();
             }

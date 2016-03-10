@@ -1,4 +1,5 @@
 ﻿@using Microsoft.Ajax.Utilities
+@using ThanalSoft.SmartComplex.Web.Helpers.Html
 @model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.ApartmentViewModel
 @{
     Layout = "~/Views/Shared/_TitleView.cshtml";
@@ -48,34 +49,30 @@
     <div class="divider-dashed"></div>
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <a class="btn btn-app pull-left" id="closeApartment">
-                <i class="fa fa-backward"></i>Back
-            </a>
-            @if (User.IsInRole("ApartmentAdmin"))
-            {
-                <a class="btn btn-app pull-left" id="editApartment">
-                    <i class="fa fa-edit"></i>Edit
-                </a>
-                <a class="btn btn-app pull-left" id="viewApartmentFlats">
-                    <span class="badge bg-purple">@Model.Apartment.FlatCount</span>
-                    <i class="fa fa-home"></i>Flats
-                </a>
-                <a class="btn btn-app pull-left" id="viewApartmentUsers">
-                    <span class="badge bg-orange">@Model.Apartment.UserCount</span>
-                    <i class="fa fa-users"></i>Users
-                </a>
-            }
+            @Html.RoleButtonBiggerFor("Back", "closeApartment", "fa-backward", null, null, null, "ApartmentAdmin")
+
+            @Html.RoleButtonBiggerFor("Edit", "editApartment", "fa-edit", null, null, null, "ApartmentAdmin")
+
+            @Html.RoleButtonBiggerFor("Flats", "viewApartmentFlats", "fa-edit", Model.Apartment.FlatCount, "bg-purple", null, "ApartmentAdmin")
+
+            @Html.RoleButtonBiggerFor("Users", "viewApartmentUsers", "fa-users", Model.Apartment.UserCount, "bg-orange", null, "ApartmentAdmin")
         </div>
     </div>
 </div>
 
 <script>
-$(
-    $("#closeApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Back", "Home", new {area = "Apartment"})');
-    }),
-    $("#editApartment").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Update", "Home", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
-    })
-);
+    $(
+        $("#closeApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Back", "Home", new {area = "Apartment"})');
+        }),
+        $("#viewApartmentFlats").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentFlats", "Home", new {area = "Apartment"})',  { pApartmentId : @Model.Apartment.Id});
+        }),
+        $("#viewApartmentUsers").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentUsers", "Home", new {area = "Apartment"})',  { pApartmentId : @Model.Apartment.Id});
+        }),
+        $("#editApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Update", "Home", new { area = "Apartment" })', { pApartmentId : @Model.Apartment.Id});
+        })
+    );
 </script>

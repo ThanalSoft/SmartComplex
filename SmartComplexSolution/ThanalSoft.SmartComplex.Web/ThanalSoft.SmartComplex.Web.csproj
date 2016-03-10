@@ -192,6 +192,9 @@
     <Content Include="Scripts\jquery-2.2.1.js" />
     <Content Include="Scripts\jquery-2.2.1.min.js" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
+    <Content Include="Areas\Apartment\Views\Home\GetAllApartmentUsers.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\GetAllApartmentFlats.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\CreateFlat.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.nicescroll.min.js" />
@@ -268,14 +271,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HTMLHelpers\MainMenuHelper.cs" />
-    <Compile Include="HTMLHelpers\RoleButtonBiggerHelper.cs" />
-    <Compile Include="HTMLHelpers\RoleButtonDarkHelper.cs" />
-    <Compile Include="HTMLHelpers\RoleSubmitButtonNormalHelper.cs" />
-    <Compile Include="HTMLHelpers\RoleButtonNormalHelper.cs" />
-    <Compile Include="HTMLHelpers\TableHelper.cs" />
-    <Compile Include="HTMLHelpers\test.cs" />
-    <Compile Include="HTMLHelpers\UrlGenerationHelper.cs" />
+    <Compile Include="Helpers\Html\MainMenuHelper.cs" />
+    <Compile Include="Helpers\Html\RoleButtonBiggerHelper.cs" />
+    <Compile Include="Helpers\Html\RoleButtonDarkHelper.cs" />
+    <Compile Include="Helpers\Html\RoleSubmitButtonNormalHelper.cs" />
+    <Compile Include="Helpers\Html\RoleButtonNormalHelper.cs" />
+    <Compile Include="Helpers\Html\TableHelper.cs" />
+    <Compile Include="Helpers\Html\UrlGenerationHelper.cs" />
     <Compile Include="Models\Account\CredentialViewModel.cs" />
     <Compile Include="Models\Account\ErrorConfirmModel.cs" />
     <Compile Include="Models\Account\ProfileViewModel.cs" />

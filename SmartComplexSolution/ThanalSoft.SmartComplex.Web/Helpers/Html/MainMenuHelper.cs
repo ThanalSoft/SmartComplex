@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -7,7 +6,7 @@ using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Web.Common.MainMenu;
 using ThanalSoft.SmartComplex.Web.Security;
 
-namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
+namespace ThanalSoft.SmartComplex.Web.Helpers.Html
 {
     public static class MainMenuHelper
     {

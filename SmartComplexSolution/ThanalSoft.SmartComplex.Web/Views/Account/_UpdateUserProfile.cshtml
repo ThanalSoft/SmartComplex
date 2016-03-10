@@ -1,4 +1,5 @@
-﻿@model ThanalSoft.SmartComplex.Web.Models.Account.ProfileViewModel
+﻿@using ThanalSoft.SmartComplex.Web.Helpers.Html
+@model ThanalSoft.SmartComplex.Web.Models.Account.ProfileViewModel
 @if (Model?.ActionResultStatus != null)
 {
     Html.RenderPartial("Partials/_ActionResultNotifyPartial", Model.ActionResultStatus);

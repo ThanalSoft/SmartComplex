@@ -104,6 +104,99 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             return View(pModel);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAllApartmentUsers(int pApartmentId)
+        {
+            var response = await GetApartmentUsers(pApartmentId);
+            return View(new ApartmentUserListViewModel
+            {
+                Users = response.Info,
+                ActionResultStatus = ViewResultStatus,
+                IsAsyncRequest = IsAjaxRequest,
+                ApartmentId = pApartmentId
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllApartmentFlats(int pApartmentId)
+        {
+            var response = await GetApartmentFlats(pApartmentId);
+            return View(new FlatListViewModel
+            {
+                IsAsyncRequest = IsAjaxRequest,
+                Flats = response.Info,
+                ApartmentId = pApartmentId,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CreateFlat(int pApartmentId)
+        {
+            return View(new FlatViewModel
+            {
+                Flat = new FlatInfo
+                {
+                    ApartmentId = pApartmentId
+                },
+                FlatTypes = await GetFlatTypes(),
+                IsAsyncRequest = IsAjaxRequest,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetFlat(int pFlatId)
+        {
+            var response = await GetFlatAsync(pFlatId);
+            return View(new FlatViewModel
+            {
+                Flat = response.Info,
+                ActionResultStatus = ViewResultStatus,
+                IsAsyncRequest = IsAjaxRequest,
+            });
+        }
+
+        #endregion
+
+        #region Post Methods
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateFlat(FlatViewModel pModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(new FlatViewModel
+                {
+                    Flat = new FlatInfo
+                    {
+                        ApartmentId = pModel.Flat.ApartmentId
+                    },
+                    FlatTypes = await GetFlatTypes(),
+                    IsAsyncRequest = IsAjaxRequest,
+                    ActionResultStatus = ViewResultStatus
+                });
+            }
+            try
+            {
+                var result = await CreateFlatAsync(pModel);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!", ActionStatus.Success);
+                    return RedirectToAction("GetAllApartmentFlats", new { pApartmentId = pModel.Flat.ApartmentId });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.FlatTypes = await GetFlatTypes();
+            pModel.IsAsyncRequest = IsAjaxRequest;
+            return View(pModel);
+        }
+
         #endregion
 
         #region Private Methods
@@ -147,6 +240,51 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         {
             var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", pApartmentInfo);
             return result;
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo<FlatInfo[]>> GetApartmentFlats(int pApartmentId)
+        {
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", pApartmentId.ToString());
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo<ApartmentUserInfo[]>> GetApartmentUsers(int pApartmentId)
+        {
+            return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo[]>>().SecureGetAsync("Apartment", "GetApartmentUsers", pApartmentId.ToString());
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo<FlatInfo>> GetFlatAsync(int pId)
+        {
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo>>().SecureGetAsync("Flat", "Get", pId.ToString());
+        }
+
+        [NonAction]
+        private async Task<List<SelectListItem>> GetFlatTypes()
+        {
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes");
+            var ddlItems = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "0",
+                    Text = "-- Select --"
+                }
+            };
+            ddlItems.AddRange(response.Info.Select((pX => new SelectListItem
+            {
+                Text = pX.Name,
+                Value = Convert.ToString(pX.Id)
+            })));
+
+            return ddlItems;
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo> CreateFlatAsync(FlatViewModel pModel)
+        {
+            return await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Create", pModel.Flat);
         }
 
         #endregion

@@ -4,17 +4,15 @@
     Layout = "~/Views/Shared/_TitleView.cshtml";
 }
 @section title {
-    <i class="fa fa-home"></i> Update Flat
+    <i class="fa fa-home"></i> Add Flat <small>to Apartment</small>
 }
-@using (Ajax.BeginForm("Update", "Flat",
-                    new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "container", OnBegin = "loadAnimator", OnComplete = "hideAnimator" },
-                    new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("CreateFlat", "Home",
+                                            new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "container", OnBegin = "loadAnimator", OnComplete = "hideAnimator" },
+                                            new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
     @Html.HiddenFor(pX => pX.Flat.ApartmentId)
-    @Html.HiddenFor(pX => pX.Flat.Id)
-
     <div class="form-group">
         @Html.LabelFor(m => m.Flat.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -63,7 +61,7 @@
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
             @Html.RoleButtonDarkFor("Cancel", "cancelFlat")
-            @Html.RoleSubmitButtonNormalFor("Update", "", "", null, "Owner")
+            @Html.RoleSubmitButtonNormalFor("Submit")
         </div>
     </div>
 }
@@ -74,7 +72,7 @@
 <script>
     $(
         $("#cancelFlat").click(function () {
-            invokeAjaxAndFillContainer('@Url.Action("Get", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});
+            invokeAjaxAndFillContainer('@Url.Action("GetAllApartmentFlats", "Manage", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
         })
     );
 </script>

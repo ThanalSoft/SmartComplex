@@ -177,19 +177,14 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 var result = await CreateApartmentAsync(pModel.Apartment);
                 if (result.Result == ApiResponseResult.Success)
                 {
-                    ViewResultStatus =
-                        new ActionResultStatusViewModel($"Apartment '{pModel.Apartment.Name}' created successfully!",
-                            ActionStatus.Success);
+                    ViewResultStatus = new ActionResultStatusViewModel($"Apartment '{pModel.Apartment.Name}' created successfully!", ActionStatus.Success);
                     return RedirectToAction("GetAll");
                 }
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason,
-                    ActionStatus.Error);
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
             }
             catch (Exception ex)
             {
-                pModel.ActionResultStatus =
-                    new ActionResultStatusViewModel("Error occured while creating Apartment. Exception: " + ex.Message,
-                        ActionStatus.Error);
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Apartment. Exception: " + ex.Message, ActionStatus.Error);
             }
             pModel.States = await GetStates();
             return View(pModel);
@@ -346,6 +341,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
             }
             pModel.FlatTypes = await GetFlatTypes();
+            pModel.IsAsyncRequest = IsAjaxRequest;
             return View(pModel);
         }
 

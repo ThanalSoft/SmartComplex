@@ -4,11 +4,11 @@ using System.Web;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Web.Security;
 
-namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
+namespace ThanalSoft.SmartComplex.Web.Helpers.Html
 {
-    public static class RoleButtonDarkHelper
+    public static class RoleSubmitButtonNormalHelper
     {
-        public static IHtmlString RoleButtonDarkFor<TModel>(this HtmlHelper<TModel> pHtmlHelper, 
+        public static IHtmlString RoleSubmitButtonNormalFor<TModel>(this HtmlHelper<TModel> pHtmlHelper, 
             string pText,
             string pId = null,
             string pIcon = null,
@@ -33,9 +33,8 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
 
             var buttonTag = new TagBuilder("button");
             buttonTag.GenerateId(!string.IsNullOrEmpty(pId) ? pId : Guid.NewGuid().ToString());
-
-            buttonTag.AddCssClass("btn btn-dark");
-            buttonTag.Attributes.Add("type", "button");
+            buttonTag.AddCssClass("btn btn-success");
+            buttonTag.Attributes.Add("type", "submit");
 
             if (!string.IsNullOrEmpty(pIcon))
             {

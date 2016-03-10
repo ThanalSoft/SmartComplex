@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
+namespace ThanalSoft.SmartComplex.Web.Helpers.Html
 {
     public static class UrlGenerationHelper
     {

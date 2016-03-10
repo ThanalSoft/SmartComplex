@@ -4,11 +4,11 @@ using System.Web;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Web.Security;
 
-namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
+namespace ThanalSoft.SmartComplex.Web.Helpers.Html
 {
-    public static class RoleSubmitButtonNormalHelper
+    public static class RoleButtonNormalHelper
     {
-        public static IHtmlString RoleSubmitButtonNormalFor<TModel>(this HtmlHelper<TModel> pHtmlHelper, 
+        public static IHtmlString RoleButtonNormalFor<TModel>(this HtmlHelper<TModel> pHtmlHelper,
             string pText,
             string pId = null,
             string pIcon = null,
@@ -34,7 +34,7 @@ namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
             var buttonTag = new TagBuilder("button");
             buttonTag.GenerateId(!string.IsNullOrEmpty(pId) ? pId : Guid.NewGuid().ToString());
             buttonTag.AddCssClass("btn btn-success");
-            buttonTag.Attributes.Add("type", "submit");
+            buttonTag.Attributes.Add("type", "button");
 
             if (!string.IsNullOrEmpty(pIcon))
             {

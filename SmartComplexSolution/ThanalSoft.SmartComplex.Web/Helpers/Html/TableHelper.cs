@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using ThanalSoft.SmartComplex.Common.Attributes;
 
-namespace ThanalSoft.SmartComplex.Web.HTMLHelpers
+namespace ThanalSoft.SmartComplex.Web.Helpers.Html
 {
     public static class TableHelper
     {

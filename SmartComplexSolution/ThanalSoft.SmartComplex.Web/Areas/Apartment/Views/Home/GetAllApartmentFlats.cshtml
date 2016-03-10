@@ -1,0 +1,30 @@
+﻿@using ThanalSoft.SmartComplex.Web.Helpers.Html
+@model ThanalSoft.SmartComplex.Web.Areas.Apartment.Models.FlatListViewModel
+
+@{
+    Layout = "~/Views/Shared/_TitleView.cshtml";
+}
+@section topbuttons {
+    @Html.RoleButtonDarkFor("Back", "backToApartment", "fa-backward", null, "ApartmentAdmin")
+    @Html.RoleButtonNormalFor("Add New", "addNewFlat", "fa-plus", null, "ApartmentAdmin")
+}
+@section title {
+    <i class="fa fa-home"></i> Flats
+}
+
+@Html.DisplayTableFor(Model.Flats)
+
+<script>
+    $(
+        $("#backToApartment").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Get", "Home", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
+        }),
+        $("#addNewFlat").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("CreateFlat", "Home", new { area = "Apartment" })', { pApartmentId: @Model.ApartmentId });
+        }),
+        $("[data-rowid]").click(function () {
+            var id = $(this).data("rowid");
+            invokeAjaxAndFillContainer('@Url.Action("GetFlat", "Home", new { area = "Apartment" })', { pFlatId: id });
+        })
+    );
+</script>

@@ -187,6 +187,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Apartment. Exception: " + ex.Message, ActionStatus.Error);
             }
             pModel.States = await GetStates();
+            pModel.IsAsyncRequest = IsAjaxRequest;
             return View(pModel);
         }
 
@@ -220,6 +221,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                         ActionStatus.Error);
             }
             pModel.States = await GetStates();
+            pModel.IsAsyncRequest = IsAjaxRequest;
             return View(pModel);
         }
 
@@ -287,6 +289,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 }
             }
             ViewResultStatus = new ActionResultStatusViewModel("File is under processing. Once the file is processed completly you will be notified.", ActionStatus.Success);
+            pModel.IsAsyncRequest = IsAjaxRequest;
             return RedirectToAction("Get", "Manage", new {pApartmentId = pModel.Apartment.Id});
         }
 
@@ -375,6 +378,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
             }
             pModel.FlatTypes = await GetFlatTypes();
+            pModel.IsAsyncRequest = IsAjaxRequest;
             return View(pModel);
         }
 

@@ -76,34 +76,6 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(ApartmentViewModel pModel)
-        {
-            pModel.IsAsyncRequest = IsAjaxRequest;
-            if (!ModelState.IsValid)
-            {
-                pModel.States = await GetStates();
-                return View(pModel);
-            }
-            try
-            {
-                var result = await UpdateApartmentAsync(pModel.Apartment);
-                if (result.Result == ApiResponseResult.Success)
-                {
-                    ViewResultStatus = new ActionResultStatusViewModel($"Apartment '{pModel.Apartment.Name}' updated successfully!", ActionStatus.Success);
-                    return RedirectToAction("Get", new { pApartmentId = pModel.Apartment.Id});
-                }
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
-            }
-            catch (Exception ex)
-            {
-                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while updating Apartment. Exception: " + ex.Message, ActionStatus.Error);
-            }
-            pModel.States = await GetStates();
-            return View(pModel);
-        }
-
         [HttpGet]
         public async Task<ActionResult> GetAllApartmentUsers(int pApartmentId)
         {
@@ -157,6 +129,19 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> UpdateFlat(int pFlatId)
+        {
+            var response = await GetFlatAsync(pFlatId);
+            return View(new FlatViewModel
+            {
+                Flat = response.Info,
+                FlatTypes = await GetFlatTypes(),
+                IsAsyncRequest = IsAjaxRequest,
+                ActionResultStatus = ViewResultStatus
+            });
+        }
+
         #endregion
 
         #region Post Methods
@@ -185,6 +170,68 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 {
                     ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!", ActionStatus.Success);
                     return RedirectToAction("GetAllApartmentFlats", new { pApartmentId = pModel.Flat.ApartmentId });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.FlatTypes = await GetFlatTypes();
+            pModel.IsAsyncRequest = IsAjaxRequest;
+            return View(pModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(ApartmentViewModel pModel)
+        {
+            pModel.IsAsyncRequest = IsAjaxRequest;
+            if (!ModelState.IsValid)
+            {
+                pModel.States = await GetStates();
+                return View(pModel);
+            }
+            try
+            {
+                var result = await UpdateApartmentAsync(pModel.Apartment);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    ViewResultStatus = new ActionResultStatusViewModel($"Apartment '{pModel.Apartment.Name}' updated successfully!", ActionStatus.Success);
+                    return RedirectToAction("Get", new { pApartmentId = pModel.Apartment.Id });
+                }
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
+            }
+            catch (Exception ex)
+            {
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while updating Apartment. Exception: " + ex.Message, ActionStatus.Error);
+            }
+            pModel.States = await GetStates();
+            return View(pModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateFlat(FlatViewModel pModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var response = await GetFlatAsync(pModel.Flat.Id);
+                return View(new FlatViewModel
+                {
+                    Flat = response.Info,
+                    FlatTypes = await GetFlatTypes(),
+                    IsAsyncRequest = IsAjaxRequest,
+                    ActionResultStatus = ViewResultStatus
+                });
+            }
+            try
+            {
+                var result = await UpdateFlatAsync(pModel);
+                if (result.Result == ApiResponseResult.Success)
+                {
+                    ViewResultStatus = new ActionResultStatusViewModel("Flat updated successfully!", ActionStatus.Success);
+                    return RedirectToAction("GetFlat", "Home", new { pFlatId = pModel.Flat.Id });
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
             }
@@ -285,6 +332,12 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         private async Task<GeneralReturnInfo> CreateFlatAsync(FlatViewModel pModel)
         {
             return await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Create", pModel.Flat);
+        }
+
+        [NonAction]
+        private async Task<GeneralReturnInfo> UpdateFlatAsync(FlatViewModel pModel)
+        {
+            return await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Flat", "Update", pModel.Flat);
         }
 
         #endregion

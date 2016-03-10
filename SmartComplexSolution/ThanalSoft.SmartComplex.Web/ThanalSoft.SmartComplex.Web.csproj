@@ -195,6 +195,8 @@
     <Content Include="Areas\Apartment\Views\Home\GetAllApartmentUsers.cshtml" />
     <Content Include="Areas\Apartment\Views\Home\GetAllApartmentFlats.cshtml" />
     <Content Include="Areas\Apartment\Views\Home\CreateFlat.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\GetFlat.cshtml" />
+    <Content Include="Areas\Apartment\Views\Home\UpdateFlat.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.nicescroll.min.js" />

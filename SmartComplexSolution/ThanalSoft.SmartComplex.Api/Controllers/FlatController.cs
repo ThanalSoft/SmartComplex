@@ -108,8 +108,7 @@ namespace ThanalSoft.SmartComplex.Api.Controllers
                 if (original == null)
                     throw new KeyNotFoundException(pApartmentFlatInfo.Id.ToString());
 
-                if (await UnitOfWork.Flats.AnyAsync(pX => pX.Name.Equals(pApartmentFlatInfo.Name, StringComparison.OrdinalIgnoreCase)
-                                    && pX.ApartmentId.Equals(pApartmentFlatInfo.ApartmentId) && pX.Id != original.Id))
+                if (await UnitOfWork.Flats.AnyAsync(pX => pX.Name.Equals(pApartmentFlatInfo.Name, StringComparison.OrdinalIgnoreCase) && pX.ApartmentId.Equals(pApartmentFlatInfo.ApartmentId) && pX.Id != original.Id))
                     throw new ItemAlreadyExistsException(pApartmentFlatInfo.Name, "Flat");
 
                 original.Block = pApartmentFlatInfo.Block;

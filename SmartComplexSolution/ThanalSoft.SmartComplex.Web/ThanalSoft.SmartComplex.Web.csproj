@@ -354,6 +354,8 @@
     <Folder Include="Areas\Members\Views\Residence\" />
     <Folder Include="Areas\Members\Views\Shared\" />
     <Folder Include="Areas\Members\Views\Tenant\" />
+    <Folder Include="Helpers\ModelBinders\" />
+    <Folder Include="Helpers\Views\" />
     <Folder Include="Models\Flat\" />
     <Folder Include="Models\Home\" />
   </ItemGroup>

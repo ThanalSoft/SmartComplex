@@ -238,28 +238,22 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 var extension = System.IO.Path.GetExtension(Request.Files["fileUpload"].FileName);
                 if (extension != ".xlsx" && extension != ".xls")
                 {
-                    TempData["Status"] = new ActionResultStatusViewModel("Invalid file. Please upload excel file.",
-                        ActionStatus.Error);
+                    TempData["Status"] = new ActionResultStatusViewModel("Invalid file. Please upload excel file.", ActionStatus.Error);
                     return RedirectToAction("UploadFlats", "Manage", new {pApartmentId = pModel.Apartment.Id});
                 }
                 try
                 {
-                    string path =
-                        $"{Server.MapPath("~/TestUploads/ExcelUploadFolder")}/{Guid.NewGuid()}-Apartment-{pModel.Apartment.Id}-{fileName}";
+                    string path = $"{Server.MapPath("~/TestUploads/ExcelUploadFolder")}/{Guid.NewGuid()}-Apartment-{pModel.Apartment.Id}-{fileName}";
 
                     Request.Files["fileUpload"].SaveAs(path);
 
                     //Create connection string to Excel work book
-                    var excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path +
-                                                ";Extended Properties=Excel 12.0;Persist Security Info=False";
+                    var excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=Excel 12.0;Persist Security Info=False";
                     //Create Connection to Excel work book
                     using (var excelConnection = new OleDbConnection(excelConnectionString))
                     {
                         //Create OleDbCommand to fetch data from Excel
-                        var cmd =
-                            new OleDbCommand(
-                                "SELECT [FlatName],[Floor],[Block],[Phase],[OwnerName],[OwnerEmail],[OwnerMobile] FROM [FlatListSheet$]",
-                                excelConnection);
+                        var cmd = new OleDbCommand("SELECT [FlatName],[Floor],[Block],[Phase],[OwnerName],[OwnerEmail],[OwnerMobile] FROM [FlatListSheet$]", excelConnection);
                         excelConnection.Open();
                         var dReader = cmd.ExecuteReader();
                         var flatUploadDataInfoList = new List<FlatUploadInfo>();
@@ -285,9 +279,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                             UploadFlatsAsync(flatUploadDataInfoList);
                         }
                         else
-                            ViewResultStatus =
-                                new ActionResultStatusViewModel("File not formed correctly. Contact Administrator!",
-                                    ActionStatus.Error);
+                            ViewResultStatus = new ActionResultStatusViewModel("File not formed correctly. Contact Administrator!", ActionStatus.Error);
 
                         cmd.Dispose();
                         excelConnection.Close();
@@ -295,16 +287,11 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ViewResultStatus =
-                        new ActionResultStatusViewModel("Error while uploading data. Reason: " + ex.Message,
-                            ActionStatus.Error);
+                    ViewResultStatus = new ActionResultStatusViewModel("Error while uploading data. Reason: " + ex.Message, ActionStatus.Error);
                     return RedirectToAction("Get", "Manage", new {pApartmentId = pModel.Apartment.Id});
                 }
             }
-            ViewResultStatus =
-                new ActionResultStatusViewModel(
-                    "File is under processing. Once the file is processed completly you will be notified.",
-                    ActionStatus.Success);
+            ViewResultStatus = new ActionResultStatusViewModel("File is under processing. Once the file is processed completly you will be notified.", ActionStatus.Success);
             return RedirectToAction("Get", "Manage", new {pApartmentId = pModel.Apartment.Id});
         }
 
@@ -347,9 +334,8 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             {
                 var result = await CreateFlatAsync(pModel);
                 if (result.Result == ApiResponseResult.Success)
-                {
-                    ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!",
-                        ActionStatus.Success);
+                { 
+                    ViewResultStatus = new ActionResultStatusViewModel("Flat created successfully!", ActionStatus.Success);
                     return RedirectToAction("GetAllApartmentFlats", new { pApartmentId = pModel.Flat.ApartmentId });
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason,
@@ -357,9 +343,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             }
             catch (Exception ex)
             {
-                pModel.ActionResultStatus =
-                    new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message,
-                        ActionStatus.Error);
+                pModel.ActionResultStatus = new ActionResultStatusViewModel("Error occured while creating Flat. Exception: " + ex.Message, ActionStatus.Error);
             }
             pModel.FlatTypes = await GetFlatTypes();
             return View(pModel);
@@ -406,25 +390,19 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [NonAction]
         private async Task<GeneralReturnInfo<ApartmentInfo[]>> GetAllApartmentsAsync()
         {
-            var response =
-                await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll");
-            return response;
+            var response = await new ApiConnector<GeneralReturnInfo<ApartmentInfo[]>>().SecureGetAsync("Apartment", "GetAll"); return response;
         }
 
         [NonAction]
         private async Task<GeneralReturnInfo<ApartmentInfo>> GetApartment(int pId)
         {
-            return
-                await
-                    new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get",
-                        pId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<ApartmentInfo>>().SecureGetAsync("Apartment", "Get", pId.ToString());
         }
 
         [NonAction]
         private async Task<List<SelectListItem>> GetStates()
         {
-            var response =
-                await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates");
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetStates");
             var stateDdl = new List<SelectListItem>
             {
                 new SelectListItem
@@ -445,25 +423,21 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [NonAction]
         private async Task<GeneralReturnInfo> CreateApartmentAsync(ApartmentInfo pApartmentInfo)
         {
-            var result =
-                await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", pApartmentInfo);
+            var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Create", pApartmentInfo);
             return result;
         }
 
         [NonAction]
         private async Task<GeneralReturnInfo> UpdateApartmentAsync(ApartmentInfo pApartmentInfo)
         {
-            var result =
-                await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", pApartmentInfo);
+            var result = await new ApiConnector<GeneralReturnInfo>().SecurePostAsync("Apartment", "Update", pApartmentInfo);
             return result;
         }
 
         [NonAction]
         private async Task UploadFlatsAsync(List<FlatUploadInfo> pFlatUploadDataInfoList)
         {
-            await
-                new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats",
-                    pFlatUploadDataInfoList);
+            await new ApiConnector<GeneralReturnInfo<FlatUploadInfo[]>>().SecurePostAsync("Apartment", "UploadFlats", pFlatUploadDataInfoList);
         }
 
         [NonAction]
@@ -475,10 +449,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [NonAction]
         private async Task<GeneralReturnInfo<ApartmentUserInfo>> GetApartmentUserData(int pUserId)
         {
-            return
-                await
-                    new ApiConnector<GeneralReturnInfo<ApartmentUserInfo>>().SecureGetAsync("Apartment",
-                        "GetApartmentUser", pUserId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<ApartmentUserInfo>>().SecureGetAsync("Apartment", "GetApartmentUser", pUserId.ToString());
         }
 
         [NonAction]
@@ -490,17 +461,13 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
         [NonAction]
         private async Task<GeneralReturnInfo<FlatInfo[]>> GetApartmentFlats(int pApartmentId)
         {
-            return
-                await
-                    new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll",
-                        pApartmentId.ToString());
+            return await new ApiConnector<GeneralReturnInfo<FlatInfo[]>>().SecureGetAsync("Flat", "GetAll", pApartmentId.ToString());
         }
 
         [NonAction]
         private async Task<List<SelectListItem>> GetFlatTypes()
         {
-            var response =
-                await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes");
+            var response = await new ApiConnector<GeneralReturnInfo<GeneralInfo[]>>().SecureGetAsync("Common", "GetFlatTypes");
             var ddlItems = new List<SelectListItem>
             {
                 new SelectListItem

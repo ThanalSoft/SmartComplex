@@ -35,7 +35,8 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             {
                 Flat = userResponse.Info[0],
                 ActionResultStatus = ViewResultStatus,
-                IsAsyncRequest = IsAjaxRequest
+                IsAsyncRequest = IsAjaxRequest,
+                IsDirect = true
             });
         }
 
@@ -47,7 +48,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
             {
                 Flat = response.Info,
                 ActionResultStatus = ViewResultStatus,
-                IsAsyncRequest = IsAjaxRequest,
+                IsAsyncRequest = IsAjaxRequest
             });
         }
         
@@ -130,7 +131,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                     Flat = response.Info,
                     FlatTypes = await GetFlatTypes(),
                     IsAsyncRequest = IsAjaxRequest,
-                    ActionResultStatus = ViewResultStatus
+                    ActionResultStatus = ViewResultStatus,
                 });
             }
             try
@@ -139,7 +140,7 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Controllers
                 if (result.Result == ApiResponseResult.Success)
                 {
                     ViewResultStatus = new ActionResultStatusViewModel("Flat updated successfully!", ActionStatus.Success);
-                    return RedirectToAction("Get", "Flat", new { pFlatId = pModel.Flat.Id });
+                    return RedirectToAction("Index", "Flat");
                 }
                 pModel.ActionResultStatus = new ActionResultStatusViewModel("Error! Reason: " + result.Reason, ActionStatus.Error);
             }

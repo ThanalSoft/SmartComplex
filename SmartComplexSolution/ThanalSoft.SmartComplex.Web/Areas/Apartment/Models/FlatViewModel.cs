@@ -7,6 +7,8 @@ namespace ThanalSoft.SmartComplex.Web.Areas.Apartment.Models
 {
     public class FlatViewModel : BaseViewModel
     {
+        public bool IsDirect { get; set; }
+
         public FlatInfo Flat { get; set; }
 
         public IEnumerable<SelectListItem> FlatTypes { get; set; }

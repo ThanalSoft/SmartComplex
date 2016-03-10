@@ -8,43 +8,43 @@
 
 <div class="x_content form-horizontal form-label-left">
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.Name, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.Name, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.Name)
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.Floor, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.Floor, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.Floor.ToString())
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.Block, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.Block, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.Block)
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.Phase, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.Phase, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.Phase)
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.SquareFeet, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.SquareFeet, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.SquareFeet.ToString())
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.FlatTypeId, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.FlatTypeId, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.FlatType)
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Flat.ExtensionNumber, new {@class = "control-label col-md-3 col-sm-3 col-xs-12"})
+        @Html.LabelFor(m => m.Flat.ExtensionNumber, new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12 display-label">
             @Html.LabelForModel(Model.Flat.ExtensionNumber.ToString())
         </div>
@@ -52,11 +52,14 @@
     <div class="divider-dashed"></div>
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <a class="btn btn-app pull-left" id="closeFlat">
-                <i class="fa fa-backward"></i>Back
-            </a>
-            @if (User.IsInRole("Owner") || User.IsInRole("ApartmentAdmin"))
+            @if (User.IsInRole("Owner"))
             {
+                if (!Model.IsDirect)
+                {
+                    <a class="btn btn-app pull-left" id="closeFlat">
+                        <i class="fa fa-backward"></i>Back
+                    </a>
+                }
                 <a class="btn btn-app pull-left" id="editFlat">
                     <i class="fa fa-edit"></i>Edit
                 </a>
@@ -66,12 +69,12 @@
 </div>
 
 <script>
-$(
-    $("#closeFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Index", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
-    }),
-    $("#editFlat").click(function () {
-        invokeAjaxAndFillContainer('@Url.Action("Update", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});
-    })
-);
+    $(
+        $("#closeFlat").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Index", "Flat", new { area = "Apartment" })', { pApartmentId : @Model.Flat.ApartmentId});
+        }),
+        $("#editFlat").click(function () {
+            invokeAjaxAndFillContainer('@Url.Action("Update", "Flat", new { area = "Apartment" })', { pFlatId : @Model.Flat.Id});
+        })
+    );
 </script>

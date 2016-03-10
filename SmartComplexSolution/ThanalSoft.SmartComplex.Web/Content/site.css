@@ -722,16 +722,16 @@ a {
 }
 
 .nav.child_menu li {
-    padding-left: 36px;
+    padding-left: 30px;
 }
 
 body.nav-md ul.nav.child_menu li:before {
-    background: #425668;
+    background: #039FC6;
     bottom: auto;
     content: "";
     height: 8px;
     left: 23px;
-    margin-top: 15px;
+    margin-top: 13px;
     position: absolute;
     right: auto;
     width: 8px;
@@ -742,7 +742,7 @@ body.nav-md ul.nav.child_menu li:before {
 }
 
 body.nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #425668;
+    border-left: 1px solid #979797;
     bottom: 0;
     content: "";
     left: 27px;
@@ -769,6 +769,11 @@ body.nav-md ul.nav.child_menu li:after {
 
 li.current-page {
     background: rgba(255, 255, 255, 0.05);
+}
+
+li.current-page a {
+    font-weight: bold;
+    color: #fff;
 }
 
 .nav.side-menu > li.active > a {

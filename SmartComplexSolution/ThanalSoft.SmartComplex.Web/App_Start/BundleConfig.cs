@@ -26,6 +26,9 @@ namespace ThanalSoft.SmartComplex.Web
                       "~/Scripts/respond.js",
                        "~/Scripts/pnotify.custom.js"));
 
+            pBundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                     "~/Scripts/angular.js"));
+
             pBundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/font-awesome.css",
